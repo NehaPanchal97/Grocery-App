@@ -2,29 +2,35 @@ package com.grocery.app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_main.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.grocery.app.HomePage.Fragment
+import kotlinx.android.synthetic.main.bottom_navigation_bar.*
 
 class MainActivity : AppCompatActivity() {
 
-        lateinit var recyclerViewAdapter: RecyclerViewAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        initRecyclerView()
+        doFragmentTransaction(Fragment(),false,"Fragment",null)
     }
 
-    private fun initRecyclerView() {
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            val decoration = DividerItemDecoration(applicationContext,DividerItemDecoration.VERTICAL)
-            addItemDecoration(decoration)
-            recyclerViewAdapter = RecyclerViewAdapter()
-            adapter=recyclerViewAdapter
-
-
+    private fun doFragmentTransaction(
+        fragment: androidx.fragment.app.Fragment,
+        addToBackStack: Boolean,
+        tag: String,
+        bundle: Bundle?
+    ) {
+        if (bundle != null) {
+            fragment.arguments = bundle
         }
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.rootView, fragment)
+        if (addToBackStack) {
+            transaction.addToBackStack(tag)
+        }
+        transaction.commit()
     }
+
+
 }
