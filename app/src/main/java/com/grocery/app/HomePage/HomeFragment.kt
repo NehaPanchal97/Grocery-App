@@ -12,9 +12,9 @@ import com.grocery.app.HomePage.DataModel.ItemData
 import com.grocery.app.HomePage.DataModel.ItemGroup
 import com.grocery.app.R
 import kotlinx.android.synthetic.main.bottom_navigation_bar.*
-import kotlinx.android.synthetic.main.fragment.*
+import kotlinx.android.synthetic.main.home_fragment.*
 
-class Fragment : Fragment() {
+class HomeFragment : Fragment() {
 
     lateinit var recyclerViewAdapter: MainAdapterVertical
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,7 +28,7 @@ class Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment, container, false)
+        return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
     private fun initRecyclerView() {
