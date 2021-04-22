@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Grocery App</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_screen_heading">Continue with Phone</string>
     <string name="verify_next_text">You will receive a 4 digit code <br>to verify next </br></string>
     <string name="enter_your_phone_text">Enter your phone</string>
