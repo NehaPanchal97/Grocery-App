@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -19,8 +20,8 @@ import kotlinx.coroutines.launch
 
 class CategoryViewModel : ViewModel() {
 
-    private val _addCatLiveData = MutableLiveData<Result<Void>>()
-    private val _catListLiveData = MutableLiveData<Result<ArrayList<Category>>>()
+    private val _addCatLiveData by lazy { MutableLiveData<Result<Void>>() }
+    private val _catListLiveData by lazy { MutableLiveData<Result<ArrayList<Category>>>() }
 
 
     val addCatLiveData: LiveData<Result<Void>>
@@ -47,7 +48,7 @@ class CategoryViewModel : ViewModel() {
     fun fetchCategoryList() {
         _catListLiveData.value = Result.loading()
         Firebase.firestore.collection(Store.CATEGORIES)
-            .orderBy(Store.RANK)
+            .orderBy(Store.RANK, Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { snapShot ->
                 onCatListFetched(snapShot)
@@ -70,11 +71,11 @@ class CategoryViewModel : ViewModel() {
 
         }
 
-    fun addCategoryOnStore() {
+    private fun addCategoryOnStore() {
         val map = hashMapOf(
-            "name" to name,
-            "rank" to rank,
-            "url" to categoryImage
+            Store.NAME to name,
+            Store.RANK to rank,
+            Store.URL to categoryImage
         )
         Firebase.firestore.collection(Store.CATEGORIES)
             .add(map)
