@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="url"
+            type="String" />
+        <variable
+            name="name"
+            type="String" />
+        <variable
+            name="rank"
+            type="String" />
+        <variable
+            name="placeholder"
+            type="Integer" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        app:cardElevation="6dp"
+        android:layout_marginVertical="12dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/cat_iv"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                loadUrl="@{url}"
+                circular="@{true}"
+                placeholder="@{placeholder}"
+                tools:src="@tools:sample/avatars"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:contentDescription="@string/category_image"
+                android:layout_marginVertical="16dp"
+                android:layout_marginStart="12dp"/>
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cat_iv"
+                app:layout_constraintTop_toTopOf="@id/cat_iv"
+                android:layout_marginHorizontal="12dp"
+                android:textSize="18sp"
+                android:text="@{name}"
+                android:textColor="#000000"
+                tools:text="@tools:sample/full_names"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/name_tv"
+                app:layout_constraintEnd_toEndOf="@id/name_tv"
+                app:layout_constraintTop_toBottomOf="@id/name_tv"
+                android:textSize="16sp"
+                tools:text="@tools:sample/cities"
+                android:text="@{rank}"
+                android:layout_marginTop="4dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
