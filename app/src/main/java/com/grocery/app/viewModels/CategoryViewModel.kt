@@ -64,7 +64,10 @@ class CategoryViewModel : ViewModel() {
             val categories = arrayListOf<Category>()
             snapShot?.let { it ->
                 it.documents.forEach { document ->
-                    document.toObject<Category>()?.let { categories.add(it) }
+                    document.toObject<Category>()?.let {
+                        val cat = it.apply { id = document.id }
+                        categories.add(cat)
+                    }
                 }
             }
             _catListLiveData.postValue(Result.success(categories))
