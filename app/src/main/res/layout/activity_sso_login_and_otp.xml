@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/loginView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
+        android:onClick="onClick"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_close" />
@@ -23,8 +24,8 @@
         android:fontFamily="@font/ptsans_bold"
         android:gravity="center"
         android:text="@string/login_screen_heading"
+        android:textColor="@color/login_screen_heading"
         android:textSize="20sp"
-        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="@id/close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +50,8 @@
         android:fontFamily="@font/ptsans_regular"
         android:gravity="center"
         android:text="@string/verify_next_text"
+        android:textColor="@color/login_subtext"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/img_login_screen" />
@@ -57,8 +60,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:cardElevation="2dp"
         app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_subText">
 
@@ -75,43 +78,69 @@
                 android:layout_margin="10dp"
                 android:fontFamily="@font/ptsans_regular"
                 android:text="@string/enter_your_phone_text"
+                android:textColor="@color/enter_no."
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/phone_no"
+            <TextView
+                android:id="@+id/country_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
+                android:layout_marginLeft="5dp"
                 android:fontFamily="@font/ptsans_bold"
-                android:text="@string/phone_no."
-                android:textColor="@android:color/black"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="@string/country_code"
+                android:textColor="@color/phone_no."
+                android:textSize="20sp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="@id/phone_no_tv"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/enter_phone" />
+                app:layout_constraintTop_toTopOf="@id/phone_no_tv" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone_no_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/mobile_no.."
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/country_code"
+                app:layout_constraintTop_toBottomOf="@id/enter_phone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@null">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone_no_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:inputType="number"
+                    android:paddingBottom="2dp"
+                    android:minWidth="180dp"
+                    android:textColor="@color/phone_no."
+                    android:textSize="20sp"
+                   />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_continue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginBottom="30dp"
                 android:backgroundTint="@color/continueBtn"
                 android:fontFamily="@font/ptsans_bold"
+                android:onClick="onClick"
                 android:paddingLeft="40dp"
                 android:paddingTop="20dp"
                 android:paddingRight="40dp"
                 android:paddingBottom="20dp"
                 android:text="@string/continue_text"
                 android:textAllCaps="false"
-                android:textColor="@android:color/black"
+                android:textColor="@color/continue_text"
+                android:textSize="20sp"
                 app:cornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/phone_no"
-                app:layout_constraintTop_toTopOf="@id/enter_phone" />
+                app:layout_constraintTop_toBottomOf="@id/enter_phone" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -121,3 +150,12 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--    <ProgressBar-->
+    <!--        android:id="@+id/progressBar"-->
+    <!--        android:layout_width="200dp"-->
+    <!--        android:layout_height="200dp"-->
+    <!--        android:padding="10dp"-->
+    <!--        android:visibility="gone" />-->
+
