@@ -142,9 +142,7 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
         //Toolbar
         binder.toolBar.title =
             getString(if (_editMode) R.string.edit_product else R.string.add_product)
-        binder.toolBar.setNavigationIcon(R.drawable.ic_back)
-        binder.toolBar.setNavigationOnClickListener { onBackPressed() }
-
+        setupToolbar(binder.toolBar)
         binder.addBtn.text = getString(if (_editMode) R.string.update else R.string.add)
         binder.productIv.setOnClickListener(this)
         binder.addBtn.setOnClickListener(this)

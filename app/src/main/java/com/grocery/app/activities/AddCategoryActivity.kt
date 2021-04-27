@@ -1,33 +1,38 @@
 package com.grocery.app.activities
 
-import android.content.Intent
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.viewModels
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.grocery.app.R
+import com.grocery.app.constant.CATEGORY
 import com.grocery.app.databinding.ActivityAddCategoryBinding
 import com.grocery.app.extensions.loadImage
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.showSuccess
 import com.grocery.app.extensions.toInt
-import com.grocery.app.extras.Result
 import com.grocery.app.extras.Result.Status
+import com.grocery.app.models.Category
 import com.grocery.app.utils.isBlank
 import com.grocery.app.viewModels.CategoryViewModel
 
 class AddCategoryActivity : ImagePickerActivity() {
 
-    lateinit var binder: ActivityAddCategoryBinding
-    lateinit var viewModel: CategoryViewModel
+    private lateinit var binder: ActivityAddCategoryBinding
+    private lateinit var viewModel: CategoryViewModel
 
     companion object {
         const val PICK_IMAGE_REQUEST_CODE = 121
     }
+
+    private var _category
+        get() = viewModel.category
+        set(value) {
+            viewModel.category = value
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,19 +53,20 @@ class AddCategoryActivity : ImagePickerActivity() {
                 Status.SUCCESS -> {
                     updateInteraction(true)
                     binder.progressBar.hide()
-                    binder.root.showSuccess("Category Added successfully!")
+                    setResult(Activity.RESULT_OK)
+                    finish()
                 }
                 else -> {
                     updateInteraction(true)
                     binder.progressBar.hide()
-                    binder.root.showError("Error Creating Category!")
+                    binder.root.showError(getString(R.string.cat_creation_error_msg))
                 }
 
             }
         })
     }
 
-    fun updateInteraction(enable: Boolean) {
+    private fun updateInteraction(enable: Boolean) {
         binder.categoryIv.isEnabled = enable
         binder.submitBtn.isEnabled = enable
         binder.nameEt.isEnabled = enable
@@ -68,48 +74,43 @@ class AddCategoryActivity : ImagePickerActivity() {
     }
 
     private fun setupView() {
+        intent?.extras?.getParcelable<Category>(CATEGORY)?.let {
+            _category = it
+            binder.nameEt.setText(it.name)
+            binder.rankEt.setText("${it.rank}")
+        }
+        val editMode = !_category.id.isBlank()
+        binder.submitBtn.text = getString(if (editMode) R.string.update else R.string.add)
         binder.categoryIv.setOnClickListener {
             startPickerActivity(PICK_IMAGE_REQUEST_CODE)
         }
         binder.submitBtn.setOnClickListener {
             if (validateFields()) {
-                addCategory()
+                viewModel.addCategory()
             }
         }
+        binder.nameEt.doAfterTextChanged { _category.name = it.toString() }
+        binder.rankEt.doAfterTextChanged { _category.rank = it.toString().toInt() }
         loadCategoryImage()
-        binder.toolBar.inflateMenu(R.menu.add_category_menu)
-        binder.toolBar.setOnMenuItemClickListener {
-            if (it.itemId == R.id.category_list) {
-                startActivity(Intent(this, CategoryListActivity::class.java))
-                return@setOnMenuItemClickListener true
-            }
-            return@setOnMenuItemClickListener false
-        }
-    }
-
-    fun addCategory() {
-        viewModel.addCategory(
-            binder.nameEt.text.toString(),
-            binder.rankEt.text.toString().toInt()
-        )
+        setupToolbar(binder.toolBar)
     }
 
     override fun onImagePicked(requestCode: Int, uri: Uri) {
         if (requestCode == PICK_IMAGE_REQUEST_CODE) {
-            viewModel.categoryImage = uri.toString()
+            _category.url = uri.toString()
             loadCategoryImage()
         }
     }
 
-    fun loadCategoryImage() {
+    private fun loadCategoryImage() {
         binder.categoryIv.loadImage(
-            url = viewModel.categoryImage,
+            url = _category.url,
             circular = true,
             placeholder = R.drawable.category_placeholder
         )
     }
 
-    fun validateFields(): Boolean {
+    private fun validateFields(): Boolean {
         var validated = true
         if (binder.nameEt.text.toString().isBlank()) {
             binder.nameField.error = getString(R.string.cate_name_error)

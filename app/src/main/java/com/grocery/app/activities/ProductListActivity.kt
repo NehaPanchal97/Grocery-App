@@ -113,7 +113,7 @@ class ProductListActivity : BaseActivity() {
         listAdapter.onClickListener = _onClickListener
 
         //Toolbar
-        binder.toolBar.inflateMenu(R.menu.product_list_menu)
+        setupToolbar(binder.toolBar)
         binder.toolBar.setOnMenuItemClickListener(_menuItemClick)
         binder.emptyView.emptyTv.text = getString(R.string.no_product_available)
     }
