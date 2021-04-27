@@ -13,21 +13,23 @@ import com.grocery.app.HomePage.DataModel.ItemData
 import com.grocery.app.HomePage.Interface.IItemClickListener
 import com.grocery.app.R
 
+
+
 class ChildHorizontalAdapter(private val context: Context,
                              private val itemList:ArrayList<ItemData>?):
     RecyclerView.Adapter<ChildHorizontalAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MyViewHolder {
-       val view = LayoutInflater.from(context).inflate(R.layout.layout_item,p0,false)
+       val view = LayoutInflater.from(context).inflate(R.layout.category_item,p0,false)
         return MyViewHolder(view)
     }
 
     override fun onBindViewHolder(myViewHolder: MyViewHolder, position: Int) {
-       myViewHolder.txt_title.setText(itemList!![position].name)
-        Glide.with(context).load(itemList[position].image).into(myViewHolder.img_item)
+       myViewHolder.txt_title.setText(itemList?.get(position)?.name)
+        Glide.with(context).load(itemList?.get(position)?.image).into(myViewHolder.img_item)
 
         myViewHolder.setClick(object : IItemClickListener {
             override fun onItemClickListener(view: View, position: Int) {
-               Toast.makeText(context,""+itemList[position].name,Toast.LENGTH_SHORT).show()
+               Toast.makeText(context,""+itemList?.get(position)?.name,Toast.LENGTH_SHORT).show()
             }
 
         })
