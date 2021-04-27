@@ -8,10 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.grocery.app.constant.Store
+import com.grocery.app.extensions.toObj
 import com.grocery.app.extras.Result
 import com.grocery.app.models.Category
 import com.grocery.app.utils.isBlank
@@ -64,7 +64,10 @@ class CategoryViewModel : ViewModel() {
             val categories = arrayListOf<Category>()
             snapShot?.let { it ->
                 it.documents.forEach { document ->
-                    document.toObject<Category>()?.let { categories.add(it) }
+                    document.toObj<Category>()?.let {
+                        val cat = it.apply { id = document.id }
+                        categories.add(cat)
+                    }
                 }
             }
             _catListLiveData.postValue(Result.success(categories))
