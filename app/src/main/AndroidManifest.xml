@@ -38,7 +38,8 @@
         <activity android:name=".activities.AddProductActivity">
 
         </activity>
-        <activity android:name=".activities.ProductListActivity">
+        <activity android:name=".activities.ProductListActivity"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

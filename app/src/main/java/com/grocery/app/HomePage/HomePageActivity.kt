@@ -1,8 +1,14 @@
 package com.grocery.app.HomePage
 
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import com.grocery.app.R
+import kotlinx.android.synthetic.main.bottom_navigation_bar.*
+import kotlinx.android.synthetic.main.category_group.*
+
 
 class HomePageActivity: AppCompatActivity() {
 
@@ -10,25 +16,24 @@ class HomePageActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        doFragmentTransaction(HomeFragment(),false,"Fragment",null)
-    }
-
-    private fun doFragmentTransaction(
-            fragment: androidx.fragment.app.Fragment,
-            addToBackStack: Boolean,
-            tag: String,
-            bundle: Bundle?
-    ) {
-        if (bundle != null) {
-            fragment.arguments = bundle
-        }
+        bottomNavigationBar.background = null
+        val fragment = HomeFragment()
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.rootView, fragment)
-        if (addToBackStack) {
-            transaction.addToBackStack(tag)
-        }
+        transaction.replace(R.id.fragment_container, fragment)
         transaction.commit()
     }
 
+    fun onClickBtnMore(v: View?) {
+        val fragment = CategoryTypesFragment()
+        val fragmentTransaction=supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragment_container, fragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+    }
+
+
+    fun backPress(v:View?){
+        onBackPressed()
+    }
 
 }

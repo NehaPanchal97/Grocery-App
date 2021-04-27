@@ -12,8 +12,8 @@ class WithoutHeaderVH(view : View): RecyclerView.ViewHolder(view){
 
     var horizontal_rv_without_header: RecyclerView
 
+    //initializing horizontal recycler view without header of home page i.e 2 row of homepage
     init {
-
         horizontal_rv_without_header = view.findViewById(R.id.without_header_rv) as RecyclerView
 
     }
