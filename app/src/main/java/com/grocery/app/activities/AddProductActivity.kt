@@ -1,6 +1,7 @@
 package com.grocery.app.activities
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -90,23 +91,18 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
     }
 
     private fun onProductUpdated() {
-        val message =
-            getString(
-                if (_product.id.isBlank()) R.string.product_created_msg
-                else R.string.product_updated_msg
-            )
-        binder.root.showSuccess(message)
+        setResult(Activity.RESULT_OK)
+        onBackPressed()
     }
 
     private fun setProductCategory() {
         val items = arrayListOf<String>()
-        val selectedCat = viewModel.catList.firstOrNull() ?: Category()
+        var selectedCat = viewModel.catList.firstOrNull() ?: Category()
         for (idx in viewModel.catList.indices) {
             val item = viewModel.catList[idx]
             items.add(item.name ?: "")
             if (_product.categoryId == item.id) {
-                selectedCat.id = item.id
-                selectedCat.name = item.name
+                selectedCat = item.clone() ?: Category()
             }
         }
 

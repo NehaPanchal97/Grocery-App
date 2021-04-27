@@ -42,4 +42,7 @@
     </string-array>
     <string name="edit_product">Edit Product</string>
     <string name="update">Update</string>
+    <string name="filter">Filter</string>
+    <string name="not_available">Not Available</string>
+    <string name="no_product_available">No Product Available.</string>
 </resources>

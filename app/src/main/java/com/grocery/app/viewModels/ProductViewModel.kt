@@ -33,15 +33,19 @@ class ProductViewModel : ViewModel() {
 
     var catList = arrayListOf<Category>()
     var product = Product()
+    var filterByCat: Category? = null
 
 
     fun fetchProductList() {
         _productListLiveData.value = Result.loading()
-        Firebase.firestore.collection(Store.PRODUCTS)
-            .get()
-            .addOnSuccessListener { snapShot ->
-                onProductFetched(snapShot)
-            }
+        val ref = Firebase.firestore.collection(Store.PRODUCTS)
+        val task = filterByCat?.let {
+            ref.whereEqualTo(Store.CATEGORY_ID, filterByCat?.id)
+                .get()
+        } ?: kotlin.run { ref.get() }
+        task.addOnSuccessListener { snapShot ->
+            onProductFetched(snapShot)
+        }
             .addOnFailureListener {
                 _productListLiveData.value = Result.error()
             }

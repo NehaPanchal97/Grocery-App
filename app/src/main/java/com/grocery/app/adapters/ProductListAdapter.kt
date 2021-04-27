@@ -35,6 +35,11 @@ class ProductListAdapter(val products: ArrayList<Product>) :
         notifyDataSetChanged()
     }
 
+    fun clearAdapter(){
+        products.clear()
+        notifyDataSetChanged()
+    }
+
     inner class ProductItemVH(private val binder: ProductListItemBinding) :
         BaseVH<ProductListItemBinding, Product>(binder), View.OnClickListener {
 

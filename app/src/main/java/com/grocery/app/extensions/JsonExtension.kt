@@ -14,3 +14,14 @@ inline fun <reified T> DocumentSnapshot?.toObj(): T? {
         null
     }
 }
+
+inline fun <reified T> T.clone(): T? {
+    return try {
+        val gSon = Gson()
+        val json = gSon.toJson(this)
+        gSon.fromJson(json, T::class.java)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
