@@ -11,6 +11,15 @@
 
     </style>
 
+    <style name="AppDropDownStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+    </style>
+    <style name="AppDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+
+    </style>
+
     <style name="circularStyle" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>

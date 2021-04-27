@@ -19,4 +19,30 @@
     <string name="cate_name_error">Enter Category name</string>
     <string name="cat_rank_error">Enter category rank</string>
     <string name="permission_denied_error">Permission Required to perform this action</string>
+    <string name="product_name">Product Name</string>
+    <string name="price">Price</string>
+    <string name="add_product">Add Product</string>
+    <string name="add">Add</string>
+    <string name="category">Category</string>
+    <string name="active">Active</string>
+    <string name="product_description">Product Description</string>
+    <string name="product_name_error">Please enter product name</string>
+    <string name="product_price_error">Please enter valid product price</string>
+    <string name="choose_product_category">Please choose product category</string>
+    <string name="category_info_fetch_error">Error Fetching Category Info</string>
+    <string name="create_product_error">Error creating product.</string>
+    <string name="product_created_msg">Product Created Successfully</string>
+    <string name="product_updated_msg">Product Updated Successfully</string>
+    <string name="products">Products</string>
+    <string name="fetch_product_list_error">Unable to fetch Products!</string>
+    <string name="edit">Edit</string>
+    <string-array name="product_active">
+        <item>True</item>
+        <item>False</item>
+    </string-array>
+    <string name="edit_product">Edit Product</string>
+    <string name="update">Update</string>
+    <string name="filter">Filter</string>
+    <string name="not_available">Not Available</string>
+    <string name="no_product_available">No Product Available.</string>
 </resources>
