@@ -5,20 +5,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.grocery.app.constant.Store
+import com.grocery.app.extensions.toObj
 import com.grocery.app.extras.Result
 import com.grocery.app.models.Category
 import com.grocery.app.models.Product
 import com.grocery.app.utils.isBlank
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ProductViewModel : ViewModel() {
 
@@ -53,7 +51,7 @@ class ProductViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.Default) {
             val products = arrayListOf<Product>()
             snapShot?.documents?.forEach { document ->
-                document?.toObject<Product>()?.let {
+                document?.toObj<Product>()?.let {
                     it.id = document.id
                     products.add(it)
                 }
@@ -62,6 +60,8 @@ class ProductViewModel : ViewModel() {
         }
 
     fun addOrUpdateProduct() {
+
+        _addOrUpdateProductLiveData.value = Result.loading()
         if (product.url.isBlank() || product.url?.startsWith("https://") == true) {
             addOrUpdateProductOnStore()
         } else {
@@ -93,7 +93,6 @@ class ProductViewModel : ViewModel() {
     }
 
     private fun addOrUpdateProductOnStore() {
-        _addOrUpdateProductLiveData.value = Result.loading()
         val map = hashMapOf(
             Store.NAME to product.name,
             Store.DESCRIPTION to product.description,

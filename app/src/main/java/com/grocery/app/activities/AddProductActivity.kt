@@ -1,5 +1,6 @@
 package com.grocery.app.activities
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -33,6 +34,9 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
     private val _product
         get() = viewModel.product
 
+    private val _editMode
+        get() = !_product.id.isBlank()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binder = DataBindingUtil.setContentView(this, R.layout.activity_add_product)
@@ -42,6 +46,7 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
         observe()
         catViewModel.fetchCategoryList()
     }
+
 
     private fun observe() {
         catViewModel.catListLiveData.observe(this, Observer {
@@ -130,6 +135,7 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
         binder.addBtn.isEnabled = active
     }
 
+    @SuppressLint("DefaultLocale")
     private fun setupView() {
         intent?.extras?.getParcelable<Product>(PRODUCT)?.let {
             viewModel.product = it
@@ -137,6 +143,13 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
             binder.descEt.setText(it.description)
             binder.priceEt.setText("${it.price}")
         }
+        //Toolbar
+        binder.toolBar.title =
+            getString(if (_editMode) R.string.edit_product else R.string.add_product)
+        binder.toolBar.setNavigationIcon(R.drawable.ic_back)
+        binder.toolBar.setNavigationOnClickListener { onBackPressed() }
+
+        binder.addBtn.text = getString(if (_editMode) R.string.update else R.string.add)
         binder.productIv.setOnClickListener(this)
         binder.addBtn.setOnClickListener(this)
         binder.nameEt.addTextChangedListener { _product.name = it.toString() }
@@ -151,9 +164,7 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
         binder.activeTv.setOnItemClickListener { _, _, position, _ ->
             _product.active = java.lang.Boolean.parseBoolean(activeItems[position])
         }
-        _product.active = true
-        binder.activeTv.setText(activeItems[0], false)
-
+        binder.activeTv.setText(_product.active?.toString()?.capitalize() ?: activeItems[0], false)
 
     }
 

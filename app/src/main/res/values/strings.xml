@@ -40,4 +40,6 @@
         <item>True</item>
         <item>False</item>
     </string-array>
+    <string name="edit_product">Edit Product</string>
+    <string name="update">Update</string>
 </resources>
