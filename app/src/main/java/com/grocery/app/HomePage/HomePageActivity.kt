@@ -5,20 +5,26 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.grocery.app.R
+import com.grocery.app.activities.BaseActivity
 import com.grocery.app.auth.SsoLoginActivity
+import com.grocery.app.databinding.ActivityHomeBinding
 import kotlinx.android.synthetic.main.bottom_navigation_bar.*
 import kotlinx.android.synthetic.main.category_group.*
 
 
-class HomePageActivity: AppCompatActivity() {
+class HomePageActivity: BaseActivity() {
 
+
+    private lateinit var binder:ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        binder = DataBindingUtil.setContentView(this,R.layout.activity_home)
+
         bottomNavigationBar.background = null
         val fragment = HomeFragment()
         val transaction = supportFragmentManager.beginTransaction()

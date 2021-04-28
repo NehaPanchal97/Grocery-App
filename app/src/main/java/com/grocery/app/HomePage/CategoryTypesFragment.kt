@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.HomePage.Adapters.ProductItemsAdapter
 import com.grocery.app.HomePage.DataModel.ItemData
 import com.grocery.app.R
+import com.grocery.app.fragments.BaseFragment
 import kotlinx.android.synthetic.main.product_items_group.*
 
-class CategoryTypesFragment : Fragment() {
+class CategoryTypesFragment : BaseFragment() {
 
     lateinit var productRecyclerViewAdapter: ProductItemsAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

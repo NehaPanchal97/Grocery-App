@@ -4,25 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.grocery.app.HomePage.Adapters.MainAdapterVertical
+import com.grocery.app.HomePage.Adapters.HomePageCategoryAdapter
 import com.grocery.app.HomePage.DataModel.ItemData
 import com.grocery.app.HomePage.DataModel.ItemGroup
 import com.grocery.app.R
+import com.grocery.app.fragments.BaseFragment
 import kotlinx.android.synthetic.main.home_fragment.*
 
 
-class HomeFragment : Fragment() {
+class HomeFragment :BaseFragment() {
 
-    lateinit var recyclerViewAdapter: MainAdapterVertical
+    lateinit var recyclerViewAdapter: HomePageCategoryAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        bottomNavigationBar.background=null
-//        bottomNavigationBar.menu.getItem(2).isEnabled = false
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         initRecyclerView()
     }
@@ -70,7 +66,7 @@ class HomeFragment : Fragment() {
             list.add(viewGroup)
             list.add(viewGroup1)
             list.add(viewGroup2)
-            recyclerViewAdapter= MainAdapterVertical(context, list)
+            recyclerViewAdapter= HomePageCategoryAdapter(context, list)
             adapter=recyclerViewAdapter
         }
     }

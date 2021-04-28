@@ -49,9 +49,6 @@
         <activity android:name=".activities.ProductListActivity">
 
         </activity>
-        <activity
-            android:name=".HomePage.HomePageActivity"
-            android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".auth.AccountDetailsActivity" />
     </application>
 

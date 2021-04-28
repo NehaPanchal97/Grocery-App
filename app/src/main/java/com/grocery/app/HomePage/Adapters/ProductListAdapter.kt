@@ -12,12 +12,14 @@ import com.bumptech.glide.Glide
 import com.grocery.app.HomePage.DataModel.ItemData
 import com.grocery.app.HomePage.Interface.IItemClickListener
 import com.grocery.app.R
+import com.grocery.app.extensions.showToast
 
 
+//Adapter for 1 screen
 
-class ChildHorizontalAdapter(private val context: Context,
-                             private val itemList:ArrayList<ItemData>?):
-    RecyclerView.Adapter<ChildHorizontalAdapter.MyViewHolder>() {
+class ProductListAdapter(private val context: Context,
+                         private val itemList:ArrayList<ItemData>?):
+    RecyclerView.Adapter<ProductListAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MyViewHolder {
        val view = LayoutInflater.from(context).inflate(R.layout.category_item,p0,false)
         return MyViewHolder(view)
@@ -29,7 +31,7 @@ class ChildHorizontalAdapter(private val context: Context,
 
         myViewHolder.setClick(object : IItemClickListener {
             override fun onItemClickListener(view: View, position: Int) {
-               Toast.makeText(context,""+itemList?.get(position)?.name,Toast.LENGTH_SHORT).show()
+//               Toast.makeText(context,""+itemList?.get(position)?.name,Toast.LENGTH_SHORT).show()
             }
 
         })

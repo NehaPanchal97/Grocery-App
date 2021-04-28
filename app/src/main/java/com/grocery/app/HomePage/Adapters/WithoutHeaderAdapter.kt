@@ -10,6 +10,8 @@ import com.bumptech.glide.Glide
 import com.grocery.app.HomePage.DataModel.ItemData
 import com.grocery.app.R
 
+
+//Adapter for 1 screen 2 row
 class WithoutHeaderAdapter(private val context: Context,
                              private val itemList:ArrayList<ItemData>?):
     RecyclerView.Adapter<WithoutHeaderAdapter.MyViewHolder>() {
@@ -19,7 +21,6 @@ class WithoutHeaderAdapter(private val context: Context,
     }
 
     override fun onBindViewHolder(myViewHolder: MyViewHolder, position: Int) {
-
         Glide.with(context).load(itemList?.get(position)?.image).into(myViewHolder.img_item)
 
     }

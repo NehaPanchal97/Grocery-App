@@ -12,15 +12,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.HomePage.Adapters.SpecificItemAdapter
 import com.grocery.app.HomePage.DataModel.ItemData
 import com.grocery.app.R
+import com.grocery.app.fragments.BaseFragment
 import kotlinx.android.synthetic.main.specific_itemgroup_in_product.*
 
-class CategoryItemsFragment : Fragment() {
+class CategoryItemsFragment : BaseFragment() {
 
     lateinit var itemRecyclerViewAdapter: SpecificItemAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        item_recyclerView.addItemDecoration(DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL))
-        item_recyclerView.addItemDecoration(DividerItemDecoration(context!!, DividerItemDecoration.HORIZONTAL))
+        item_recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+        item_recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL))
         item_recyclerView.layoutManager = GridLayoutManager(context,2, RecyclerView.VERTICAL,false)
         itemRecyclerView()
 

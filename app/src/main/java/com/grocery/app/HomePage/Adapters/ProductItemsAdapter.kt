@@ -8,9 +8,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Glide.init
 import com.grocery.app.HomePage.DataModel.ItemData
 import com.grocery.app.R
+import com.grocery.app.databinding.ProductListBinding
+import com.grocery.app.extensions.loadImage
+import com.grocery.app.viewHolders.BaseVH
 
+// Adapter for 2 screen
 class ProductItemsAdapter(private val context: Context,
                           private val itemList:ArrayList<ItemData>): RecyclerView.Adapter<ProductItemsAdapter.GridViewHolder>() {
 
@@ -32,7 +37,7 @@ class ProductItemsAdapter(private val context: Context,
         return itemList.size
     }
 
-    inner class GridViewHolder(view: View):RecyclerView.ViewHolder(view) {
+    inner class GridViewHolder(view:View): RecyclerView.ViewHolder(view) {
 
         var txt_title: TextView
         var img_item: ImageView
