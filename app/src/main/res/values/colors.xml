@@ -8,4 +8,12 @@
     <color name="continueBtn">#FFDC3D</color>
     <color name="editTextBackground">#F6F5FA</color>
     <color name="verify_button">#F6D43E</color>
+    <color name="login_screen_heading">#202020</color>
+    <color name="login_subtext">#929292</color>
+    <color name="enter_no.">#868686</color>
+    <color name="phone_no.">#2C2C2C</color>
+    <color name="continue_text">#363125</color>
+    <color name="backgroundEditText">#F0F3FD</color>
+    <color name="cameraIcon">#D8DFFC</color>
+    <color name="profilebackground">#D9E0FB</color>
 </resources>

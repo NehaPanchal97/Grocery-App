@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -29,16 +30,11 @@ class CategoryViewModel : ViewModel() {
     val catListLiveData: LiveData<Result<ArrayList<Category>>>
         get() = _catListLiveData
 
+    var category = Category()
 
-    var categoryImage: String? = null
-    var name: String? = null
-    var rank: Int = 0
-
-    fun addCategory(name: String?, rank: Int?) {
-        this.name = name
-        this.rank = rank ?: 0
+    fun addCategory() {
         _addCatLiveData.value = Result.loading()
-        if (categoryImage.isBlank()) {
+        if (category.url.isBlank() || category.url?.startsWith("https://") == true) {
             addCategoryOnStore()
         } else {
             uploadImage()
@@ -76,15 +72,21 @@ class CategoryViewModel : ViewModel() {
 
     private fun addCategoryOnStore() {
         val map = hashMapOf(
-            Store.NAME to name,
-            Store.RANK to rank,
-            Store.URL to categoryImage
+            Store.NAME to category.name,
+            Store.RANK to category.rank,
+            Store.URL to category.url
         )
-        Firebase.firestore.collection(Store.CATEGORIES)
-            .add(map)
-            .addOnSuccessListener {
-                _addCatLiveData.value = Result.success()
-            }
+        val editMode = !category.id.isBlank()
+
+        val ref = Firebase.firestore.collection(Store.CATEGORIES)
+
+        val task = if (editMode) ref
+            .document(category.id ?: "").set(map)
+        else ref.add(map)
+
+        task.addOnSuccessListener {
+            _addCatLiveData.value = Result.success()
+        }
             .addOnFailureListener {
                 _addCatLiveData.value = Result.error()
 
@@ -93,7 +95,7 @@ class CategoryViewModel : ViewModel() {
     }
 
     private fun uploadImage() {
-        val file = Uri.parse(categoryImage)
+        val file = Uri.parse(category.url)
         val fileName = "Categories_" + System.currentTimeMillis() + ".jpg"
         val fileRef = Firebase.storage.reference
             .child("images/$fileName")
@@ -107,7 +109,7 @@ class CategoryViewModel : ViewModel() {
             }
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    categoryImage = it.result.toString()
+                    category.url = it.result.toString()
                     addCategoryOnStore()
                 } else {
                     _addCatLiveData.value = Result.error()

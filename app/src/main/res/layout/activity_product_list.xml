@@ -23,6 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:title="@string/products"
+                app:menu="@menu/product_list_menu"
                 app:titleTextColor="#ffffff" />
         </com.google.android.material.appbar.AppBarLayout>
 
