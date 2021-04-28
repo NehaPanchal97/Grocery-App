@@ -88,37 +88,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:fontFamily="@font/ptsans_bold"
+                android:gravity="center"
                 android:text="@string/country_code"
                 android:textColor="@color/phone_no."
                 android:textSize="20sp"
-                android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="@id/phone_no_tv"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/phone_no_tv" />
+                app:layout_constraintTop_toBottomOf="@id/enter_phone" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/phone_no_tv"
+
+            <EditText
+                android:id="@+id/phone_no_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:background="@android:color/white"
                 android:hint="@string/mobile_no.."
+                android:inputType="number"
+                android:minWidth="180dp"
+                android:textColor="@color/phone_no."
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/country_code"
-                app:layout_constraintTop_toBottomOf="@id/enter_phone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxStrokeColor="@null">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/phone_no_et"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:inputType="number"
-                    android:paddingBottom="2dp"
-                    android:minWidth="180dp"
-                    android:textColor="@color/phone_no."
-                    android:textSize="20sp"
-                   />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@id/enter_phone" />
 
 
             <com.google.android.material.button.MaterialButton
@@ -130,9 +122,9 @@
                 android:backgroundTint="@color/continueBtn"
                 android:fontFamily="@font/ptsans_bold"
                 android:onClick="onClick"
-                android:paddingLeft="40dp"
+                android:paddingLeft="30dp"
                 android:paddingTop="20dp"
-                android:paddingRight="40dp"
+                android:paddingRight="30dp"
                 android:paddingBottom="20dp"
                 android:text="@string/continue_text"
                 android:textAllCaps="false"
@@ -152,10 +144,4 @@
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <!--    <ProgressBar-->
-    <!--        android:id="@+id/progressBar"-->
-    <!--        android:layout_width="200dp"-->
-    <!--        android:layout_height="200dp"-->
-    <!--        android:padding="10dp"-->
-    <!--        android:visibility="gone" />-->
 
