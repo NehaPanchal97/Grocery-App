@@ -7,9 +7,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.chip.Chip
 import com.grocery.app.R
 import com.grocery.app.constant.PRODUCT
 import com.grocery.app.databinding.ActivityAddProductBinding
@@ -160,6 +162,48 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
         }
         binder.activeTv.setText(_product.active?.toString()?.capitalize() ?: activeItems[0], false)
 
+        //Chips
+        val tags = _product.tags?.filterNotNull() ?: arrayListOf()
+        checkChipGroupVisibility()
+        tags.forEach { tag ->
+            createChip(tag).apply { binder.tagChips.addView(this) }
+        }
+
+        //tag input handle
+        binder.tagEt.doAfterTextChanged {
+            val text = it.toString()
+            if (text.length > 1 && text.endsWith(",")) {
+                binder.tagEt.setText("")
+                addChip(text.removeSuffix(","))
+            }
+        }
+    }
+
+    private fun addChip(text: String) {
+        if (!viewModel.shouldAddTag(text)) {
+            return
+        }
+        viewModel.addTag(text)
+        createChip(text).apply { binder.tagChips.addView(this) }
+        checkChipGroupVisibility()
+    }
+
+    private fun checkChipGroupVisibility() {
+        binder.tagChips.visible(_product.tags?.isNotEmpty() == true)
+    }
+
+    private fun createChip(text: String): Chip {
+        val chip = layoutInflater
+            .inflate(R.layout.tag_chip, binder.tagChips, false) as Chip
+        chip.text = text
+        chip.setOnCloseIconClickListener { removeChip(it as Chip) }
+        return chip
+    }
+
+    private fun removeChip(chip: Chip) {
+        viewModel.removeTag(chip.text.toString())
+        binder.tagChips.removeView(chip)
+        checkChipGroupVisibility()
     }
 
 

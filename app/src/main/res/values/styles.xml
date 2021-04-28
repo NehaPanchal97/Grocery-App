@@ -15,6 +15,17 @@
     <style name="AppDropDownStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
     </style>
+    <style name="AppChipStyle" parent="@style/Widget.MaterialComponents.Chip.Entry">
+        <item name="chipBackgroundColor">@color/colorPrimary</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:checkable">false</item>
+        <item name="closeIconTint">#ffffff</item>
+        <item name="closeIconSize">22dp</item>
+        <item name="chipStartPadding">6dp</item>
+        <item name="chipEndPadding">6dp</item>
+        <item name="android:text">Kasi Kasi</item>
+    </style>
     <style name="AppDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimary</item>

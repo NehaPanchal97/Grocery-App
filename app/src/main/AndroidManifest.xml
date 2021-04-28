@@ -21,7 +21,7 @@
 
         </activity>
 
-        <activity android:name=".auth.OtpScreenActivity"/>
+        <activity android:name=".auth.OtpScreenActivity" />
         <activity android:name=".activities.AddCategoryActivity">
 
         </activity>
@@ -37,8 +37,6 @@
         </activity>
         <activity android:name=".activities.AddProductActivity">
 
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
         </activity>
         <activity android:name=".activities.ProductListActivity">
 
