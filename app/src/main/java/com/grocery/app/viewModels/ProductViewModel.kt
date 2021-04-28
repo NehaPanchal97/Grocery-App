@@ -103,8 +103,10 @@ class ProductViewModel : ViewModel() {
             Store.PRICE to product.price,
             Store.ACTIVE to product.active,
             Store.CATEGORY_ID to product.categoryId,
-            Store.URL to product.url
+            Store.URL to product.url,
+            Store.TAGS to product.tags
         )
+
         val baseTask = Firebase.firestore.collection(Store.PRODUCTS)
 
         val task = if (product.id.isBlank()) baseTask.add(map)
@@ -118,5 +120,24 @@ class ProductViewModel : ViewModel() {
             .addOnFailureListener {
                 _addOrUpdateProductLiveData.value = Result.error()
             }
+    }
+
+    fun shouldAddTag(text: String): Boolean {
+        return product.tags?.contains(text) != true
+    }
+
+    fun addTag(text: String) {
+        val tags = ArrayList(product.tags?.filterNotNull() ?: arrayListOf())
+        if (tags.contains(text)) {
+            return
+        }
+        tags.add(text)
+        product.tags = tags
+    }
+
+    fun removeTag(tag: String) {
+        val tags = product.tags ?: arrayListOf()
+        tags.remove(tag)
+        product.tags = tags
     }
 }

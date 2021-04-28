@@ -47,8 +47,15 @@
     <string name="filter">Filter</string>
     <string name="not_available">Not Available</string>
     <string name="no_product_available">No Product Available.</string>
+    <string name="cat_added_msg">Category added successfully</string>
+    <string name="cat_updated_msg">Category updated successfully</string>
+    <string name="cat_creation_error_msg">Error Creating Category!</string>
     <string name="account_details">Account Details</string>
     <string name="name">Your Name</string>
     <string name="mobile">Your Mobile No.</string>
     <string name="address">Your Address</string>
+    <string name="clear">Clear</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="tags">Tags</string>
 </resources>

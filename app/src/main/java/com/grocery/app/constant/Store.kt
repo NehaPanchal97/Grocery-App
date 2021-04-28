@@ -12,4 +12,5 @@ object Store {
     const val URL = "url"
     const val USERS = "users"
     const val ADDRESS = "address"
+    const val TAGS = "tags"
 }

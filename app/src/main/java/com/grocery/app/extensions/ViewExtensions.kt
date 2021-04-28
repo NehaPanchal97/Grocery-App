@@ -5,8 +5,10 @@ import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.MenuRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import com.grocery.app.R
 
@@ -29,6 +31,7 @@ fun Context.showToast(message: String?) {
     Toast.makeText(this, message ?: "", Toast.LENGTH_SHORT).show()
 }
 
+//Load image
 fun ImageView.loadImage(
     url: String?,
     placeholder: Int = R.drawable.ic_shop,

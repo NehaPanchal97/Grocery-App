@@ -18,47 +18,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".auth.SsoLoginActivity">
-                        <intent-filter>
-                            <action android:name="android.intent.action.MAIN" />
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-                            <category android:name="android.intent.category.LAUNCHER" />
-                        </intent-filter>
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
         </activity>
 
-        <activity android:name=".auth.OtpScreenActivity">
-        </activity>
+        <activity android:name=".auth.OtpScreenActivity" />
         <activity android:name=".activities.AddCategoryActivity">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
 
         </activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".activities.CategoryListActivity" />
-        <activity android:name=".activities.AddProductActivity">
-
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
-        </activity>
-        <activity android:name=".activities.ProductListActivity"
-            android:windowSoftInputMode="adjustNothing">
+        <activity android:name=".activities.CategoryListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.AddProductActivity">
+
+        </activity>
+        <activity android:name=".activities.ProductListActivity">
+
+        </activity>
         <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".activities.CategoryListActivity" />
-        <activity android:name=".HomePage.HomePageActivity"/>
-        <activity android:name=".auth.AccountDetailsActivity"/>
+            android:name=".HomePage.HomePageActivity"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity android:name=".auth.AccountDetailsActivity" />
     </application>
 
 </manifest>

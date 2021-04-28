@@ -14,5 +14,6 @@ data class Product(
     var active: Boolean? = null,
     @SerializedName(Store.CATEGORY_ID)
     var categoryId: String? = null,
-    var url: String? = null
+    var url: String? = null,
+    var tags: ArrayList<String?>? = null
 ) : Parcelable

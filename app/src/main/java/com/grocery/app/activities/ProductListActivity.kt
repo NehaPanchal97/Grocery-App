@@ -11,10 +11,7 @@ import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.contracts.AddProductContract
 import com.grocery.app.contracts.UpdateProductContract
 import com.grocery.app.databinding.ActivityProductListBinding
-import com.grocery.app.extensions.hide
-import com.grocery.app.extensions.showError
-import com.grocery.app.extensions.showSuccess
-import com.grocery.app.extensions.visible
+import com.grocery.app.extensions.*
 import com.grocery.app.extras.Result
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.CategoryViewModel
@@ -54,17 +51,17 @@ class ProductListActivity : BaseActivity() {
         val items = viewModel.catList.map { it.name }.toTypedArray()
         val checked = items.indexOfFirst { it == viewModel.filterByCat?.name }
         MaterialAlertDialogBuilder(this, R.style.AppDialogTheme)
-            .setTitle("Category")
+            .setTitle(getString(R.string.category))
             .setNeutralButton(
-                "Clear"
+                getString(R.string.clear)
             ) { _, _ ->
                 viewModel.filterByCat = null
                 refreshList()
             }
-            .setPositiveButton("Apply") { _, _ ->
+            .setPositiveButton(getString(R.string.apply)) { _, _ ->
                 refreshList()
             }
-            .setNegativeButton("Cancel") { _, _ ->
+            .setNegativeButton(getString(R.string.cancel)) { _, _ ->
                 viewModel.filterByCat = null
             }
             .setSingleChoiceItems(items, checked) { _, which ->
@@ -113,7 +110,7 @@ class ProductListActivity : BaseActivity() {
         listAdapter.onClickListener = _onClickListener
 
         //Toolbar
-        binder.toolBar.inflateMenu(R.menu.product_list_menu)
+        setupToolbar(binder.toolBar)
         binder.toolBar.setOnMenuItemClickListener(_menuItemClick)
         binder.emptyView.emptyTv.text = getString(R.string.no_product_available)
     }
