@@ -54,4 +54,7 @@
     <string name="name">Your Name</string>
     <string name="mobile">Your Mobile No.</string>
     <string name="address">Your Address</string>
+    <string name="clear">Clear</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
 </resources>

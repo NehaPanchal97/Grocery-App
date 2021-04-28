@@ -31,6 +31,7 @@ fun Context.showToast(message: String?) {
     Toast.makeText(this, message ?: "", Toast.LENGTH_SHORT).show()
 }
 
+//Load image
 fun ImageView.loadImage(
     url: String?,
     placeholder: Int = R.drawable.ic_shop,
