@@ -1,26 +1,28 @@
 package com.grocery.app.auth
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.google.android.material.button.MaterialButton
 import com.google.firebase.FirebaseException
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
-import com.grocery.app.HomePage.HomeFragment
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.grocery.app.R
+import com.grocery.app.databinding.ActivityOtpScreenBinding
+import com.grocery.app.extensions.authUser
 import com.mukesh.OtpView
 import kotlinx.android.synthetic.main.activity_otp_screen.*
 import java.util.concurrent.TimeUnit
 
 class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
+
     private var mCallbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks =
         object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
@@ -55,25 +57,22 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
 
     private var forceResendingToken: PhoneAuthProvider.ForceResendingToken? = null
     private var mVerificationId: String? = null
-    private lateinit var firebaseAuth: FirebaseAuth
 
+    private lateinit var binder: ActivityOtpScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_otp_screen)
+        binder = DataBindingUtil.setContentView(this, R.layout.activity_otp_screen)
 
-        firebaseAuth = FirebaseAuth.getInstance()
         listener()
-        setListener()
+        binder.arrowBack.setOnClickListener { onBackPressed() }
         val otpView = findViewById<OtpView>(R.id.otp_view)
         otpView.itemCount = 6
 
-        var mobile = intent.getStringExtra("Phone")
-        var tvNumber = findViewById<TextView>(R.id.tv_phone_no)
-        tvNumber.setText(String.format(getString(R.string.code_sent), mobile))
-        if (mobile != null) {
-            startPhoneNumberVerification(mobile)
-        }
+        val mobile = intent.getStringExtra("Phone")
+        val tvNumber = findViewById<TextView>(R.id.tv_phone_no)
+        tvNumber.text = String.format(getString(R.string.code_sent), mobile)
+        mobile?.let { startPhoneNumberVerification(it) }
 
 
         val resendCode = findViewById<TextView>(R.id.tv_resend_code)
@@ -86,7 +85,7 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun startPhoneNumberVerification(mobile: String) {
         progressBar.visibility = View.VISIBLE
-        val authentication = PhoneAuthOptions.newBuilder(firebaseAuth)
+        val authentication = PhoneAuthOptions.newBuilder(Firebase.auth)
             .setPhoneNumber(mobile)
             .setTimeout(60L, TimeUnit.SECONDS)
             .setActivity(this)
@@ -100,7 +99,7 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
         token: PhoneAuthProvider.ForceResendingToken
     ) {
         progressBar.visibility = View.VISIBLE
-        val authentication = PhoneAuthOptions.newBuilder(firebaseAuth)
+        val authentication = PhoneAuthOptions.newBuilder(Firebase.auth)
             .setPhoneNumber(mobile)
             .setTimeout(60L, TimeUnit.SECONDS)
             .setActivity(this)
@@ -119,11 +118,11 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         progressBar.visibility = View.VISIBLE
 
-        firebaseAuth.signInWithCredential(credential)
+        Firebase.auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     progressBar.visibility = View.GONE
-                    val phone = firebaseAuth.currentUser.phoneNumber
+                    val phone =  authUser?.phoneNumber
                     Toast.makeText(this, "Logged in as $phone", Toast.LENGTH_SHORT).show()
                     otpContainer.visibility = View.GONE
                     doFragmentTransaction(AuthenticationFragment())
@@ -157,14 +156,7 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun setListener() {
-        var backArrow = findViewById<ImageView>(R.id.arrow_back)
-        backArrow.setOnClickListener {
-            onBackPressed()
-        }
-    }
-
-    fun doFragmentTransaction(fragment: Fragment) {
+    private fun doFragmentTransaction(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.otpScreen, fragment)
         transaction.commit()

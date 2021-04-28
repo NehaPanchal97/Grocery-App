@@ -10,4 +10,6 @@ object Store {
     const val ACTIVE = "active"
     const val CATEGORY_ID = "category_id"
     const val URL = "url"
+    const val USERS = "users"
+    const val ADDRESS = "address"
 }

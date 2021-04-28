@@ -1,119 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/otpScreen"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout>
+    <data>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/otpContainer"
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/otpScreen"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardCornerRadius="20dp"
-        app:contentPaddingBottom="15dp">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/otpContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="20dp"
+            app:contentPaddingBottom="15dp">
 
-            <ImageView
-                android:id="@+id/arrow_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_arrow_back" />
-
-            <TextView
-                android:id="@+id/tv_heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ptsans_bold"
-                android:gravity="center"
-                android:textSize="22sp"
-                android:text="@string/verify_phone"
-                android:textColor="@color/login_screen_heading"
-                app:layout_constraintBottom_toBottomOf="@id/arrow_back"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/arrow_back" />
-
-            <TextView
-                android:id="@+id/tv_phone_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tv_heading"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:gravity="center"
-                android:textColor="@color/login_subtext"
-                android:text="@string/code_sent"
-                android:padding="30dp"
-                android:fontFamily="@font/ptsans_regular"/>
-
-            <com.mukesh.OtpView
-                android:id="@+id/otp_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="72dp"
-                android:inputType="number"
-                android:itemBackground="@android:color/white"
-                android:textColor="@android:color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_phone_no"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-            <TextView
-                android:id="@+id/tv_codeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="48dp"
-                android:fontFamily="@font/ptsans_regular"
-                android:text="@string/did_not_receive"
-                android:textColor="@color/login_subtext"
-                android:textSize="16sp"
-                android:layout_marginStart="80dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/otp_view" />
-
-            <TextView
-                android:id="@+id/tv_resend_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
-                android:fontFamily="@font/ptsans_regular"
-                android:text="@string/request_again"
-                android:textColor="@color/login_subtext"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@id/tv_codeText"
-                app:layout_constraintTop_toBottomOf="@id/otp_view" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/verify"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintTop_toBottomOf="@id/tv_resend_code"
-                android:layout_marginTop="30dp"
-                android:backgroundTint="@color/verify_button"
-                app:cornerRadius="10dp"
-                android:layout_margin="20dp"
-                android:text="@string/create_account"
-                android:textAllCaps="false"
-                android:textColor="@android:color/black"
-                android:fontFamily="@font/ptsans_bold"
-                android:textSize="16sp"
-                android:padding="20dp"
-                android:onClick="onClick"/>
+                android:layout_height="wrap_content">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+                <ImageView
+                    android:id="@+id/arrow_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_arrow_back" />
+
+                <TextView
+                    android:id="@+id/tv_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ptsans_bold"
+                    android:gravity="center"
+                    android:textSize="22sp"
+                    android:text="@string/verify_phone"
+                    android:textColor="@color/login_screen_heading"
+                    app:layout_constraintBottom_toBottomOf="@id/arrow_back"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/arrow_back" />
+
+                <TextView
+                    android:id="@+id/tv_phone_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tv_heading"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:gravity="center"
+                    android:textColor="@color/login_subtext"
+                    android:text="@string/code_sent"
+                    android:padding="30dp"
+                    android:fontFamily="@font/ptsans_regular"/>
+
+                <com.mukesh.OtpView
+                    android:id="@+id/otp_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="72dp"
+                    android:inputType="number"
+                    android:itemBackground="@android:color/white"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_phone_no"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_codeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="48dp"
+                    android:fontFamily="@font/ptsans_regular"
+                    android:text="@string/did_not_receive"
+                    android:textColor="@color/login_subtext"
+                    android:textSize="16sp"
+                    android:layout_marginStart="80dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/otp_view" />
+
+                <TextView
+                    android:id="@+id/tv_resend_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48dp"
+                    android:fontFamily="@font/ptsans_regular"
+                    android:text="@string/request_again"
+                    android:textColor="@color/login_subtext"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@id/tv_codeText"
+                    app:layout_constraintTop_toBottomOf="@id/otp_view" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/verify"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_resend_code"
+                    android:layout_marginTop="30dp"
+                    android:backgroundTint="@color/verify_button"
+                    app:cornerRadius="10dp"
+                    android:layout_margin="20dp"
+                    android:text="@string/create_account"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/ptsans_bold"
+                    android:textSize="16sp"
+                    android:padding="20dp"
+                    android:onClick="onClick"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -126,4 +130,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

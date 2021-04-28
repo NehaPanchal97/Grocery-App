@@ -61,13 +61,13 @@ class ProductListActivity : BaseActivity() {
                 viewModel.filterByCat = null
                 refreshList()
             }
-            .setPositiveButton("Apply") { dialog, which ->
+            .setPositiveButton("Apply") { _, _ ->
                 refreshList()
             }
-            .setNegativeButton("Cancel") { dialog, which ->
+            .setNegativeButton("Cancel") { _, _ ->
                 viewModel.filterByCat = null
             }
-            .setSingleChoiceItems(items, checked) { dialog, which ->
+            .setSingleChoiceItems(items, checked) { _, which ->
                 viewModel.filterByCat = viewModel.catList[which]
             }
             .setCancelable(false)
