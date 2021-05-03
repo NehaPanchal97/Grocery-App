@@ -25,3 +25,19 @@ inline fun <reified T> T.clone(): T? {
         null
     }
 }
+inline fun <reified T> String?.toObj(default: T? = null): T? {
+    return try {
+        Gson().fromJson(this ?: "", T::class.java)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        default
+    }
+}
+fun Any?.toJson(): String? {
+    return try {
+        Gson().toJson(this)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
