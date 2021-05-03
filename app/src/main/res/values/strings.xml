@@ -16,7 +16,6 @@
     <string name="add_category">Add Category</string>
     <string name="category_name">Category Name</string>
     <string name="rank">Rank</string>
-    <string name="category_image">Category Image</string>
     <string name="submit">Submit</string>
     <string name="cate_name_error">Enter Category name</string>
     <string name="cat_rank_error">Enter category rank</string>
@@ -25,7 +24,6 @@
     <string name="price">Price</string>
     <string name="add_product">Add Product</string>
     <string name="add">Add</string>
-    <string name="category">Category</string>
     <string name="active">Active</string>
     <string name="product_description">Product Description</string>
     <string name="product_name_error">Please enter product name</string>
@@ -67,4 +65,7 @@
     <string name="order">Order</string>
     <string name="offer">Offer</string>
     <string name="more">More</string>
+    <string name="category_image">Category Image</string>
+    <string name="category">Category</string>
+    <string name="see_all">See all</string>
 </resources>

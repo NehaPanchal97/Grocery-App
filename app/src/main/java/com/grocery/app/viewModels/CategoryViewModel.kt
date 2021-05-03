@@ -41,10 +41,11 @@ class CategoryViewModel : ViewModel() {
         }
     }
 
-    fun fetchCategoryList() {
+    fun fetchCategoryList(limit: Long = Long.MAX_VALUE) {
         _catListLiveData.value = Result.loading()
         Firebase.firestore.collection(Store.CATEGORIES)
             .orderBy(Store.RANK, Query.Direction.ASCENDING)
+            .limit(limit)
             .get()
             .addOnSuccessListener { snapShot ->
                 onCatListFetched(snapShot)

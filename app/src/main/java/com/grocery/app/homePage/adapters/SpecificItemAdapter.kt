@@ -1,4 +1,4 @@
-package com.grocery.app.HomePage.Adapters
+package com.grocery.app.homePage.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.grocery.app.HomePage.DataModel.ItemData
+import com.grocery.app.homePage.dataModel.ItemData
 import com.grocery.app.R
 
 

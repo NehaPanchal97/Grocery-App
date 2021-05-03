@@ -1,16 +1,14 @@
-package com.grocery.app.HomePage
+package com.grocery.app.homePage
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.grocery.app.HomePage.Adapters.SpecificItemAdapter
-import com.grocery.app.HomePage.DataModel.ItemData
+import com.grocery.app.homePage.adapters.SpecificItemAdapter
+import com.grocery.app.homePage.dataModel.ItemData
 import com.grocery.app.R
 import com.grocery.app.fragments.BaseFragment
 import kotlinx.android.synthetic.main.specific_itemgroup_in_product.*

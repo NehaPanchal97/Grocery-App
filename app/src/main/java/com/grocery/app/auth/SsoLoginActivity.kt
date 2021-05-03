@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.grocery.app.HomePage.HomePageActivity
+import com.grocery.app.homePage.HomePageActivity
 import com.grocery.app.R
 import com.grocery.app.extensions.showToast
 

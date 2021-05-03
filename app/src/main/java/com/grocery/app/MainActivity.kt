@@ -2,8 +2,6 @@ package com.grocery.app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.LiveData
-import com.grocery.app.HomePage.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
