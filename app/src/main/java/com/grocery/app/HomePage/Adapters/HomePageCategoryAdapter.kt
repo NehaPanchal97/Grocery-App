@@ -12,12 +12,14 @@ import com.grocery.app.HomePage.DataModel.ItemGroup
 import com.grocery.app.R
 import com.grocery.app.databinding.CategoryGroupBinding
 import com.grocery.app.databinding.WithoutHeaderRvGroupBinding
+import com.grocery.app.models.Category
 import com.grocery.app.viewHolders.BaseVH
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 //Main vertical Adapter for 1 screen
-class HomePageCategoryAdapter(private val context: Context,
-                              private var dataList: ArrayList<ItemGroup>
+class HomePageCategoryAdapter(private var dataList: ArrayList<Category>
                          ):
     RecyclerView.Adapter<BaseVH<*,ItemGroup>> () {
 
@@ -43,12 +45,12 @@ class HomePageCategoryAdapter(private val context: Context,
 
 
     override fun getItemCount(): Int {
-       return dataList.size
+       return 1
     }
 
 
     override fun getItemViewType(position: Int): Int {
-        return dataList.get(position).viewType?:1
+        return VIEW_GROUP_LAYOUT
     }
 
     companion object{
