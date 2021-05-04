@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.grocery.app.HomePage.HomePageActivity
+import com.grocery.app.homePage.HomePageActivity
 import com.grocery.app.R
 import com.grocery.app.auth.SsoLoginActivity
 import com.grocery.app.constant.USER

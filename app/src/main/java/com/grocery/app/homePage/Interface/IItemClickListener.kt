@@ -1,4 +1,4 @@
-package com.grocery.app.HomePage.Interface
+package com.grocery.app.homePage.Interface
 
 import android.view.View
 

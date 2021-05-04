@@ -12,7 +12,6 @@ import com.grocery.app.constant.CATEGORY
 import com.grocery.app.databinding.ActivityAddCategoryBinding
 import com.grocery.app.extensions.loadImage
 import com.grocery.app.extensions.showError
-import com.grocery.app.extensions.showSuccess
 import com.grocery.app.extensions.toInt
 import com.grocery.app.extras.Result.Status
 import com.grocery.app.models.Category

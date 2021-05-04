@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
-    android:id="@+id/home"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+
+<RelativeLayout
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#27ae60"
@@ -67,6 +70,7 @@
 
    </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <LinearLayout
         android:id="@+id/container_rv"
         android:layout_width="match_parent"
@@ -76,9 +80,15 @@
         android:layout_below="@id/topBar"
         android:background="@drawable/homefragment_layout_rounded_corners"
         android:padding="10dp">
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/home_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/catRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -89,3 +99,4 @@
     </LinearLayout>
 
 </RelativeLayout>
+</layout>
