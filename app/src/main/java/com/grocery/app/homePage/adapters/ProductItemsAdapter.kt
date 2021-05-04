@@ -10,15 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.grocery.app.homePage.dataModel.ItemData
 import com.grocery.app.R
+import com.grocery.app.homePage.dataModel.ItemGroup
+import com.grocery.app.models.Category
 
 // Adapter for 2 screen
-class ProductItemsAdapter(private val context: Context,
-                          private val itemList:ArrayList<ItemData>): RecyclerView.Adapter<ProductItemsAdapter.GridViewHolder>() {
+class ProductItemsAdapter(private val itemList:ArrayList<Category>): RecyclerView.Adapter<ProductItemsAdapter.GridViewHolder>() {
 
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.product_list,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.product_list,parent,false)
         return GridViewHolder(view)
     }
 
@@ -26,7 +27,7 @@ class ProductItemsAdapter(private val context: Context,
         val items = itemList.get(position)
 
         holder.txt_title.text=items.name
-        Glide.with(context).load(itemList[position].image).into(holder.img_item)
+        Glide.with(holder.itemView.context).load(itemList[position].url).into(holder.img_item)
     }
 
     override fun getItemCount(): Int {
@@ -35,12 +36,14 @@ class ProductItemsAdapter(private val context: Context,
 
     inner class GridViewHolder(view:View): RecyclerView.ViewHolder(view) {
 
-        var txt_title: TextView
-        var img_item: ImageView
-        init {
-            txt_title = view.findViewById(R.id.tvTitle) as TextView
-            img_item = view.findViewById(R.id.itemImage) as ImageView
+        var txt_title: TextView = view.findViewById(R.id.tvTitle) as TextView
+        var img_item: ImageView = view.findViewById(R.id.itemImage) as ImageView
+    }
 
-        }
+    fun updateCategory(data: ArrayList<Category>?) {
+        val categories = data ?: arrayListOf()
+           itemList.addAll(categories)
+           notifyDataSetChanged()
+
     }
 }

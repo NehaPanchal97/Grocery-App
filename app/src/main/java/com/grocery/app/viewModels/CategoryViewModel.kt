@@ -11,6 +11,7 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.grocery.app.constant.CATEGORY
 import com.grocery.app.constant.Store
 import com.grocery.app.extensions.toObj
 import com.grocery.app.extras.Result
@@ -58,16 +59,18 @@ class CategoryViewModel : ViewModel() {
 
     private fun onCatListFetched(snapShot: QuerySnapshot?) =
         viewModelScope.launch(Dispatchers.Default) {
-            val categories = arrayListOf<Category>()
-            snapShot?.let { it ->
-                it.documents.forEach { document ->
-                    document.toObj<Category>()?.let {
-                        val cat = it.apply { id = document.id }
-                        categories.add(cat)
-                    }
-                }
-            }
-            _catListLiveData.postValue(Result.success(categories))
+           val categories=snapShot?.toObjects(Category::class.java)
+
+//            val categories = arrayListOf<Category>()
+//            snapShot?.let { it ->
+//                it.documents.forEach { document ->
+//                    document.toObj<Category>()?.let {
+//                        val cat = it.apply { id = document.id }
+//                        categories.add(cat)
+//                    }
+//                }
+//            }
+            _catListLiveData.postValue(Result.success(ArrayList(categories)))
 
         }
 
@@ -80,10 +83,11 @@ class CategoryViewModel : ViewModel() {
         val editMode = !category.id.isBlank()
 
         val ref = Firebase.firestore.collection(Store.CATEGORIES)
+        val id = category.id?:ref.document().id
+        map[Store.ID]=id
 
-        val task = if (editMode) ref
-            .document(category.id ?: "").set(map)
-        else ref.add(map)
+        val task = ref.document( id).set(map)
+
 
         task.addOnSuccessListener {
             _addCatLiveData.value = Result.success()

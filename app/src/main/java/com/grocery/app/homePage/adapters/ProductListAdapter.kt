@@ -18,7 +18,7 @@ import com.grocery.app.models.Category
 class ProductListAdapter(private val itemList: ArrayList<Category>?) :
     RecyclerView.Adapter<ProductListAdapter.MyViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, p1: Int): MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.category_item, parent, false)
         return MyViewHolder(view)
@@ -44,8 +44,8 @@ class ProductListAdapter(private val itemList: ArrayList<Category>?) :
     @Suppress("DEPRECATION")
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-        var txt_title: TextView
-        var img_item: ImageView
+        var txt_title: TextView = view.findViewById(R.id.tvTitle) as TextView
+        var img_item: ImageView = view.findViewById(R.id.itemImage) as ImageView
 
         lateinit var iItemClickListener: IItemClickListener
 
@@ -55,8 +55,6 @@ class ProductListAdapter(private val itemList: ArrayList<Category>?) :
 
 
         init {
-            txt_title = view.findViewById(R.id.tvTitle) as TextView
-            img_item = view.findViewById(R.id.itemImage) as ImageView
 
             view.setOnClickListener(this)
         }

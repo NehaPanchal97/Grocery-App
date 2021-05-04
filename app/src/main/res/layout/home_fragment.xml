@@ -69,6 +69,7 @@
 
    </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <LinearLayout
         android:id="@+id/container_rv"
         android:layout_width="match_parent"
@@ -78,9 +79,15 @@
         android:layout_below="@id/topBar"
         android:background="@drawable/homefragment_layout_rounded_corners"
         android:padding="10dp">
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/home_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/catRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

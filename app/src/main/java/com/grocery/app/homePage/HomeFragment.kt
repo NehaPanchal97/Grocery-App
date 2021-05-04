@@ -9,7 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.homePage.adapters.HomePageCategoryAdapter
-import com.grocery.app.R
+import com.grocery.app.databinding.HomeFragmentBinding
+import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.viewModels.CategoryViewModel
@@ -18,12 +19,14 @@ import kotlinx.android.synthetic.main.home_fragment.*
 
 class HomeFragment : BaseFragment() {
 
-    lateinit var lisAdapter: HomePageCategoryAdapter
+    private lateinit var binder:HomeFragmentBinding
+    lateinit var listAdapter: HomePageCategoryAdapter
     private lateinit var viewModel: CategoryViewModel
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
-        recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        catRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         initRecyclerView()
         observe()
         viewModel.fetchCategoryList(3)
@@ -33,14 +36,15 @@ class HomeFragment : BaseFragment() {
         viewModel.catListLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
-                    // TODO: 3/5/21 show Loader
+                  binder.homeProgressBar.show()
                 }
                 Result.Status.SUCCESS -> {
-                    // TODO: 3/5/21 Hide loader
-                    lisAdapter.updateCategory(it.data)
+                  binder.homeProgressBar.hide()
+                    listAdapter.updateCategory(it.data?: arrayListOf())
                 }
-                Result.Status.ERROR -> {
-                    // TODO: 3/5/21 hide loader
+                else ->{
+                   home_progress_bar.hide()
+                    binder.root.showError("Unable to fetch categories")
                 }
             }
         })
@@ -52,14 +56,14 @@ class HomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.home_fragment, container, false)
-
+       binder= HomeFragmentBinding.inflate(inflater,container,false)
+        return binder.root
     }
 
     private fun initRecyclerView() {
-        recyclerView.apply {
-            lisAdapter = HomePageCategoryAdapter(arrayListOf())
-            adapter = lisAdapter
+        catRecyclerView.apply {
+            listAdapter = HomePageCategoryAdapter(arrayListOf())
+            binder.catRecyclerView.adapter = listAdapter
         }
     }
 
