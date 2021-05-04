@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.grocery.app.contracts.UpdateProfileContract
 import com.grocery.app.homePage.adapters.HomePageCategoryAdapter
 import com.grocery.app.databinding.HomeFragmentBinding
 import com.grocery.app.extensions.showError
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.home_fragment.*
 
 class HomeFragment : BaseFragment() {
 
-    private lateinit var binder:HomeFragmentBinding
+    private lateinit var binder: HomeFragmentBinding
     lateinit var listAdapter: HomePageCategoryAdapter
     private lateinit var viewModel: CategoryViewModel
 
@@ -27,7 +28,7 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
         catRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        initRecyclerView()
+        setupView()
         observe()
         viewModel.fetchCategoryList(3)
     }
@@ -36,14 +37,14 @@ class HomeFragment : BaseFragment() {
         viewModel.catListLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
-                  binder.homeProgressBar.show()
+                    binder.homeProgressBar.show()
                 }
                 Result.Status.SUCCESS -> {
-                  binder.homeProgressBar.hide()
-                    listAdapter.updateCategory(it.data?: arrayListOf())
+                    binder.homeProgressBar.hide()
+                    listAdapter.updateCategory(it.data ?: arrayListOf())
                 }
-                else ->{
-                   home_progress_bar.hide()
+                else -> {
+                    home_progress_bar.hide()
                     binder.root.showError("Unable to fetch categories")
                 }
             }
@@ -56,11 +57,21 @@ class HomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-       binder= HomeFragmentBinding.inflate(inflater,container,false)
+        binder = HomeFragmentBinding.inflate(inflater, container, false)
         return binder.root
     }
 
-    private fun initRecyclerView() {
+    private val _updateProfileCallback =
+        registerForActivityResult(UpdateProfileContract()) { result ->
+            if (result) {
+                //show Toast like profile updated or something like that
+            }
+        }
+
+    private fun setupView() {
+        binder.ivAccountDetails.setOnClickListener {
+            _updateProfileCallback.launch(null)
+        }
         catRecyclerView.apply {
             listAdapter = HomePageCategoryAdapter(arrayListOf())
             binder.catRecyclerView.adapter = listAdapter

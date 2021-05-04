@@ -2,8 +2,8 @@ package com.grocery.app.auth
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,21 +13,23 @@ import androidx.lifecycle.ViewModelProvider
 import com.grocery.app.homePage.HomePageActivity
 import com.grocery.app.constant.USER
 import com.grocery.app.databinding.FragmentAuthenticationBinding
-import com.grocery.app.extensions.authUser
-import com.grocery.app.extensions.showError
-import com.grocery.app.extensions.showSuccess
-import com.grocery.app.extensions.showToast
+import com.grocery.app.extensions.*
 import com.grocery.app.extras.Result
+import com.grocery.app.fragments.ImagePickerFragment
 import com.grocery.app.models.User
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.AuthViewModel
 
 
-class UpdateProfileFragment : Fragment() {
+class UpdateProfileFragment : ImagePickerFragment() {
     private val prefManager by lazy { PrefManager.getInstance(requireContext()) }
 
     private lateinit var binder: FragmentAuthenticationBinding
     private lateinit var viewModel: AuthViewModel
+
+    companion object {
+        const val PROFILE_PICK_REQUEST_CODE = 345
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +38,18 @@ class UpdateProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         binder = FragmentAuthenticationBinding.inflate(inflater, container, false)
         return binder.root
+    }
+
+    override fun onImagePicked(requestCode: Int, uri: Uri) {
+        // TODO: Image Picked
+        if (requestCode == PROFILE_PICK_REQUEST_CODE) {
+            _user?.url = uri.toString()
+            loadProfile()
+        }
+    }
+
+    private fun loadProfile() {
+        binder.profilePic.loadImage(_user?.url)
     }
 
 
@@ -55,11 +69,10 @@ class UpdateProfileFragment : Fragment() {
                 Result.Status.SUCCESS -> {
                     val updateRequest = prefManager.contains(USER)
                     prefManager.put(USER, _user)
-                    if (updateRequest){
+                    if (updateRequest) {
                         activity?.setResult(Activity.RESULT_OK)
                         context?.showToast("Profile Updated Successfully")
-                    }
-                    else{
+                    } else {
                         context?.showToast("Profile Created Successfully")
                         startActivity(Intent(requireContext(), HomePageActivity::class.java))
                     }
@@ -83,10 +96,11 @@ class UpdateProfileFragment : Fragment() {
         binder.mobEt.setText(_user?.phone)
         binder.nameEt.setText(_user?.name)
         binder.addressEt.setText(_user?.address)
+        loadProfile()
         binder.nameEt.doAfterTextChanged { _user?.name = it.toString() }
         binder.addressEt.doAfterTextChanged { _user?.address = it.toString() }
         binder.btnSave.setOnClickListener { viewModel.updateUserInfo() }
-
+        binder.uploadImage.setOnClickListener { startPickerActivity(PROFILE_PICK_REQUEST_CODE) }
 
 //        _user?.phone = authUser?.phoneNumber
 //        _user?.id = authUser?.uid
@@ -103,7 +117,6 @@ class UpdateProfileFragment : Fragment() {
             url = authUser?.photoUrl?.toString()
         )
     }
-
 
 
 //    private fun setUpViewWithData() {

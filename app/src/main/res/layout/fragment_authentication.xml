@@ -53,10 +53,12 @@
                     android:id="@+id/profile_pic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
                     android:background="@color/profilebackground" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/upload_image"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_gravity="bottom|right"
@@ -144,10 +146,10 @@
             app:layout_constraintTop_toBottomOf="@id/phone_no">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/mob_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:id="@+id/mob_et"/>
+                android:enabled="false" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -191,9 +193,9 @@
             android:id="@+id/btnSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="#778DF8"
-            android:layout_marginStart="70dp"
             android:text="SAVE"
             android:textColor="@android:color/white"
             app:cornerRadius="10dp"

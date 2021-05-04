@@ -27,6 +27,7 @@ class AuthViewModel : ViewModel() {
     var user: User? = null
 
     fun updateUserInfo() {
+
         _updateUserLiveData.value = Result.loading()
         val map = mapOf(
             "name" to user?.name,
