@@ -4,16 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.grocery.app.constant.HomeCarousel
 import com.grocery.app.homePage.dataModel.ItemGroup
 import com.grocery.app.databinding.CategoryGroupBinding
 import com.grocery.app.databinding.WithoutHeaderRvGroupBinding
-import com.grocery.app.models.Category
 import com.grocery.app.viewHolders.BaseVH
 import kotlin.collections.ArrayList
 
 
 //Main vertical Adapter for 1 screen
-class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>) :
+class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
     RecyclerView.Adapter<BaseVH<*, ItemGroup>>() {
 
 
@@ -38,12 +38,17 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>) :
 
 
     override fun getItemCount(): Int {
-        return dataList.size
+        return dataList?.size ?: 0
     }
 
 
     override fun getItemViewType(position: Int): Int {
-        return VIEW_GROUP_LAYOUT
+        val viewType = dataList?.getOrNull(position)?.carousel
+        return if (viewType == HomeCarousel.CATEGORY) {
+            VIEW_GROUP_LAYOUT
+        } else {
+            VIEW_WITHOUT_HEADER
+        }
     }
 
     companion object {
@@ -86,20 +91,14 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>) :
     }
 
     override fun onBindViewHolder(holder: BaseVH<*, ItemGroup>, position: Int) {
-        holder.bind(dataList[position])
+        dataList?.getOrNull(position)?.let {
+            holder.bind(it)
+        }
     }
 
-    fun updateCategory(data: ArrayList<Category>?) {
-        val categories = data ?: arrayListOf()
-        if (dataList.isEmpty()) {
-            dataList.add(ItemGroup(listItem = categories))
-            notifyDataSetChanged()
-        } else {
-            val itemGroup = dataList[0]
-            itemGroup.listItem = categories
-            notifyItemChanged(0)
-        }
-
+    fun update(data: ArrayList<ItemGroup>?) {
+        dataList = data
+        notifyDataSetChanged()
     }
 
 }

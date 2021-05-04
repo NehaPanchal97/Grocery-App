@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.home_fragment.*
 
 class HomeFragment : BaseFragment() {
 
-    private lateinit var binder:HomeFragmentBinding
+    private lateinit var binder: HomeFragmentBinding
     lateinit var listAdapter: HomePageCategoryAdapter
     private lateinit var viewModel: CategoryViewModel
 
@@ -29,25 +29,26 @@ class HomeFragment : BaseFragment() {
         catRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         initRecyclerView()
         observe()
-        viewModel.fetchCategoryList(3)
+        viewModel.fetchHomePageData(3)
     }
 
     private fun observe() {
-        viewModel.catListLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.homePageLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
-                  binder.homeProgressBar.show()
+                    binder.homeProgressBar.show()
                 }
                 Result.Status.SUCCESS -> {
-                  binder.homeProgressBar.hide()
-                    listAdapter.updateCategory(it.data?: arrayListOf())
+                    binder.homeProgressBar.hide()
+                    listAdapter.update(it.data)
                 }
-                else ->{
-                   home_progress_bar.hide()
+                else -> {
+                    home_progress_bar.hide()
                     binder.root.showError("Unable to fetch categories")
                 }
             }
         })
+
     }
 
 
@@ -56,7 +57,7 @@ class HomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-       binder= HomeFragmentBinding.inflate(inflater,container,false)
+        binder = HomeFragmentBinding.inflate(inflater, container, false)
         return binder.root
     }
 
