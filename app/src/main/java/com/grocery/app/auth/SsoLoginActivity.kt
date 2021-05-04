@@ -6,12 +6,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.grocery.SharedPreferenceForLogin
-import com.grocery.app.homePage.HomePageActivity
 import com.grocery.app.R
 import com.grocery.app.extensions.showToast
 
