@@ -41,7 +41,6 @@ class UpdateProfileFragment : ImagePickerFragment() {
     }
 
     override fun onImagePicked(requestCode: Int, uri: Uri) {
-        // TODO: Image Picked
         if (requestCode == PROFILE_PICK_REQUEST_CODE) {
             _user?.url = uri.toString()
             loadProfile()
@@ -101,12 +100,6 @@ class UpdateProfileFragment : ImagePickerFragment() {
         binder.addressEt.doAfterTextChanged { _user?.address = it.toString() }
         binder.btnSave.setOnClickListener { viewModel.updateUserInfo() }
         binder.uploadImage.setOnClickListener { startPickerActivity(PROFILE_PICK_REQUEST_CODE) }
-
-//        _user?.phone = authUser?.phoneNumber
-//        _user?.id = authUser?.uid
-//        _user?.name = authUser?.displayName
-//        _user?.address = binder.addressEt.text.toString()
-
     }
 
     private fun createUserFromAuth(): User? {
@@ -117,13 +110,4 @@ class UpdateProfileFragment : ImagePickerFragment() {
             url = authUser?.photoUrl?.toString()
         )
     }
-
-
-//    private fun setUpViewWithData() {
-//        binder.nameEt.setText(authUser?.displayName)
-//        binder.addressEt.setText(binder.addressEt.text.toString())
-////        viewModel.fetchUserInfo()
-//    }
-
-
 }
