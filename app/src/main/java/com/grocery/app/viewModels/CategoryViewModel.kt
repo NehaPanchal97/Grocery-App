@@ -130,9 +130,9 @@ class CategoryViewModel : ViewModel() {
     }
 
     private fun getHomeTask(collection: String, limit: Long? = null): Task<QuerySnapshot> {
-        val query = Firebase.firestore.collection(collection)
+        var query = Firebase.firestore.collection(collection)
             .orderBy(Store.RANK, Query.Direction.ASCENDING)
-        limit?.let { query.limit(it) }
+        limit?.let { query = query.limit(it) }
         return query.get()
     }
 
