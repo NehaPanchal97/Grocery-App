@@ -42,12 +42,12 @@ class CategoryViewModel : ViewModel() {
         }
     }
 
-    fun fetchCategoryList(limit: Long = Long.MAX_VALUE) {
+    fun fetchCategoryList(limit: Long? = Long.MAX_VALUE) {
         _catListLiveData.value = Result.loading()
-        Firebase.firestore.collection(Store.CATEGORIES)
+        val query = Firebase.firestore.collection(Store.CATEGORIES)
             .orderBy(Store.RANK, Query.Direction.ASCENDING)
-            .limit(limit)
-            .get()
+        limit?.let { query.limit(limit) }
+        query.get()
             .addOnSuccessListener { snapShot ->
                 onCatListFetched(snapShot)
             }
@@ -59,7 +59,7 @@ class CategoryViewModel : ViewModel() {
 
     private fun onCatListFetched(snapShot: QuerySnapshot?) =
         viewModelScope.launch(Dispatchers.Default) {
-           val categories=snapShot?.toObjects(Category::class.java)
+            val categories = snapShot?.toObjects(Category::class.java)
 
 //            val categories = arrayListOf<Category>()
 //            snapShot?.let { it ->
@@ -83,10 +83,10 @@ class CategoryViewModel : ViewModel() {
         val editMode = !category.id.isBlank()
 
         val ref = Firebase.firestore.collection(Store.CATEGORIES)
-        val id = category.id?:ref.document().id
-        map[Store.ID]=id
+        val id = category.id ?: ref.document().id
+        map[Store.ID] = id
 
-        val task = ref.document( id).set(map)
+        val task = ref.document(id).set(map)
 
 
         task.addOnSuccessListener {
