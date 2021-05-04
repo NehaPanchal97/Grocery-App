@@ -13,6 +13,7 @@ import com.google.firebase.ktx.Firebase
 import com.grocery.SharedPreferenceForLogin
 import com.grocery.app.HomePage.HomePageActivity
 import com.grocery.app.R
+import com.grocery.app.activities.UpdateProfileActivity
 import com.grocery.app.constant.USER
 import com.grocery.app.extensions.showToast
 import com.grocery.app.models.User
@@ -22,7 +23,7 @@ import java.net.URISyntaxException
 class SsoLoginActivity : AppCompatActivity(), View.OnClickListener {
 
 
-    private  val prefManager : PrefManager by lazy { PrefManager.getInstance(this) }
+    private val prefManager: PrefManager by lazy { PrefManager.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,20 +34,11 @@ class SsoLoginActivity : AppCompatActivity(), View.OnClickListener {
 //            finish()
 //        }
     }
+
     private fun doFragmentTransaction(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.otpScreen, fragment)
         transaction.commit()
-    }
-
-    fun checkIfDetailsAreEntered() {
-      val auth = Firebase.auth.currentUser
-        if(auth != null){
-         val user = prefManager.get<User>(USER)
-            if (user == null){
-
-            }
-        }
     }
 
     fun listener() {

@@ -22,7 +22,7 @@ class AuthViewModel : ViewModel() {
     private val _fetchUserLiveData by lazy { MutableLiveData<Result<User?>>() }
 
     val fetchUserLiveData: LiveData<Result<User?>>
-    get() = _fetchUserLiveData
+        get() = _fetchUserLiveData
 
     var user: User? = null
 
@@ -47,30 +47,28 @@ class AuthViewModel : ViewModel() {
             }
     }
 
-    fun fetchUserInfo(){
-        _fetchUserLiveData .value = Result.loading()
+    fun fetchUserInfo() {
+        _fetchUserLiveData.value = Result.loading()
         val db = Firebase.firestore
-                val docRef = db.collection(Store.USERS)
+        val docRef = db.collection(Store.USERS)
             .document(authUser?.uid ?: "")
-            docRef.get()
-            .addOnSuccessListener {document ->
-                 Log.d("exists","Document Snapshot: ${document.data}")
-               val user= document.toObj<User>()
-                    this.user = user
-                    _fetchUserLiveData.value = Result.success(user)
-
+        docRef.get()
+            .addOnSuccessListener { document ->
+                Log.d("exists", "Document Snapshot: ${document.data}")
+                user = if (document.exists()) {
+                    document.toObj<User>()
+                } else null
+                _fetchUserLiveData.value = Result.success(user)
 //                    user.address = document.getString("address")
 //                    user.name = document.getString("name")
 //                    user.phone = document.getString("phone")
 
             }
-                .addOnFailureListener { exception ->
-                    _fetchUserLiveData.value = Result.error()
-                    Log.d("error","Exception: ",exception)
-                }
+            .addOnFailureListener { exception ->
+                _fetchUserLiveData.value = Result.error()
+                Log.d("error", "Exception: ", exception)
+            }
     }
-
-
 
 
 }

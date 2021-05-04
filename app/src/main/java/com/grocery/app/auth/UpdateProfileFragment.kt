@@ -1,5 +1,6 @@
 package com.grocery.app.auth
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.grocery.app.HomePage.HomePageActivity
 import com.grocery.app.constant.USER
 import com.grocery.app.databinding.FragmentAuthenticationBinding
 import com.grocery.app.extensions.authUser
@@ -17,11 +19,13 @@ import com.grocery.app.extras.Result
 import com.grocery.app.models.User
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.AuthViewModel
+import kotlinx.android.synthetic.*
 
 
-class AuthenticationFragment : Fragment() {
+class UpdateProfileFragment : Fragment() {
     private val prefManager by lazy { PrefManager.getInstance(requireContext()) }
-//    private lateinit var sharedPreferenceForLogin: SharedPreferenceForLogin
+
+    //    private lateinit var sharedPreferenceForLogin: SharedPreferenceForLogin
     private lateinit var binder: FragmentAuthenticationBinding
     private lateinit var viewModel: AuthViewModel
 
@@ -52,6 +56,9 @@ class AuthenticationFragment : Fragment() {
                 }
                 Result.Status.SUCCESS -> {
                     binder.root.showSuccess("User Info Updated.")
+                    prefManager.put(USER, _user)
+                    startActivity(Intent(requireContext(), HomePageActivity::class.java))
+                    activity?.finish()
                 }
                 Result.Status.ERROR -> {
                     binder.root.showError("User info update failed")
@@ -59,14 +66,20 @@ class AuthenticationFragment : Fragment() {
             }
         })
     }
-    private fun saveAccountDetails(user: User){
+
+    private fun saveAccountDetails(user: User) {
 //        sharedPreferenceForLogin.saveAccountDetails(_user)
-        prefManager.put(USER,user)
+        prefManager.put(USER, user)
     }
-    private val _user
+
+    private var _user
         get() = viewModel.user
+        set(value) {
+            viewModel.user = value
+        }
 
     private fun setupView() {
+        _user = createUserFromAuth()
         binder.mobEt.setText(authUser?.phoneNumber)
         binder.nameEt.doAfterTextChanged { _user?.name = it.toString() }
         binder.addressEt.doAfterTextChanged { _user?.address = it.toString() }
@@ -79,9 +92,18 @@ class AuthenticationFragment : Fragment() {
 
     }
 
-    private fun observeData(){
+    private fun createUserFromAuth(): User? {
+        return PrefManager.getInstance(requireContext()).get<User>(USER) ?: User(
+            id = authUser?.uid,
+            phone = authUser?.phoneNumber,
+            name = authUser?.displayName,
+            url = authUser?.photoUrl?.toString()
+        )
+    }
+
+    private fun observeData() {
         viewModel.fetchUserLiveData.observe(viewLifecycleOwner, Observer {
-            when(it.type){
+            when (it.type) {
                 Result.Status.LOADING -> {
 
                 }
@@ -97,10 +119,10 @@ class AuthenticationFragment : Fragment() {
         })
     }
 
-    private fun setUpViewWithData(){
+    private fun setUpViewWithData() {
         binder.nameEt.setText(authUser?.displayName)
         binder.addressEt.setText(binder.addressEt.text.toString())
-        viewModel.fetchUserInfo()
+//        viewModel.fetchUserInfo()
     }
 
 

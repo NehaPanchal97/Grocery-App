@@ -1,5 +1,6 @@
 package com.grocery.app.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -13,6 +14,7 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.grocery.app.HomePage.HomePageActivity
 import com.grocery.app.R
 import com.grocery.app.databinding.ActivityOtpScreenBinding
 import com.grocery.app.extensions.authUser
@@ -115,7 +117,8 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
                     val phone = authUser?.phoneNumber
                     showToast("Logged in as $phone")
                     otpContainer.visibility = View.GONE
-                    doFragmentTransaction(AuthenticationFragment())
+                    startActivity(Intent(this, HomePageActivity::class.java))
+                    finishAffinity()
 
                 } else {
                     progressBar.visibility = View.GONE
