@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.grocery.SharedPreferenceForLogin
-import com.grocery.app.HomePage.HomePageActivity
+import com.grocery.app.homePage.HomePageActivity
 import com.grocery.app.R
 import com.grocery.app.activities.UpdateProfileActivity
 import com.grocery.app.constant.USER

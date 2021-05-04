@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="url"
+            type="String" />
+    </data>
+
+
+<com.google.android.material.card.MaterialCardView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:contentPadding="12dp"
@@ -18,20 +28,21 @@
             android:layout_height="150dp"
             android:id="@+id/itemImage"
             android:layout_gravity="center_horizontal"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/vegetables"/>
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/vegetables"
+            android:contentDescription="@string/category_image" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tvTitle"
-            android:layout_below="@id/itemImage"
             android:gravity="center"
             android:padding="5dp"
-            android:text="vegetables"
+            tools:text="vegetables"
             android:textColor="#191818"
             android:textSize="18sp"/>
 
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
 
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -25,10 +31,9 @@
             android:id="@+id/itemTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_gravity="center_vertical"
-            android:text="Category"
+            android:text="@string/category"
             android:fontFamily="@font/ptsans_bold"
             android:textSize="18sp"
             android:textColor="#070707"/>
@@ -40,9 +45,8 @@
             android:onClick="onClickBtnMore"
             android:clickable="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="See all"
+            android:text="@string/see_all"
             android:textColor="#27ae60"
             android:focusable="true"
             style="?android:attr/borderlessButtonStyle"/>
@@ -61,3 +65,4 @@
     </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
+</layout>

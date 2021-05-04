@@ -29,6 +29,14 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".activities.CategoryListActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity android:name=".homePage.HomePageActivity"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,9 +54,6 @@
         <activity android:name=".activities.ProductListActivity">
 
         </activity>
-        <activity
-            android:name=".HomePage.HomePageActivity"
-            android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".auth.AccountDetailsActivity" />
         <activity
             android:name=".activities.UpdateProfileActivity"

@@ -14,7 +14,7 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.grocery.app.HomePage.HomePageActivity
+import com.grocery.app.homePage.HomePageActivity
 import com.grocery.app.R
 import com.grocery.app.databinding.ActivityOtpScreenBinding
 import com.grocery.app.extensions.authUser

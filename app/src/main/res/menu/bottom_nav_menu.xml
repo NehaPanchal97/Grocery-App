@@ -2,20 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/home"
-        android:title="Home"
+        android:title="@string/home"
         android:icon="@drawable/home_svg_downlaod"/>
     <item android:id="@+id/order"
-        android:title="Order"
+        android:title="@string/order"
         android:icon="@drawable/order"/>
     <item
         android:id="@+id/placeholder"
         android:title=""/>
 
     <item android:id="@+id/offer"
-        android:title="Offer"
+        android:title="@string/offer"
         android:icon="@drawable/offers"/>
     <item android:id="@+id/more"
-        android:title="More"
+        android:title="@string/more"
         android:icon="@drawable/more_option_svg"/>
 
 

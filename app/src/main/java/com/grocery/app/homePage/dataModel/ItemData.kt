@@ -1,4 +1,4 @@
-package com.grocery.app.HomePage.DataModel
+package com.grocery.app.homePage.dataModel
 
 class ItemData {
 
