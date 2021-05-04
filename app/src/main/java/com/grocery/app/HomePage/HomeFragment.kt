@@ -1,5 +1,6 @@
 package com.grocery.app.HomePage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +14,11 @@ import com.grocery.app.HomePage.Adapters.MainAdapterVertical
 import com.grocery.app.HomePage.DataModel.ItemData
 import com.grocery.app.HomePage.DataModel.ItemGroup
 import com.grocery.app.R
+import com.grocery.app.activities.UpdateProfileActivity
 import kotlinx.android.synthetic.main.home_fragment.*
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), View.OnClickListener {
 
     lateinit var recyclerViewAdapter: MainAdapterVertical
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -25,6 +27,7 @@ class HomeFragment : Fragment() {
 //        bottomNavigationBar.menu.getItem(2).isEnabled = false
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         initRecyclerView()
+        ivAccountDetails.setOnClickListener(this)
     }
 
 
@@ -73,6 +76,12 @@ class HomeFragment : Fragment() {
             recyclerViewAdapter= MainAdapterVertical(context, list)
             adapter=recyclerViewAdapter
         }
+    }
+
+    override fun onClick(v: View?) {
+       if(v?.id == R.id.ivAccountDetails){
+           startActivity(Intent(requireContext(),UpdateProfileActivity:: class.java))
+       }
     }
 
 

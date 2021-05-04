@@ -45,15 +45,15 @@ class HomePageActivity : AppCompatActivity() {
     }
 
     private fun observeData() {
-        viewModel.fetchUserLiveData.observe(this, Observer {
+        viewModel.fetchUserLiveData.observe(this, Observer { it ->
             when (it.type) {
                 Result.Status.LOADING -> {
 
                 }
                 Result.Status.SUCCESS -> {
                     currentFocus?.showSuccess("updated")
-                    prefManager.put(USER, it.data)
                     it.data?.let {
+                        prefManager.put(USER, it)
                         switchFragment()
                     } ?: kotlin.run {
                         startActivity(Intent(this, UpdateProfileActivity::class.java))

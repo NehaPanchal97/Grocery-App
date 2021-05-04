@@ -59,10 +59,6 @@ class AuthViewModel : ViewModel() {
                     document.toObj<User>()
                 } else null
                 _fetchUserLiveData.value = Result.success(user)
-//                    user.address = document.getString("address")
-//                    user.name = document.getString("name")
-//                    user.phone = document.getString("phone")
-
             }
             .addOnFailureListener { exception ->
                 _fetchUserLiveData.value = Result.error()
