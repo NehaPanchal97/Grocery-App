@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -41,11 +40,12 @@ class CategoryViewModel : ViewModel() {
         }
     }
 
-    fun fetchCategoryList() {
+    fun fetchCategoryList(limit: Long? = null) {
         _catListLiveData.value = Result.loading()
-        Firebase.firestore.collection(Store.CATEGORIES)
+        val query = Firebase.firestore.collection(Store.CATEGORIES)
             .orderBy(Store.RANK, Query.Direction.ASCENDING)
-            .get()
+        limit?.let { query.limit(limit) }
+        query.get()
             .addOnSuccessListener { snapShot ->
                 onCatListFetched(snapShot)
             }
