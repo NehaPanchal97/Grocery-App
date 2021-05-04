@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.grocery.app.HomePage.HomePageActivity
+import com.grocery.app.homePage.HomePageActivity
 import com.grocery.app.constant.USER
 import com.grocery.app.databinding.FragmentAuthenticationBinding
 import com.grocery.app.extensions.authUser
