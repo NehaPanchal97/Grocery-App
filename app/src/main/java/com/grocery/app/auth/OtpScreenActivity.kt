@@ -1,10 +1,10 @@
 package com.grocery.app.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,10 +14,11 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.grocery.app.HomePage.HomePageActivity
 import com.grocery.app.R
 import com.grocery.app.databinding.ActivityOtpScreenBinding
 import com.grocery.app.extensions.authUser
-import com.mukesh.OtpView
+import com.grocery.app.extensions.showToast
 import kotlinx.android.synthetic.main.activity_otp_screen.*
 import java.util.concurrent.TimeUnit
 
@@ -31,7 +32,7 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun onVerificationFailed(e: FirebaseException) {
                 progressBar.visibility = View.GONE
-                Toast.makeText(this@OtpScreenActivity, "$e", Toast.LENGTH_SHORT).show()
+                showToast("$e")
             }
 
             override fun onCodeSent(
@@ -44,12 +45,7 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
                 forceResendingToken = token
                 progressBar.visibility = View.GONE
 
-
-                Toast.makeText(
-                    this@OtpScreenActivity,
-                    "Verification code sent...",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast("Verification code sent...")
             }
 
         }
@@ -64,19 +60,15 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binder = DataBindingUtil.setContentView(this, R.layout.activity_otp_screen)
 
-        listener()
         binder.arrowBack.setOnClickListener { onBackPressed() }
-        val otpView = findViewById<OtpView>(R.id.otp_view)
-        otpView.itemCount = 6
+        binder.otpView.itemCount = 6
 
         val mobile = intent.getStringExtra("Phone")
-        val tvNumber = findViewById<TextView>(R.id.tv_phone_no)
-        tvNumber.text = String.format(getString(R.string.code_sent), mobile)
+        binder.tvPhoneNo.text = String.format(getString(R.string.code_sent), mobile)
         mobile?.let { startPhoneNumberVerification(it) }
 
 
-        val resendCode = findViewById<TextView>(R.id.tv_resend_code)
-        resendCode.setOnClickListener {
+        binder.tvResendCode.setOnClickListener {
             if (mobile != null) {
                 forceResendingToken?.let { it1 -> resendVerificationCode(mobile, it1) }
             }
@@ -122,45 +114,35 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     progressBar.visibility = View.GONE
-                    val phone =  authUser?.phoneNumber
-                    Toast.makeText(this, "Logged in as $phone", Toast.LENGTH_SHORT).show()
+                    val phone = authUser?.phoneNumber
+                    showToast("Logged in as $phone")
                     otpContainer.visibility = View.GONE
-                    doFragmentTransaction(AuthenticationFragment())
-//                    startActivity(Intent(this, AccountDetailsActivity::class.java))
-//                    finish()
+                    startActivity(Intent(this, HomePageActivity::class.java))
+                    finishAffinity()
 
                 } else {
                     progressBar.visibility = View.GONE
-                    Toast.makeText(this, "${task.exception}", Toast.LENGTH_SHORT).show()
+                    showToast("${task.exception}")
                 }
 
             }
     }
 
     override fun onClick(v: View?) {
-        val otpView = findViewById<OtpView>(R.id.otp_view)
-        val otp = otpView.text.toString()
+        val otp = binder.otpView.text.toString()
         if (TextUtils.isEmpty(otp)) {
-            otpView.error = "Please enter the verification code"
-            otpView.requestFocus()
-//            Toast.makeText(this, "Please enter the verification code", Toast.LENGTH_SHORT).show()
+            binder.otpView.error = "Please enter the verification code"
+            binder.otpView.requestFocus()
         } else {
             mVerificationId?.let { verifyPhoneNumberWithCode(it, otp) }
         }
     }
 
-    private fun listener() {
-        val otpView = findViewById<OtpView>(R.id.otp_view)
-        otpView.setOtpCompletionListener { otp ->
-            Log.d("otp", "otp $otp")
-        }
-    }
 
     private fun doFragmentTransaction(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.otpScreen, fragment)
         transaction.commit()
     }
-
 }
 

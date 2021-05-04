@@ -49,7 +49,7 @@ class CategoryViewModel : ViewModel() {
         }
     }
 
-    fun fetchCategoryList(limit: Long? = Long.MAX_VALUE) {
+    fun fetchCategoryList(limit: Long? = null) {
         _catListLiveData.value = Result.loading()
         val query = Firebase.firestore.collection(Store.CATEGORIES)
             .orderBy(Store.RANK, Query.Direction.ASCENDING)

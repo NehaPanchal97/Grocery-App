@@ -42,6 +42,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
         <activity android:name=".activities.AddProductActivity">
 
@@ -50,6 +55,12 @@
 
         </activity>
         <activity android:name=".auth.AccountDetailsActivity" />
+        <activity
+            android:name=".activities.UpdateProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activities.SplashActivity">
+
+        </activity>
     </application>
 
 </manifest>
