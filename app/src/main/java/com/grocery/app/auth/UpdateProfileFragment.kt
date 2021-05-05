@@ -1,15 +1,19 @@
 package com.grocery.app.auth
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.grocery.app.homePage.HomePageActivity
 import com.grocery.app.constant.USER
 import com.grocery.app.databinding.FragmentAuthenticationBinding
@@ -19,6 +23,7 @@ import com.grocery.app.fragments.ImagePickerFragment
 import com.grocery.app.models.User
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.AuthViewModel
+import kotlinx.android.synthetic.main.fragment_authentication.*
 
 
 class UpdateProfileFragment : ImagePickerFragment() {
@@ -57,15 +62,26 @@ class UpdateProfileFragment : ImagePickerFragment() {
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         setupView()
         observe()
-//        setUpViewWithData()
+        binder.btnLogout.setOnClickListener {
+            context?.showToast("Logging Out")
+            Firebase.auth.signOut()
+            prefManager.clear()
+            startActivity(Intent(context,SsoLoginActivity::class.java))
+            activity?.finishAffinity()
+        }
+        binder.arrowBack.setOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 
     private fun observe() {
         viewModel.updateUserLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
+                    progressBar.visibility = View.VISIBLE
                 }
                 Result.Status.SUCCESS -> {
+                    progressBar.visibility = View.GONE
                     val updateRequest = prefManager.contains(USER)
                     prefManager.put(USER, _user)
                     if (updateRequest) {
@@ -78,6 +94,7 @@ class UpdateProfileFragment : ImagePickerFragment() {
                     activity?.finish()
                 }
                 Result.Status.ERROR -> {
+                    progressBar.visibility = View.GONE
                     binder.root.showError("User info update failed")
                 }
             }
@@ -110,4 +127,6 @@ class UpdateProfileFragment : ImagePickerFragment() {
             url = authUser?.photoUrl?.toString()
         )
     }
+
+
 }
