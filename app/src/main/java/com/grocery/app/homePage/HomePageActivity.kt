@@ -3,6 +3,7 @@ package com.grocery.app.homePage
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -25,6 +26,7 @@ class HomePageActivity : AppCompatActivity() {
 
     private val prefManager by lazy { PrefManager.getInstance(this) }
     private lateinit var viewModel: AuthViewModel
+    var count = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -81,4 +83,16 @@ class HomePageActivity : AppCompatActivity() {
         onBackPressed()
     }
 
+    fun remove(v: View?) {
+        if (count <= 0) count = 0
+        else count--
+        val textView = findViewById<TextView>(R.id.tv_count)
+        textView.text = "$count"
+    }
+
+    fun add(v: View?) {
+        count++
+        val textView = findViewById<TextView>(R.id.tv_count)
+        textView.text = "$count"
+    }
 }
