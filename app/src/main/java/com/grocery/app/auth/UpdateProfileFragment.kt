@@ -1,14 +1,12 @@
 package com.grocery.app.auth
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -78,7 +76,7 @@ class UpdateProfileFragment : ImagePickerFragment() {
         viewModel.updateUserLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
-                    progressBar.visibility = View.VISIBLE
+                   progressBar.visibility = View.VISIBLE
                 }
                 Result.Status.SUCCESS -> {
                     progressBar.visibility = View.GONE
@@ -115,7 +113,7 @@ class UpdateProfileFragment : ImagePickerFragment() {
         loadProfile()
         binder.nameEt.doAfterTextChanged { _user?.name = it.toString() }
         binder.addressEt.doAfterTextChanged { _user?.address = it.toString() }
-        binder.btnSave.setOnClickListener { viewModel.updateUserInfo() }
+        binder.btnSave.setOnClickListener { viewModel.updateUser() }
         binder.uploadImage.setOnClickListener { startPickerActivity(PROFILE_PICK_REQUEST_CODE) }
     }
 
