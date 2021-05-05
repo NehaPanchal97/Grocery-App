@@ -30,18 +30,18 @@ class HomeFragment : BaseFragment() {
         catRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         setupView()
         observe()
-        viewModel.fetchCategoryList(3)
+        viewModel.fetchHomePageData(3)
     }
 
     private fun observe() {
-        viewModel.catListLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.homePageLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
                     binder.homeProgressBar.show()
                 }
                 Result.Status.SUCCESS -> {
                     binder.homeProgressBar.hide()
-                    listAdapter.updateCategory(it.data ?: arrayListOf())
+                    listAdapter.update(it.data )
                 }
                 else -> {
                     home_progress_bar.hide()
@@ -49,6 +49,7 @@ class HomeFragment : BaseFragment() {
                 }
             }
         })
+
     }
 
 

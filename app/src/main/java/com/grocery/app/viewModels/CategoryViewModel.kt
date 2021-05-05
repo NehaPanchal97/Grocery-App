@@ -11,18 +11,19 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.grocery.app.constant.HomeCarousel
 import com.grocery.app.constant.Store
 import com.grocery.app.extras.Result
+import com.grocery.app.homePage.dataModel.ItemGroup
 import com.grocery.app.models.Category
 import com.grocery.app.utils.isBlank
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CategoryViewModel : ViewModel() {
-
     private val _addCatLiveData by lazy { MutableLiveData<Result<Void>>() }
     private val _catListLiveData by lazy { MutableLiveData<Result<ArrayList<Category>>>() }
-    private val _homePageLiveData by lazy { MutableLiveData<Result<ArrayList<ArrayList<Category>>>>() }
+    private val _homePageLiveData by lazy { MutableLiveData<Result<ArrayList<ItemGroup>>>() }
 
 
     val addCatLiveData: LiveData<Result<Void>>
@@ -30,7 +31,7 @@ class CategoryViewModel : ViewModel() {
     val catListLiveData: LiveData<Result<ArrayList<Category>>>
         get() = _catListLiveData
 
-    val homePageLiveData: LiveData<Result<ArrayList<ArrayList<Category>>>>
+    val homePageLiveData: LiveData<Result<ArrayList<ItemGroup>>>
         get() = _homePageLiveData
 
     private var homeCategorySnap: QuerySnapshot? = null
@@ -83,24 +84,55 @@ class CategoryViewModel : ViewModel() {
                 _homePageLiveData.value = Result.error()
             }
 
-
     }
 
     private fun sanitiseHomePageData() = viewModelScope.launch(Dispatchers.Default) {
-        val categories = arrayListOf<Category>()
-        val deals = arrayListOf<Category>()
-        val discounts = arrayListOf<Category>()
+        val homeData = arrayListOf<ItemGroup>()
 
-//        if (homeCategorySnap?.documents?.isNotEmpty() == true) {
-//            categories.addAll()
-//        }
+        if (homeCategorySnap?.documents?.isNotEmpty() == true) {
+            val catList = homeCategorySnap?.toObjects(Category::class.java)
+            catList?.let {
+                homeData.add(
+                    ItemGroup(
+                        carousel = HomeCarousel.CATEGORY,
+                        listItem = ArrayList(it)
+                    )
+                )
+            }
+        }
+
+
+        if (homeDealsSnap?.documents?.isNotEmpty() == true) {
+            val dealList = homeDealsSnap?.toObjects(Category::class.java)
+            dealList?.let {
+                homeData.add(
+                    ItemGroup(
+                        carousel = HomeCarousel.DEALS,
+                        listItem = ArrayList(it)
+                    )
+                )
+            }
+        }
+
+        if (homeDiscountSnap?.documents?.isNotEmpty() == true) {
+            val discountList = homeDiscountSnap?.toObjects(Category::class.java)
+            discountList?.let {
+                homeData.add(
+                    ItemGroup(
+                        carousel = HomeCarousel.DISCOUNT,
+                        listItem = ArrayList(it)
+                    )
+                )
+            }
+        }
+        _homePageLiveData.postValue(Result.success(homeData))
 
     }
 
     private fun getHomeTask(collection: String, limit: Long? = null): Task<QuerySnapshot> {
-        val query = Firebase.firestore.collection(collection)
+        var query = Firebase.firestore.collection(collection)
             .orderBy(Store.RANK, Query.Direction.ASCENDING)
-        limit?.let { query.limit(it) }
+        limit?.let { query = query.limit(it) }
         return query.get()
     }
 
