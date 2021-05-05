@@ -3,54 +3,67 @@ package com.grocery.app.homePage
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
-import androidx.databinding.DataBindingUtil
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.grocery.app.R
-import com.grocery.app.activities.BaseActivity
-import com.grocery.app.auth.AccountDetailsActivity
-import com.grocery.app.auth.OtpScreenActivity
-import com.grocery.app.constant.CATEGORY
-import com.grocery.app.databinding.ActivityHomeBinding
+import com.grocery.app.activities.UpdateProfileActivity
+import com.grocery.app.constant.USER
+import com.grocery.app.extensions.showError
+import com.grocery.app.extensions.showSuccess
+import com.grocery.app.extras.Result
+import com.grocery.app.models.User
+import com.grocery.app.utils.PrefManager
+import com.grocery.app.viewModels.AuthViewModel
 import kotlinx.android.synthetic.main.bottom_navigation_bar.*
 
 
-class HomePageActivity : BaseActivity() {
+class HomePageActivity : AppCompatActivity() {
 
-
-    private lateinit var binder: ActivityHomeBinding
-    var count = 0
-
+    private val prefManager by lazy { PrefManager.getInstance(this) }
+    private lateinit var viewModel: AuthViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binder = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        setContentView(R.layout.activity_home)
+        viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        observeData()
+//       switchFragment()
+        val user = prefManager.get<User>(USER)
+        user?.let {
+            switchFragment()
+        } ?: kotlin.run { viewModel.fetchUserInfo() }
+    }
 
+
+    private fun switchFragment(fragment: Fragment = HomeFragment()) {
         bottomNavigationBar.background = null
-        bottomNavigationBar.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.more -> {
-                    startActivity(Intent(this, AccountDetailsActivity::class.java))
-                }
-                R.id.home -> {
-                    startActivity(Intent(this, this::class.java))
-                }
-                R.id.order -> {
-//                    startActivity(Intent(this,SsoLoginActivity::class.java))
-                    val fragment = CategoryTypesFragment()
-                    val fragmentTransaction = supportFragmentManager.beginTransaction()
-                    fragmentTransaction.replace(R.id.fragment_container, fragment)
-                    fragmentTransaction.addToBackStack(null)
-                    fragmentTransaction.commit()
-                }
-                R.id.offer -> {
-                    startActivity(Intent(this, OtpScreenActivity::class.java))
-                }
-            }
-            true
-        }
-        val fragment = HomeFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
         transaction.commit()
+    }
+
+    private fun observeData() {
+        viewModel.fetchUserLiveData.observe(this, Observer { it ->
+            when (it.type) {
+                Result.Status.LOADING -> {
+
+                }
+                Result.Status.SUCCESS -> {
+                    currentFocus?.showSuccess("updated")
+                    it.data?.let {
+                        prefManager.put(USER, it)
+                        switchFragment()
+                    } ?: kotlin.run {
+                        startActivity(Intent(this, UpdateProfileActivity::class.java))
+                        finish()
+                    }
+                }
+                Result.Status.ERROR -> {
+                    currentFocus?.showError("error")
+                }
+            }
+        })
     }
 
     fun onClickBtnMore(v: View?) {
@@ -61,26 +74,6 @@ class HomePageActivity : BaseActivity() {
         fragmentTransaction.commit()
     }
 
-    fun onItemClick(v: View?) {
-        val fragment = CategoryItemsFragment()
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_container, fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
-
-    fun remove(v: View?) {
-        if (count <= 0) count = 0
-        else count--
-        val textView = findViewById<TextView>(R.id.tv_count)
-        textView.text = "$count"
-    }
-
-    fun add(v: View?) {
-        count++
-        val textView = findViewById<TextView>(R.id.tv_count)
-        textView.text = "$count"
-    }
 
     fun backPress(v: View?) {
         onBackPressed()

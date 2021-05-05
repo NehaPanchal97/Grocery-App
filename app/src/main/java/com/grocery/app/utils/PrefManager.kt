@@ -60,6 +60,10 @@ class PrefManager private constructor(context: Context) {
         }
     }
 
+    fun contains(key: String): Boolean{
+        return _pref.contains(key)
+    }
+
     fun remove(key: String) {
         _pref.edit {
             remove(key)

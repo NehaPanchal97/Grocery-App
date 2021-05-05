@@ -68,4 +68,8 @@
     <string name="category_image">Category Image</string>
     <string name="category">Category</string>
     <string name="see_all">See all</string>
+    <string name="save">SAVE</string>
+    <string name="logout">LOGOUT</string>
+    <string name="backpress">BackPress</string>
+    <string name="profilepicture">ProfilePicture</string>
 </resources>
