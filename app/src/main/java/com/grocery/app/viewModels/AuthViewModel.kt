@@ -29,19 +29,17 @@ class AuthViewModel : ViewModel() {
 
     var user: User? = null
 
-   fun addImage(){
+   fun updateUser(){
        _updateUserLiveData.value = Result.loading()
        if (user?.url.isBlank() || user?.url?.startsWith("https://") == true){
-           updateUserInfo()
+           updateUserOnStore()
        }
        else{
            uploadImage()
        }
    }
 
-    fun updateUserInfo() {
-
-        _updateUserLiveData.value = Result.loading()
+    fun updateUserOnStore() {
         val map = mapOf(
             "name" to user?.name,
             "url" to user?.url,
@@ -96,7 +94,7 @@ class AuthViewModel : ViewModel() {
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     user?.url = it.result.toString()
-                    updateUserInfo()
+                    updateUserOnStore()
                 } else {
                     _updateUserLiveData.value = Result.error()
                 }

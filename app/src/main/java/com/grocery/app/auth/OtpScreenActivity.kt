@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
@@ -136,13 +135,6 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
         } else {
             mVerificationId?.let { verifyPhoneNumberWithCode(it, otp) }
         }
-    }
-
-
-    private fun doFragmentTransaction(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.otpScreen, fragment)
-        transaction.commit()
     }
 }
 
