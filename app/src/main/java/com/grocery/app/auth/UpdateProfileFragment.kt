@@ -1,33 +1,40 @@
 package com.grocery.app.auth
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.grocery.app.homePage.HomePageActivity
 import com.grocery.app.constant.USER
 import com.grocery.app.databinding.FragmentAuthenticationBinding
-import com.grocery.app.extensions.authUser
-import com.grocery.app.extensions.showError
-import com.grocery.app.extensions.showSuccess
+import com.grocery.app.extensions.*
 import com.grocery.app.extras.Result
+import com.grocery.app.fragments.ImagePickerFragment
 import com.grocery.app.models.User
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.AuthViewModel
-import kotlinx.android.synthetic.*
+import kotlinx.android.synthetic.main.fragment_authentication.*
 
 
-class UpdateProfileFragment : Fragment() {
+class UpdateProfileFragment : ImagePickerFragment() {
     private val prefManager by lazy { PrefManager.getInstance(requireContext()) }
 
-    //    private lateinit var sharedPreferenceForLogin: SharedPreferenceForLogin
     private lateinit var binder: FragmentAuthenticationBinding
     private lateinit var viewModel: AuthViewModel
+
+    companion object {
+        const val PROFILE_PICK_REQUEST_CODE = 345
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +42,18 @@ class UpdateProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binder = FragmentAuthenticationBinding.inflate(inflater, container, false)
-//        sharedPreferenceForLogin = SharedPreferenceForLogin(requireContext())
         return binder.root
+    }
+
+    override fun onImagePicked(requestCode: Int, uri: Uri) {
+        if (requestCode == PROFILE_PICK_REQUEST_CODE) {
+            _user?.url = uri.toString()
+            loadProfile()
+        }
+    }
+
+    private fun loadProfile() {
+        binder.profilePic.loadImage(_user?.url)
     }
 
 
@@ -45,31 +62,43 @@ class UpdateProfileFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         setupView()
         observe()
-        setUpViewWithData()
-        observeData()
+        binder.btnLogout.setOnClickListener {
+            context?.showToast("Logging Out")
+            Firebase.auth.signOut()
+            prefManager.clear()
+            startActivity(Intent(context,SsoLoginActivity::class.java))
+            activity?.finishAffinity()
+        }
+        binder.arrowBack.setOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 
     private fun observe() {
         viewModel.updateUserLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
+                    progressBar.visibility = View.VISIBLE
                 }
                 Result.Status.SUCCESS -> {
-                    binder.root.showSuccess("User Info Updated.")
+                    progressBar.visibility = View.GONE
+                    val updateRequest = prefManager.contains(USER)
                     prefManager.put(USER, _user)
-                    startActivity(Intent(requireContext(), HomePageActivity::class.java))
+                    if (updateRequest) {
+                        activity?.setResult(Activity.RESULT_OK)
+                        context?.showToast("Profile Updated Successfully")
+                    } else {
+                        context?.showToast("Profile Created Successfully")
+                        startActivity(Intent(requireContext(), HomePageActivity::class.java))
+                    }
                     activity?.finish()
                 }
                 Result.Status.ERROR -> {
+                    progressBar.visibility = View.GONE
                     binder.root.showError("User info update failed")
                 }
             }
         })
-    }
-
-    private fun saveAccountDetails(user: User) {
-//        sharedPreferenceForLogin.saveAccountDetails(_user)
-        prefManager.put(USER, user)
     }
 
     private var _user
@@ -80,16 +109,14 @@ class UpdateProfileFragment : Fragment() {
 
     private fun setupView() {
         _user = createUserFromAuth()
-        binder.mobEt.setText(authUser?.phoneNumber)
+        binder.mobEt.setText(_user?.phone)
+        binder.nameEt.setText(_user?.name)
+        binder.addressEt.setText(_user?.address)
+        loadProfile()
         binder.nameEt.doAfterTextChanged { _user?.name = it.toString() }
         binder.addressEt.doAfterTextChanged { _user?.address = it.toString() }
-        binder.btnLogout.setOnClickListener { viewModel.updateUserInfo() }
-
-        _user?.phone = authUser?.phoneNumber
-        _user?.id = authUser?.uid
-        _user?.name = authUser?.displayName
-        _user?.address = binder.addressEt.text.toString()
-
+        binder.btnSave.setOnClickListener { viewModel.updateUserInfo() }
+        binder.uploadImage.setOnClickListener { startPickerActivity(PROFILE_PICK_REQUEST_CODE) }
     }
 
     private fun createUserFromAuth(): User? {
@@ -99,30 +126,6 @@ class UpdateProfileFragment : Fragment() {
             name = authUser?.displayName,
             url = authUser?.photoUrl?.toString()
         )
-    }
-
-    private fun observeData() {
-        viewModel.fetchUserLiveData.observe(viewLifecycleOwner, Observer {
-            when (it.type) {
-                Result.Status.LOADING -> {
-
-                }
-                Result.Status.SUCCESS -> {
-                    it.data
-                    binder.root.showSuccess("updated")
-                    it.data?.let { it1 -> saveAccountDetails(it1) }
-                }
-                Result.Status.ERROR -> {
-                    binder.root.showError("error")
-                }
-            }
-        })
-    }
-
-    private fun setUpViewWithData() {
-        binder.nameEt.setText(authUser?.displayName)
-        binder.addressEt.setText(binder.addressEt.text.toString())
-//        viewModel.fetchUserInfo()
     }
 
 

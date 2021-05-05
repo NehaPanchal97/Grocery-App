@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.grocery.app.contracts.UpdateProfileContract
 import com.grocery.app.homePage.adapters.HomePageCategoryAdapter
 import com.grocery.app.databinding.HomeFragmentBinding
 import com.grocery.app.extensions.showError
@@ -27,7 +28,7 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
         catRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        initRecyclerView()
+        setupView()
         observe()
         viewModel.fetchHomePageData(3)
     }
@@ -40,7 +41,7 @@ class HomeFragment : BaseFragment() {
                 }
                 Result.Status.SUCCESS -> {
                     binder.homeProgressBar.hide()
-                    listAdapter.update(it.data)
+                    listAdapter.update(it.data )
                 }
                 else -> {
                     home_progress_bar.hide()
@@ -61,7 +62,17 @@ class HomeFragment : BaseFragment() {
         return binder.root
     }
 
-    private fun initRecyclerView() {
+    private val _updateProfileCallback =
+        registerForActivityResult(UpdateProfileContract()) { result ->
+            if (result) {
+                //show Toast like profile updated or something like that
+            }
+        }
+
+    private fun setupView() {
+        binder.ivAccountDetails.setOnClickListener {
+            _updateProfileCallback.launch(null)
+        }
         catRecyclerView.apply {
             listAdapter = HomePageCategoryAdapter(arrayListOf())
             binder.catRecyclerView.adapter = listAdapter
