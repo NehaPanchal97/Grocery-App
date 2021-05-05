@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.grocery.app.homePage.dataModel.ItemData
 import com.grocery.app.homePage.Interface.IItemClickListener
 import com.grocery.app.R
+import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Category
 
 
@@ -44,7 +45,7 @@ class ProductListAdapter(private val itemList: ArrayList<Category>?) :
     @Suppress("DEPRECATION")
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-        var txt_title: TextView = view.findViewById(R.id.tvTitle) as TextView
+        var txt_title: TextView = view.findViewById(R.id.homePageTitle) as TextView
         var img_item: ImageView = view.findViewById(R.id.itemImage) as ImageView
 
         lateinit var iItemClickListener: IItemClickListener

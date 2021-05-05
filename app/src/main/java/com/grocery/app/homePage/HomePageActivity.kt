@@ -12,9 +12,11 @@ import com.grocery.app.auth.OtpScreenActivity
 import com.grocery.app.constant.CATEGORY
 import com.grocery.app.databinding.ActivityHomeBinding
 import kotlinx.android.synthetic.main.bottom_navigation_bar.*
+import kotlinx.android.synthetic.main.specific_item_with_price.*
+import kotlinx.android.synthetic.main.specific_itemgroup_in_product.*
 
 
-class HomePageActivity : BaseActivity() {
+class HomePageActivity : BaseActivity(){
 
 
     private lateinit var binder: ActivityHomeBinding
@@ -61,13 +63,13 @@ class HomePageActivity : BaseActivity() {
         fragmentTransaction.commit()
     }
 
-    fun onItemClick(v: View?) {
-        val fragment = CategoryItemsFragment()
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_container, fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
+//    fun onItemClick(v: View?) {
+//        val fragment = CategoryItemsFragment()
+//        val fragmentTransaction = supportFragmentManager.beginTransaction()
+//        fragmentTransaction.replace(R.id.fragment_container, fragment)
+//        fragmentTransaction.addToBackStack(null)
+//        fragmentTransaction.commit()
+//    }
 
     fun remove(v: View?) {
         if (count <= 0) count = 0

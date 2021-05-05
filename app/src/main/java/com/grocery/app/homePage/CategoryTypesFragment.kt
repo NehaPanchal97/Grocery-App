@@ -8,13 +8,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.grocery.app.homePage.adapters.ProductItemsAdapter
-import com.grocery.app.homePage.dataModel.ItemData
 import com.grocery.app.R
 import com.grocery.app.databinding.ProductItemsGroupBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
+import com.grocery.app.homePage.adapters.ProductItemsAdapter
+import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.CategoryViewModel
 import kotlinx.android.synthetic.main.home_fragment.*
 import kotlinx.android.synthetic.main.product_items_group.*
@@ -24,6 +24,7 @@ class CategoryTypesFragment : BaseFragment() {
     private lateinit var binder:ProductItemsGroupBinding
     lateinit var productRecyclerViewAdapter: ProductItemsAdapter
     lateinit var viewModel: CategoryViewModel
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
@@ -42,10 +43,10 @@ class CategoryTypesFragment : BaseFragment() {
                 }
                 Result.Status.SUCCESS -> {
                     binder.catProgressBar.hide()
-                    productRecyclerViewAdapter.updateCategory(it.data?: arrayListOf())
+                    productRecyclerViewAdapter.updateCategory(it.data ?: arrayListOf())
                 }
-                else ->{
-                   binder.catProgressBar.hide()
+                else -> {
+                    binder.catProgressBar.hide()
                     binder.root.showError("Unable to fetch categories")
                 }
             }
@@ -54,11 +55,11 @@ class CategoryTypesFragment : BaseFragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binder= ProductItemsGroupBinding.inflate(inflater,container,false)
+        binder= ProductItemsGroupBinding.inflate(inflater, container, false)
         return binder.root
 
     }
@@ -67,8 +68,22 @@ class CategoryTypesFragment : BaseFragment() {
     private fun startRecyclerView() {
         product_recyclerView.apply {
             productRecyclerViewAdapter = ProductItemsAdapter(arrayListOf())
+                    .apply { itemClickListener=_itemClickListener }
            binder.productRecyclerView.adapter = productRecyclerViewAdapter
+
         }
+    }
+
+
+    private val _itemClickListener = object : OnItemClickListener {
+        override fun onItemClick(itemId: Int, position: Int) {
+            val fragment = CategoryItemsFragment()
+            val fragmentTransaction =activity?.supportFragmentManager?.beginTransaction()
+            fragmentTransaction?.replace(R.id.fragment_container, fragment)
+            fragmentTransaction?.addToBackStack(null)
+            fragmentTransaction?.commit()
+        }
+
     }
 
 
