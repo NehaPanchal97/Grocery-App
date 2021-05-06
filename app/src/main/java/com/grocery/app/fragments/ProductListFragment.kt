@@ -1,8 +1,10 @@
-package com.grocery.app.activities
+package com.grocery.app.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -10,24 +12,34 @@ import com.grocery.app.R
 import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.contracts.AddProductContract
 import com.grocery.app.contracts.UpdateProductContract
-import com.grocery.app.databinding.ActivityProductListBinding
-import com.grocery.app.extensions.*
+import com.grocery.app.databinding.FragmentProductListBinding
+import com.grocery.app.extensions.hide
+import com.grocery.app.extensions.showError
+import com.grocery.app.extensions.showSuccess
+import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.viewModels.ProductViewModel
 
-class ProductListActivity : BaseActivity() {
+class ProductListFragment : BaseFragment() {
 
     private lateinit var viewModel: ProductViewModel
     private lateinit var catViewModel: CategoryViewModel
-    private lateinit var binder: ActivityProductListBinding
+    private lateinit var binder: FragmentProductListBinding
     private lateinit var listAdapter: ProductListAdapter
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binder = FragmentProductListBinding.inflate(inflater, container, false)
+        return binder.root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binder = DataBindingUtil.setContentView(this, R.layout.activity_product_list)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         catViewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
         setupView()
@@ -50,7 +62,7 @@ class ProductListActivity : BaseActivity() {
         }
         val items = viewModel.catList.map { it.name }.toTypedArray()
         val checked = items.indexOfFirst { it == viewModel.filterByCat?.name }
-        MaterialAlertDialogBuilder(this, R.style.AppDialogTheme)
+        MaterialAlertDialogBuilder(requireContext(), R.style.AppDialogTheme)
             .setTitle(getString(R.string.category))
             .setNeutralButton(
                 getString(R.string.clear)
@@ -72,7 +84,7 @@ class ProductListActivity : BaseActivity() {
     }
 
     private fun observe() {
-        viewModel.productListLiveData.observe(this, Observer {
+        viewModel.productListLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
                     loading(true)
@@ -91,7 +103,7 @@ class ProductListActivity : BaseActivity() {
                 }
             }
         })
-        catViewModel.catListLiveData.observe(this, Observer {
+        catViewModel.catListLiveData.observe(viewLifecycleOwner, Observer {
 
             if (it.type == Result.Status.SUCCESS) {
                 viewModel.catList = it.data ?: arrayListOf()
@@ -110,8 +122,6 @@ class ProductListActivity : BaseActivity() {
         listAdapter.onClickListener = _onClickListener
 
         //Toolbar
-        setupToolbar(binder.toolBar)
-        binder.toolBar.setOnMenuItemClickListener(_menuItemClick)
         binder.emptyView.emptyTv.text = getString(R.string.no_product_available)
     }
 

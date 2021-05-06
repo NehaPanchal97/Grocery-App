@@ -6,9 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.grocery.app.constant.Store
+import com.grocery.app.constant.USER
 import com.grocery.app.extensions.authUser
 import com.grocery.app.extensions.toObj
 import com.grocery.app.models.User
@@ -24,20 +26,24 @@ class AuthViewModel : ViewModel() {
 
     private val _fetchUserLiveData by lazy { MutableLiveData<Result<User?>>() }
 
+    private val _syncUserLiveData by lazy { MutableLiveData<Result<User?>>() }
+
     val fetchUserLiveData: LiveData<Result<User?>>
         get() = _fetchUserLiveData
 
+    val syncUserLiveData: LiveData<Result<User?>>
+        get() = _syncUserLiveData
+
     var user: User? = null
 
-   fun updateUser(){
-       _updateUserLiveData.value = Result.loading()
-       if (user?.url.isBlank() || user?.url?.startsWith("https://") == true){
-           updateUserOnStore()
-       }
-       else{
-           uploadImage()
-       }
-   }
+    fun updateUser() {
+        _updateUserLiveData.value = Result.loading()
+        if (user?.url.isBlank() || user?.url?.startsWith("https://") == true) {
+            updateUserOnStore()
+        } else {
+            uploadImage()
+        }
+    }
 
     fun updateUserOnStore() {
         val map = mapOf(
@@ -97,6 +103,19 @@ class AuthViewModel : ViewModel() {
                     updateUserOnStore()
                 } else {
                     _updateUserLiveData.value = Result.error()
+                }
+            }
+    }
+
+    fun syncUser() {
+        Firebase.firestore
+            .document(Store.USERS + "/" + authUser?.uid)
+            .get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    _syncUserLiveData.value = Result.success(it.result?.toObject())
+                } else {
+                    _syncUserLiveData.value = Result.error()
                 }
             }
     }

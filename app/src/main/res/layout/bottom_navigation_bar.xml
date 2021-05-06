@@ -43,8 +43,4 @@
         android:src="@drawable/cart_svg_download"
         app:layout_anchor="@id/bottom_appBar"/>
 
-
-
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

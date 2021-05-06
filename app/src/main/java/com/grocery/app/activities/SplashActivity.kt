@@ -8,6 +8,7 @@ import com.google.firebase.ktx.Firebase
 import com.grocery.app.homePage.HomePageActivity
 import com.grocery.app.R
 import com.grocery.app.auth.SsoLoginActivity
+import com.grocery.app.constant.Store
 import com.grocery.app.constant.USER
 import com.grocery.app.models.User
 import com.grocery.app.utils.PrefManager
@@ -31,11 +32,15 @@ class SplashActivity : BaseActivity() {
         val auth = Firebase.auth.currentUser
         val aClass = auth?.let {
             val user = prefManager.get<User>(USER)
-            if (user == null || user.name.isNullOrEmpty()) {
+            user?.let {
+                if (it.role == Store.ADMIN_ROLE) {
+                    AdminHomePageActivity::class.java
+                } else {
+                    HomePageActivity::class.java
+                }
+            } ?: kotlin.run {
                 UpdateProfileActivity::class.java
-            } else {
                 //Land to Home Page
-                HomePageActivity::class.java
             }
         } ?: kotlin.run {
             SsoLoginActivity::class.java

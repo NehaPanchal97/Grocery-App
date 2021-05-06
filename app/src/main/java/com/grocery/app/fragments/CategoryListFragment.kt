@@ -1,32 +1,43 @@
-package com.grocery.app.activities
+package com.grocery.app.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.grocery.app.R
 import com.grocery.app.adapters.CategoryListAdapter
 import com.grocery.app.contracts.AddCategoryContract
 import com.grocery.app.contracts.UpdateCategoryContract
-import com.grocery.app.databinding.CategoryListActivityBinding
+import com.grocery.app.databinding.FragmentCategoryListBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.showSuccess
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.extras.Result.Status
 import com.grocery.app.listeners.OnItemClickListener
 
-class CategoryListActivity : BaseActivity() {
+class CategoryListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener {
 
-    private lateinit var binder: CategoryListActivityBinding
+    private lateinit var binder: FragmentCategoryListBinding
     private lateinit var viewModel: CategoryViewModel
     private lateinit var listAdapter: CategoryListAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binder = DataBindingUtil.setContentView(this, R.layout.category_list_activity)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binder = FragmentCategoryListBinding.inflate(inflater, container, false)
+        return binder.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
 
         setupView()
@@ -35,7 +46,7 @@ class CategoryListActivity : BaseActivity() {
     }
 
     private fun observe() {
-        viewModel.catListLiveData.observe(this, Observer {
+        viewModel.catListLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Status.LOADING -> {
                     binder.progressBar.show()
@@ -73,17 +84,7 @@ class CategoryListActivity : BaseActivity() {
         viewModel.fetchCategoryList()
     }
 
-    private val _menuItemClick = Toolbar.OnMenuItemClickListener {
-        when (it.itemId) {
-            R.id.products -> startActivity(Intent(this, ProductListActivity::class.java))
-            R.id.add_category -> addCategoryResult.launch(null)
-        }
-        return@OnMenuItemClickListener true
-    }
-
     private fun setupView() {
-        setupToolbar(binder.toolBar)
-        binder.toolBar.setOnMenuItemClickListener(_menuItemClick)
         listAdapter = CategoryListAdapter(arrayListOf())
             .apply { onClickListener = _itemClickListener }
         binder.categoryRv.adapter = listAdapter
@@ -94,5 +95,18 @@ class CategoryListActivity : BaseActivity() {
             updateCategoryResult.launch(listAdapter.categories.getOrNull(position))
         }
 
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+//            R.id.cart -> startActivity(
+//                Intent(
+//                    requireContext(),
+//                    ProductListFragment::class.java
+//                )
+//            )
+            R.id.add -> addCategoryResult.launch(null)
+        }
+        return true
     }
 }
