@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -27,7 +28,7 @@ class CategoryTypesFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(CategoryViewModel::class.java)
         product_recyclerView.layoutManager =
                 GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)
         startRecyclerView()
@@ -77,6 +78,10 @@ class CategoryTypesFragment : BaseFragment() {
 
     private val _itemClickListener = object : OnItemClickListener {
         override fun onItemClick(itemId: Int, position: Int) {
+
+            val item = view?.findViewById<TextView>(R.id.gridTitle)
+            viewModel.setTextCommunicator(item?.text.toString())
+
             val fragment = CategoryItemsFragment()
             val fragmentTransaction =activity?.supportFragmentManager?.beginTransaction()
             fragmentTransaction?.replace(R.id.fragment_container, fragment)

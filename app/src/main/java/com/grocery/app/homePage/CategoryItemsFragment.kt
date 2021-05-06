@@ -4,20 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.grocery.app.homePage.adapters.SpecificItemAdapter
-import com.grocery.app.homePage.dataModel.ItemData
 import com.grocery.app.R
-import com.grocery.app.databinding.ProductItemsGroupBinding
 import com.grocery.app.databinding.SpecificItemgroupInProductBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
+import com.grocery.app.homePage.adapters.SpecificItemAdapter
 import com.grocery.app.models.Category
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.viewModels.ProductViewModel
@@ -25,10 +23,10 @@ import kotlinx.android.synthetic.main.specific_itemgroup_in_product.*
 
 class CategoryItemsFragment : BaseFragment() {
 
-    lateinit var itemRecyclerViewAdapter: SpecificItemAdapter
+    private  lateinit var itemRecyclerViewAdapter: SpecificItemAdapter
     lateinit var binder:SpecificItemgroupInProductBinding
-    lateinit var viewModel:ProductViewModel
-    lateinit var catViewModel:CategoryViewModel
+    private lateinit var viewModel:ProductViewModel
+    private lateinit var catViewModel:CategoryViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +34,13 @@ class CategoryItemsFragment : BaseFragment() {
         item_recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL))
         item_recyclerView.layoutManager = GridLayoutManager(context,2, RecyclerView.VERTICAL,false)
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
-        catViewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
+        catViewModel = ViewModelProvider(requireActivity()).get(CategoryViewModel::class.java)
+
+        val item = view.findViewById<TextView>(R.id.specific_category)
+        catViewModel.catName.observe(viewLifecycleOwner, Observer {
+            item.text= it
+        })
+
         itemRecyclerView()
         observe()
         viewModel.filterByCat= Category(id="5ZlyoMBXxjfZLJMAccJk")
@@ -69,7 +73,7 @@ class CategoryItemsFragment : BaseFragment() {
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binder= SpecificItemgroupInProductBinding.inflate(inflater,container,false)
         return binder.root

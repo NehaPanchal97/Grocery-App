@@ -25,6 +25,12 @@ class CategoryViewModel : ViewModel() {
     private val _catListLiveData by lazy { MutableLiveData<Result<ArrayList<Category>>>() }
     private val _homePageLiveData by lazy { MutableLiveData<Result<ArrayList<ItemGroup>>>() }
 
+     val catName = MutableLiveData<String>()
+
+    fun setTextCommunicator(msg:String){
+        catName.value = msg
+    }
+
 
     val addCatLiveData: LiveData<Result<Void>>
         get() = _addCatLiveData
