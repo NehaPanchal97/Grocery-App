@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
+import com.grocery.app.constant.CATEGORY
 import com.grocery.app.databinding.ProductItemsGroupBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
@@ -16,21 +17,18 @@ import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.homePage.adapters.ProductItemsAdapter
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.CategoryViewModel
-import kotlinx.android.synthetic.main.home_fragment.*
-import kotlinx.android.synthetic.main.product_items_group.*
 
-class CategoryTypesFragment : BaseFragment() {
+class CategoryTypesFragment : BaseFragment(), View.OnClickListener {
 
-    private lateinit var binder:ProductItemsGroupBinding
-    lateinit var productRecyclerViewAdapter: ProductItemsAdapter
+    private lateinit var binder: ProductItemsGroupBinding
+    lateinit var listAdapter: ProductItemsAdapter
     lateinit var viewModel: CategoryViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
-        product_recyclerView.layoutManager =
-                GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)
-        startRecyclerView()
+
+        viewModel = ViewModelProvider(requireActivity()).get(CategoryViewModel::class.java)
+        setupView()
         observe()
         viewModel.fetchCategoryList()
     }
@@ -43,7 +41,7 @@ class CategoryTypesFragment : BaseFragment() {
                 }
                 Result.Status.SUCCESS -> {
                     binder.catProgressBar.hide()
-                    productRecyclerViewAdapter.updateCategory(it.data ?: arrayListOf())
+                    listAdapter.updateCategory(it.data ?: arrayListOf())
                 }
                 else -> {
                     binder.catProgressBar.hide()
@@ -55,35 +53,49 @@ class CategoryTypesFragment : BaseFragment() {
 
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binder= ProductItemsGroupBinding.inflate(inflater, container, false)
+        binder = ProductItemsGroupBinding.inflate(inflater, container, false)
         return binder.root
 
     }
 
 
-    private fun startRecyclerView() {
-        product_recyclerView.apply {
-            productRecyclerViewAdapter = ProductItemsAdapter(arrayListOf())
-                    .apply { itemClickListener=_itemClickListener }
-           binder.productRecyclerView.adapter = productRecyclerViewAdapter
+    private fun setupView() {
+
+
+        binder.productRecyclerView.apply {
+            layoutManager = GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)
+            listAdapter = ProductItemsAdapter(arrayListOf())
+                .apply { itemClickListener = _itemClickListener }
+            binder.productRecyclerView.adapter = listAdapter
 
         }
+        binder.backBtn.setOnClickListener(this)
     }
 
 
     private val _itemClickListener = object : OnItemClickListener {
         override fun onItemClick(itemId: Int, position: Int) {
+
+            val bundle = Bundle()
+            bundle.putParcelable(CATEGORY, listAdapter.items[position])
             val fragment = CategoryItemsFragment()
-            val fragmentTransaction =activity?.supportFragmentManager?.beginTransaction()
-            fragmentTransaction?.replace(R.id.fragment_container, fragment)
-            fragmentTransaction?.addToBackStack(null)
-            fragmentTransaction?.commit()
+            fragment.arguments = bundle
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.add(R.id.fragment_container, fragment)
+                ?.addToBackStack(null)
+                ?.commit()
         }
 
+    }
+
+    override fun onClick(v: View?) {
+        if (v?.id == R.id.back_btn) {
+            activity?.onBackPressed()
+        }
     }
 
 

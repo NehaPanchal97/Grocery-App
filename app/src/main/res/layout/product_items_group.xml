@@ -26,7 +26,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="24dp"
             android:src="@drawable/ic_back"
-            android:onClick="backPress"
             android:layout_marginTop="15dp"
             app:layout_constraintLeft_toRightOf="@+id/all_categories"
             app:layout_constraintRight_toRightOf="parent"

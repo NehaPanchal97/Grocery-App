@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -24,6 +25,12 @@ class CategoryViewModel : ViewModel() {
     private val _addCatLiveData by lazy { MutableLiveData<Result<Void>>() }
     private val _catListLiveData by lazy { MutableLiveData<Result<ArrayList<Category>>>() }
     private val _homePageLiveData by lazy { MutableLiveData<Result<ArrayList<ItemGroup>>>() }
+
+    val catName = MutableLiveData<String>()
+
+    fun setTextCommunicator(msg: String) {
+        catName.value = msg
+    }
 
 
     val addCatLiveData: LiveData<Result<Void>>
@@ -153,12 +160,10 @@ class CategoryViewModel : ViewModel() {
         val id = category.id ?: ref.document().id
         map[Store.ID] = id
 
-        val task = ref.document(id).set(map)
-
-
-        task.addOnSuccessListener {
-            _addCatLiveData.value = Result.success()
-        }
+        ref.document(id).set(map, SetOptions.merge())
+            .addOnSuccessListener {
+                _addCatLiveData.value = Result.success()
+            }
             .addOnFailureListener {
                 _addCatLiveData.value = Result.error()
 
