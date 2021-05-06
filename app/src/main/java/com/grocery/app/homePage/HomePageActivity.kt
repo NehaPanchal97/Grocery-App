@@ -71,11 +71,10 @@ class HomePageActivity : AppCompatActivity() {
     }
 
     fun onClickBtnMore(v: View?) {
-        val fragment = CategoryTypesFragment()
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_container, fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, CategoryTypesFragment())
+            .addToBackStack(null)
+            .commit()
     }
 
 
