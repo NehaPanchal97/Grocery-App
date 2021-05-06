@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="65dp"
         app:fabCradleMargin="25dp"
+        android:background="@android:color/transparent"
         app:fabCradleRoundedCornerRadius="25dp"
         android:backgroundTint="#27ae60"
         android:layout_gravity="bottom"/>

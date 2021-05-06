@@ -52,6 +52,7 @@
             android:layout_marginTop="8dp"
             android:maxLines="3"
             android:maxWidth="160dp"
+            android:gravity="center_horizontal"
             android:text="Order any food from the app  and get the discount"
             android:textColor="#3C3E3D"
             app:layout_constraintEnd_toEndOf="@id/discount"
@@ -65,10 +66,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#27ae60"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/offer_text"
             app:layout_constraintStart_toStartOf="@id/offer_text"
             app:layout_constraintEnd_toEndOf="@id/offer_text"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/ptsans_bold"
             android:text="Order Now"/>
 
