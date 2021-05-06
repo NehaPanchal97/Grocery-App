@@ -2,6 +2,7 @@ package com.grocery.app.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
@@ -22,7 +23,7 @@ import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.viewModels.ProductViewModel
 
-class ProductListFragment : BaseFragment() {
+class ProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener {
 
     private lateinit var viewModel: ProductViewModel
     private lateinit var catViewModel: CategoryViewModel
@@ -151,5 +152,12 @@ class ProductListFragment : BaseFragment() {
                 updateProduct.launch(listAdapter.products[position])
             }
         }
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.add) {
+            addProduct.launch(null)
+        }
+        return true
     }
 }
