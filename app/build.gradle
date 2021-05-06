@@ -98,5 +98,6 @@ dependencies {
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.0.0'
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 }
 apply plugin: 'com.google.gms.google-services'
