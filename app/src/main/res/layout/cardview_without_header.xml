@@ -1,79 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    app:layout_constraintLeft_toLeftOf="parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-   >
+    app:layout_constraintLeft_toLeftOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="320dp"
-        android:layout_height="150dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        tools:ignore="MissingConstraints"
+        android:layout_width="280dp"
+        android:layout_height="120dp"
+        android:background="@drawable/without_header_image_background"
         android:elevation="2dp"
         android:padding="5dp"
-        android:background="@drawable/without_header_image_background"
-        >
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:ignore="MissingConstraints">
 
         <ImageView
             android:id="@+id/cardview_image"
-            android:layout_width="130dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:background="@drawable/discount_image_background"
-            android:layout_height="150dp"
             android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:src="@drawable/vegetables_discount"/>
 
         <TextView
             android:id="@+id/discount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="30 % Discount"
-            android:maxLines="2"
-            android:maxWidth="160dp"
-            android:gravity="center_horizontal"
-            app:layout_constraintLeft_toRightOf="@id/cardview_image"
-           app:layout_constraintStart_toEndOf="@id/cardview_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="10dp"
-            android:textColor="#27ae60"
+            android:layout_marginRight="40dp"
             android:layout_marginBottom="80dp"
-            android:textSize="18sp"
             android:fontFamily="@font/ptsans_bold"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:gravity="center_horizontal"
+            android:text="30 % Discount"
+            android:textColor="#27ae60"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/offer_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:maxLines="3"
-            android:maxWidth="160dp"
-            android:gravity="center_horizontal"
-            android:text="Order any food from the app  and get the discount"
+            android:text="Order any food from the app \n and get the discount"
             android:textColor="#3C3E3D"
-            app:layout_constraintEnd_toEndOf="@id/discount"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="@id/discount"
-            app:layout_constraintLeft_toRightOf="@id/cardview_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cardview_image"
             app:layout_constraintTop_toBottomOf="@id/discount" />
 
         <TextView
             android:id="@+id/order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#27ae60"
-            android:gravity="center_horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/offer_text"
-            app:layout_constraintStart_toStartOf="@id/offer_text"
-            app:layout_constraintEnd_toEndOf="@id/offer_text"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/ptsans_bold"
-            android:text="Order Now"/>
+            android:text="Order Now"
+            android:textColor="#27ae60"
+            app:layout_constraintEnd_toEndOf="@id/offer_text"
+            app:layout_constraintStart_toStartOf="@id/offer_text"
+            app:layout_constraintTop_toBottomOf="@id/offer_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
