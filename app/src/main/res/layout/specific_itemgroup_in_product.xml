@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+
+    </data>
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -23,13 +28,13 @@
             android:src="@drawable/ic_back"
             android:onClick="backPress"
             android:layout_marginTop="15dp"
-            app:layout_constraintLeft_toRightOf="@+id/text_categories"
+            app:layout_constraintLeft_toRightOf="@+id/specific_category"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text_categories"
+            android:id="@+id/specific_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
@@ -63,6 +68,12 @@
             android:layout_marginBottom="@null"
             app:cardCornerRadius="20dp">
 
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/item_recyclerView"
@@ -77,3 +88,4 @@
 
     </LinearLayout>
 </RelativeLayout>
+</layout>

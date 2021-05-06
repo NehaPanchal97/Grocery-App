@@ -31,31 +31,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="30 % Discount"
+            android:maxLines="2"
+            android:maxWidth="160dp"
             android:gravity="center_horizontal"
             app:layout_constraintLeft_toRightOf="@id/cardview_image"
+           app:layout_constraintStart_toEndOf="@id/cardview_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="10dp"
             android:textColor="#27ae60"
             android:layout_marginBottom="80dp"
-            android:layout_marginRight="40dp"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:fontFamily="@font/ptsans_bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/offer_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:maxWidth="200dp"
-            android:text="Order any food from the app \n and get the discount"
+            android:maxLines="3"
+            android:maxWidth="160dp"
+            android:text="Order any food from the app  and get the discount"
             android:textColor="#3C3E3D"
             app:layout_constraintEnd_toEndOf="@id/discount"
-            app:layout_constraintHorizontal_bias="0.545"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="@id/discount"
+            app:layout_constraintLeft_toRightOf="@id/cardview_image"
             app:layout_constraintTop_toBottomOf="@id/discount" />
 
         <TextView
@@ -66,7 +68,7 @@
             app:layout_constraintTop_toBottomOf="@id/offer_text"
             app:layout_constraintStart_toStartOf="@id/offer_text"
             app:layout_constraintEnd_toEndOf="@id/offer_text"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/ptsans_bold"
             android:text="Order Now"/>
 
