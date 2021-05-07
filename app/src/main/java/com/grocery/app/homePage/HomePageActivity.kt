@@ -36,6 +36,7 @@ class HomePageActivity : AppCompatActivity() {
                 R.id.home->{
                     startActivity(Intent(this,this::class.java))
                 }
+
             }
             true
         }

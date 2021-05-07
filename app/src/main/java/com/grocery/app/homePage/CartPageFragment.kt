@@ -6,15 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.grocery.app.adapters.ProductListAdapter
+import com.grocery.app.constant.CART_ITEM_TYPE
 import com.grocery.app.databinding.CartItemsGroupBinding
 import com.grocery.app.fragments.BaseFragment
-import com.grocery.app.homePage.adapters.CartListAdapter
 
 
 class CartPageFragment : BaseFragment() {
 
        lateinit var binder :CartItemsGroupBinding
-       private lateinit var ListAdapter: CartListAdapter
+       private lateinit var ListAdapter: ProductListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,7 +31,7 @@ class CartPageFragment : BaseFragment() {
 
     private fun setUpView() {
     binder.cartRecyclerView.apply {
-        ListAdapter = CartListAdapter(arrayListOf())
+        ListAdapter = ProductListAdapter(arrayListOf(), CART_ITEM_TYPE)
         binder.cartRecyclerView.adapter=ListAdapter
     }
     }
