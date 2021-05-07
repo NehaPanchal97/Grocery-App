@@ -6,7 +6,7 @@ import com.grocery.app.constant.Store
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Product(
+open class Product(
     var id: String? = null,
     var name: String? = null,
     var description: String? = null,
@@ -15,5 +15,7 @@ data class Product(
     @SerializedName(Store.CATEGORY_ID)
     var categoryId: String? = null,
     var url: String? = null,
-    var tags: ArrayList<String?>? = null
+    var tags: ArrayList<String?>? = null,
+    var count: Int? = null,
+    var total: Double? = null
 ) : Parcelable

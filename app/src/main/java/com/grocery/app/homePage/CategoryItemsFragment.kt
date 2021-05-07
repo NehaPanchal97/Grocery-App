@@ -4,20 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
+import com.grocery.app.constant.CART
 import com.grocery.app.constant.CATEGORY
 import com.grocery.app.databinding.SpecificItemgroupInProductBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.homePage.adapters.SpecificItemAdapter
-import com.grocery.app.models.Category
+import com.grocery.app.listeners.OnItemClickListener
+import com.grocery.app.models.Cart
+import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.viewModels.ProductViewModel
 import kotlinx.android.synthetic.main.specific_itemgroup_in_product.*
@@ -28,6 +30,8 @@ class CategoryItemsFragment : BaseFragment() {
     lateinit var binder: SpecificItemgroupInProductBinding
     private lateinit var viewModel: ProductViewModel
     private lateinit var catViewModel: CategoryViewModel
+
+    private val pref by lazy { PrefManager.getInstance(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,12 +51,18 @@ class CategoryItemsFragment : BaseFragment() {
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         catViewModel = ViewModelProvider(requireActivity()).get(CategoryViewModel::class.java)
+        initCart()
         itemRecyclerView()
         observe()
         viewModel.filterByCat = arguments?.getParcelable(CATEGORY)
         binder.specificCategory.text = viewModel.filterByCat?.name
         viewModel.fetchProductList()
 
+    }
+
+    private fun initCart() {
+        viewModel.cart = pref.get(CART) ?: Cart()
+        viewModel.initCart()
     }
 
     private fun observe() {
@@ -74,6 +84,12 @@ class CategoryItemsFragment : BaseFragment() {
 
             }
         })
+        viewModel.updateCart.observe(viewLifecycleOwner, Observer {
+            if (it.type == Result.Status.SUCCESS) {
+                pref.put(CART, viewModel.cart)
+//                itemRecyclerViewAdapter.notifyDataSetChanged()
+            }
+        })
     }
 
     override fun onCreateView(
@@ -85,10 +101,26 @@ class CategoryItemsFragment : BaseFragment() {
         return binder.root
     }
 
+    private val _itemClickListener = object : OnItemClickListener {
+        override fun onItemClick(itemId: Int, position: Int) {
+            if (itemId == R.id.iv_add) {
+                val product = itemRecyclerViewAdapter.items.getOrNull(position)
+                viewModel.updateCart(product, isAddition = true)
+                itemRecyclerViewAdapter.notifyItemChanged(position)
+            } else if (itemId == R.id.iv_remove) {
+                val product = itemRecyclerViewAdapter.items.getOrNull(position)
+                viewModel.updateCart(product, isAddition = false)
+                itemRecyclerViewAdapter.notifyItemChanged(position)
+            }
+        }
+
+    }
+
     private fun itemRecyclerView() {
         item_recyclerView.apply {
 
-            itemRecyclerViewAdapter = SpecificItemAdapter(arrayListOf())
+            itemRecyclerViewAdapter = SpecificItemAdapter(arrayListOf(), viewModel.cartMap)
+            itemRecyclerViewAdapter.itemClickListener = _itemClickListener
             binder.itemRecyclerView.adapter = itemRecyclerViewAdapter
         }
     }

@@ -11,6 +11,10 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import com.grocery.app.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 fun View.showError(message: String?, duration: Int = Snackbar.LENGTH_SHORT) {
@@ -55,4 +59,10 @@ fun View.hide() {
 
 fun View.visible(show: Boolean = true) {
     this.visibility = if (show) View.VISIBLE else View.GONE
+}
+
+fun View.disable(duration: Long = 200) = GlobalScope.launch(Dispatchers.Main) {
+    this@disable.isEnabled = false
+    delay(duration)
+    this@disable.isEnabled = true
 }

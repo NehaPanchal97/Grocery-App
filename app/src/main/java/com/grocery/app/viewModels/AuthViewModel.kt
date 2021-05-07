@@ -5,16 +5,18 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.grocery.app.constant.CART
 import com.grocery.app.constant.Store
 import com.grocery.app.constant.USER
 import com.grocery.app.extensions.authUser
 import com.grocery.app.extensions.toObj
 import com.grocery.app.models.User
 import com.grocery.app.extras.Result
+import com.grocery.app.models.Cart
 import com.grocery.app.utils.isBlank
 
 class AuthViewModel : ViewModel() {
@@ -26,13 +28,13 @@ class AuthViewModel : ViewModel() {
 
     private val _fetchUserLiveData by lazy { MutableLiveData<Result<User?>>() }
 
-    private val _syncUserLiveData by lazy { MutableLiveData<Result<User?>>() }
+    private val _syncLiveData by lazy { MutableLiveData<Result<Pair<String, Any?>>>() }
 
     val fetchUserLiveData: LiveData<Result<User?>>
         get() = _fetchUserLiveData
 
-    val syncUserLiveData: LiveData<Result<User?>>
-        get() = _syncUserLiveData
+    val syncLiveData: LiveData<Result<Pair<String, Any?>>>
+        get() = _syncLiveData
 
     var user: User? = null
 
@@ -45,7 +47,7 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun updateUserOnStore() {
+    private fun updateUserOnStore() {
         val map = mapOf(
             "name" to user?.name,
             "url" to user?.url,
@@ -56,7 +58,7 @@ class AuthViewModel : ViewModel() {
         Firebase.firestore
             .collection(Store.USERS)
             .document(authUser?.uid ?: "")
-            .set(map)
+            .set(map, SetOptions.merge())
             .addOnSuccessListener {
                 _updateUserLiveData.value = Result.success()
             }
@@ -108,16 +110,31 @@ class AuthViewModel : ViewModel() {
     }
 
     fun syncUser() {
-        Firebase.firestore
-            .document(Store.USERS + "/" + authUser?.uid)
+        val db = Firebase.firestore
+
+        db.document(Store.USERS + "/" + authUser?.uid)
             .get()
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    _syncUserLiveData.value = Result.success(it.result?.toObject())
+            .onSuccessTask {
+                if (it?.exists() == true) {
+                    _syncLiveData.value = Result.success(Pair(USER, it.toObject(User::class.java)))
+                }
+                db.collection("${Store.USERS}/${authUser?.uid}/${Store.CART}")
+                    .get()
+            }
+            .addOnCompleteListener { snapshot ->
+                if (snapshot.isSuccessful) {
+                    if (snapshot.result?.isEmpty == false) {
+                        val cart = snapshot.result?.toObjects(Cart::class.java)?.firstOrNull()
+                        cart?.let { _syncLiveData.value = Result.success(Pair(CART, it)) }
+                    }
                 } else {
-                    _syncUserLiveData.value = Result.error()
+                    _syncLiveData.value = Result.error()
                 }
             }
+    }
+
+    fun syncCart() {
+        Firebase.firestore
     }
 
 

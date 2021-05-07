@@ -18,4 +18,5 @@ object Store {
     const val DEALS = "deals"
     const val ADMIN_ROLE = "admin"
     const val SEARCH_KEYS = "search_keys"
+    const val CART = "cart"
 }
