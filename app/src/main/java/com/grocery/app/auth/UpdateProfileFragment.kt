@@ -18,6 +18,7 @@ import com.grocery.app.databinding.FragmentAuthenticationBinding
 import com.grocery.app.extensions.*
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.ImagePickerFragment
+import com.grocery.app.listeners.OnProfileUpdatedListener
 import com.grocery.app.models.User
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.AuthViewModel
@@ -64,11 +65,8 @@ class UpdateProfileFragment : ImagePickerFragment() {
             context?.showToast("Logging Out")
             Firebase.auth.signOut()
             prefManager.clear()
-            startActivity(Intent(context,SsoLoginActivity::class.java))
+            startActivity(Intent(context, SsoLoginActivity::class.java))
             activity?.finishAffinity()
-        }
-        binder.arrowBack.setOnClickListener {
-            activity?.onBackPressed()
         }
     }
 
@@ -76,20 +74,20 @@ class UpdateProfileFragment : ImagePickerFragment() {
         viewModel.updateUserLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
-                   progressBar.visibility = View.VISIBLE
+                    progressBar.visibility = View.VISIBLE
                 }
                 Result.Status.SUCCESS -> {
                     progressBar.visibility = View.GONE
                     val updateRequest = prefManager.contains(USER)
                     prefManager.put(USER, _user)
                     if (updateRequest) {
-                        activity?.setResult(Activity.RESULT_OK)
                         context?.showToast("Profile Updated Successfully")
+                        activity?.cast<OnProfileUpdatedListener>()?.onProfileUpdated()
                     } else {
                         context?.showToast("Profile Created Successfully")
                         startActivity(Intent(requireContext(), HomePageActivity::class.java))
+                        activity?.finish()
                     }
-                    activity?.finish()
                 }
                 Result.Status.ERROR -> {
                     progressBar.visibility = View.GONE

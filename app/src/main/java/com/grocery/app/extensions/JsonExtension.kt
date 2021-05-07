@@ -43,3 +43,8 @@ fun Any?.toJson(): String? {
         null
     }
 }
+
+inline fun <reified T> Any.convertTo(): T? {
+    val json = this.toJson()
+    return json?.toObj()
+}
