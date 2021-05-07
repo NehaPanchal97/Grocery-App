@@ -9,12 +9,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.grocery.app.adapters.ProductListAdapter
+import com.grocery.app.constant.ADMIN_PRODUCT_TYPE
 import com.grocery.app.constant.CATEGORY
+import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
 import com.grocery.app.databinding.ProductItemgroupLayoutBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
-import com.grocery.app.homePage.adapters.ProductListAdapter
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.viewModels.ProductViewModel
 
@@ -84,7 +86,7 @@ class ProductListFragment : BaseFragment() {
     private fun itemRecyclerView() {
         binder.itemRecyclerView.apply {
 
-            itemRecyclerViewAdapter = ProductListAdapter(arrayListOf())
+            itemRecyclerViewAdapter = ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE)
             binder.itemRecyclerView.adapter = itemRecyclerViewAdapter
         }
     }

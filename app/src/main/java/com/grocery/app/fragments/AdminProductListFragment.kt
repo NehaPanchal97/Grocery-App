@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.grocery.app.R
 import com.grocery.app.adapters.ProductListAdapter
+import com.grocery.app.constant.ADMIN_PRODUCT_TYPE
 import com.grocery.app.contracts.AddProductContract
 import com.grocery.app.contracts.UpdateProductContract
 import com.grocery.app.databinding.FragmentProductListBinding
@@ -23,7 +24,7 @@ import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.viewModels.ProductViewModel
 
-class ProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener {
+class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener {
 
     private lateinit var viewModel: ProductViewModel
     private lateinit var catViewModel: CategoryViewModel
@@ -118,7 +119,7 @@ class ProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener {
     }
 
     private fun setupView() {
-        listAdapter = ProductListAdapter(arrayListOf())
+        listAdapter = ProductListAdapter(arrayListOf(), ADMIN_PRODUCT_TYPE)
         binder.productRv.adapter = listAdapter
         listAdapter.onClickListener = _onClickListener
 
