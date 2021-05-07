@@ -14,14 +14,14 @@ import com.grocery.app.databinding.ProductItemsGroupBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
-import com.grocery.app.homePage.adapters.ProductItemsAdapter
+import com.grocery.app.homePage.adapters.CategoryItemsAdapter
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.CategoryViewModel
 
 class CategoryTypesFragment : BaseFragment(), View.OnClickListener {
 
     private lateinit var binder: ProductItemsGroupBinding
-    lateinit var listAdapter: ProductItemsAdapter
+    lateinit var listAdapter: CategoryItemsAdapter
     lateinit var viewModel: CategoryViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,7 +68,7 @@ class CategoryTypesFragment : BaseFragment(), View.OnClickListener {
 
         binder.productRecyclerView.apply {
             layoutManager = GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)
-            listAdapter = ProductItemsAdapter(arrayListOf())
+            listAdapter = CategoryItemsAdapter(arrayListOf())
                 .apply { itemClickListener = _itemClickListener }
             binder.productRecyclerView.adapter = listAdapter
 

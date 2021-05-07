@@ -77,7 +77,7 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
         BaseVH<CategoryGroupBinding, ItemGroup>(binder) {
         override fun bind(data: ItemGroup) {
 
-            val itemListAdapter = ProductListAdapter(data.listItem)
+            val itemListAdapter = data.listItem?.let { CategoryItemsAdapter(it) }
 
             binder.recyclerViewHorizontal.setHasFixedSize(true)
             binder.recyclerViewHorizontal.layoutManager =

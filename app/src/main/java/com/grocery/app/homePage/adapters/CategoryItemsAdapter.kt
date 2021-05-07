@@ -1,6 +1,5 @@
 package com.grocery.app.homePage.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,15 +7,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.grocery.app.homePage.dataModel.ItemData
 import com.grocery.app.R
-import com.grocery.app.homePage.dataModel.ItemGroup
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Category
 
 // Adapter for 2 screen
-class ProductItemsAdapter(private val itemList: ArrayList<Category>) :
-    RecyclerView.Adapter<ProductItemsAdapter.GridViewHolder>() {
+class CategoryItemsAdapter(private val itemList: ArrayList<Category>) :
+    RecyclerView.Adapter<CategoryItemsAdapter.GridViewHolder>() {
 
 
     val items
@@ -24,7 +21,7 @@ class ProductItemsAdapter(private val itemList: ArrayList<Category>) :
 
     var itemClickListener: OnItemClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.product_list, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.category_item, parent, false)
         return GridViewHolder(view)
     }
 
@@ -46,7 +43,7 @@ class ProductItemsAdapter(private val itemList: ArrayList<Category>) :
 
     inner class GridViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        var txt_title: TextView = view.findViewById(R.id.gridTitle) as TextView
+        var txt_title: TextView = view.findViewById(R.id.homePageTitle) as TextView
         var img_item: ImageView = view.findViewById(R.id.itemImage) as ImageView
     }
 
