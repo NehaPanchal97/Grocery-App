@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.grocery.app.R
 
 
-class ReviewPageActivity: AppCompatActivity() {
+class DetailsPageActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_review_page)
+        setContentView(R.layout.activity_details_page)
     }
 }

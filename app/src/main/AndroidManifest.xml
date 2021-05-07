@@ -51,7 +51,7 @@
 
         </activity>
         <activity android:name=".auth.AccountDetailsActivity" />
-        <activity android:name=".activities.ReviewPageActivity">
+        <activity android:name=".activities.DetailsPageActivity">
 
         </activity>
         <activity
