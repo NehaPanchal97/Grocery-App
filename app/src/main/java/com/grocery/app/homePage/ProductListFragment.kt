@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.adapters.ProductListAdapter
-import com.grocery.app.constant.ADMIN_PRODUCT_TYPE
 import com.grocery.app.constant.CATEGORY
 import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
 import com.grocery.app.databinding.ProductItemgroupLayoutBinding
