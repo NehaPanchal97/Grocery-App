@@ -64,18 +64,22 @@ class ProductListAdapter(val products: ArrayList<Product>, private val itemType:
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseVH<*, Product> {
 
-        return if (viewType == ADMIN_PRODUCT_TYPE) {
-            val binder = ProductListItemBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false)
-            ProductItemVH(binder)
-        } else if (viewType == HOMEPAGE_PRODUCT_TYPE) {
-            val binder = ProductItemWithPriceBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false)
-            ProductGridVH(binder)
-        } else {
-            val binder = ProductItemWithPriceBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false)
-            ProductGridVH(binder)
+        return when (viewType) {
+            ADMIN_PRODUCT_TYPE -> {
+                val binder = ProductListItemBinding
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
+                ProductItemVH(binder)
+            }
+            HOMEPAGE_PRODUCT_TYPE -> {
+                val binder = ProductItemWithPriceBinding
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
+                ProductGridVH(binder)
+            }
+            else -> {
+                val binder = ProductItemWithPriceBinding
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
+                ProductGridVH(binder)
+            }
         }
 
     }
