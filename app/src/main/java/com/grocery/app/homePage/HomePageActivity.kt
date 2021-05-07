@@ -13,6 +13,7 @@ import com.grocery.app.activities.AdminHomePageActivity
 import com.grocery.app.activities.UpdateProfileActivity
 import com.grocery.app.constant.Store
 import com.grocery.app.constant.USER
+import com.grocery.app.extensions.cast
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.showSuccess
 import com.grocery.app.extras.Result
@@ -20,8 +21,6 @@ import com.grocery.app.models.User
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.AuthViewModel
 import kotlinx.android.synthetic.main.bottom_navigation_bar.*
-import kotlinx.android.synthetic.main.specific_item_with_price.*
-import kotlinx.android.synthetic.main.specific_itemgroup_in_product.*
 
 
 class HomePageActivity : AppCompatActivity() {
@@ -36,10 +35,10 @@ class HomePageActivity : AppCompatActivity() {
         observeData()
 //       switchFragment()
         val user = prefManager.get<User>(USER)
+        viewModel.syncUser()
         user?.let {
             if (savedInstanceState == null) {
                 switchFragment()
-                viewModel.syncUser()
             }
         } ?: kotlin.run { viewModel.fetchUserInfo() }
     }
@@ -79,13 +78,16 @@ class HomePageActivity : AppCompatActivity() {
                 }
             }
         })
-        viewModel.syncUserLiveData.observe(this, Observer { observer ->
+        viewModel.syncLiveData.observe(this, Observer { observer ->
             if (observer.type == Result.Status.SUCCESS) {
                 observer.data?.let {
-                    prefManager.put(USER, it)
-                    if (it.role == Store.ADMIN_ROLE) {
-                        startActivity(Intent(this, AdminHomePageActivity::class.java))
-                        finishAffinity()
+                    prefManager.put(it.first, it.second)
+                    if (it.first == USER) {
+                        val user = it.second.cast<User>()
+                        if (user?.role == Store.ADMIN_ROLE) {
+                            startActivity(Intent(this, AdminHomePageActivity::class.java))
+                            finishAffinity()
+                        }
                     }
                 }
             }
