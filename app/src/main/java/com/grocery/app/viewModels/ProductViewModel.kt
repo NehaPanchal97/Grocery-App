@@ -17,6 +17,7 @@ import com.grocery.app.models.Product
 import com.grocery.app.utils.isBlank
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
 class ProductViewModel : ViewModel() {
 
@@ -107,6 +108,10 @@ class ProductViewModel : ViewModel() {
             Store.TAGS to product.tags
         )
 
+        if ((product.name?.length ?: 0) > 2) {
+            map[Store.SEARCH_KEYS] = createSearchKeys(product.name ?: "")
+        }
+
         val baseTask = Firebase.firestore.collection(Store.PRODUCTS)
 
         val task = if (product.id.isBlank()) baseTask.add(map)
@@ -120,6 +125,21 @@ class ProductViewModel : ViewModel() {
             .addOnFailureListener {
                 _addOrUpdateProductLiveData.value = Result.error()
             }
+    }
+
+    private fun createSearchKeys(key: String): ArrayList<String> {
+        val keys = arrayListOf<String>()
+        val words = key.split(" ")
+        if (words.isNotEmpty()) {
+            val firstWord = words[0]
+            if (firstWord.length < 3) {
+                return keys
+            }
+            for (i in 3..firstWord.length) {
+                keys.add(firstWord.substring(0, i).toLowerCase())
+            }
+        }
+        return keys
     }
 
     fun shouldAddTag(text: String): Boolean {

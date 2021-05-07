@@ -16,7 +16,6 @@ import kotlin.collections.ArrayList
 class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
     RecyclerView.Adapter<BaseVH<*, ItemGroup>>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseVH<*, ItemGroup> {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {

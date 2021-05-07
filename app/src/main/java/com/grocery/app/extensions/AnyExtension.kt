@@ -6,3 +6,5 @@ import com.google.firebase.ktx.Firebase
 
 val authUser: FirebaseUser?
     get() = Firebase.auth.currentUser
+
+inline fun <reified T> Any?.cast() = this as? T

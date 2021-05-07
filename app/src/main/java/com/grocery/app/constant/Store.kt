@@ -16,4 +16,6 @@ object Store {
     const val TAGS = "tags"
     const val DISCOUNTS = "discounts"
     const val DEALS = "deals"
+    const val ADMIN_ROLE = "admin"
+    const val SEARCH_KEYS = "search_keys"
 }

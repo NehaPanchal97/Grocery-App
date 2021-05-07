@@ -9,7 +9,7 @@ import com.grocery.app.R
 open class BaseActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
-    protected fun setupToolbar(
+     fun setupToolbar(
         toolBar: MaterialToolbar,
         enableBack: Boolean = true,
         @MenuRes menuId: Int = -1

@@ -73,4 +73,7 @@
     <string name="backpress">BackPress</string>
     <string name="profilepicture">ProfilePicture</string>
     <string name="details">Packed with vitamins, fiber, and particularly high levels of antioxidants known as polyphenols, strawberries are a sodium-free, fat-free, cholesterol-free, low-calorie food. They are among the top 20 fruits in antioxidant capacity and are a good source of manganese and potassium. Just one serving -- about eight strawberries -- provides more vitamin C than an orange.</string>
+    <string name="settings">Settings</string>
+    <string name="product">Product</string>
+    <string name="profile">Profile</string>
 </resources>
