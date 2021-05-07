@@ -12,21 +12,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/tool_bar"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:title="@string/products"
-                app:menu="@menu/product_list_menu"
-                app:titleTextColor="#ffffff" />
-        </com.google.android.material.appbar.AppBarLayout>
-
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progress_bar"
             android:layout_width="match_parent"

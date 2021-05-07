@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.grocery.app.R
+import com.grocery.app.activities.AdminHomePageActivity
 import com.grocery.app.activities.UpdateProfileActivity
+import com.grocery.app.constant.Store
 import com.grocery.app.constant.USER
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.showSuccess
@@ -35,7 +37,10 @@ class HomePageActivity : AppCompatActivity() {
 //       switchFragment()
         val user = prefManager.get<User>(USER)
         user?.let {
-            switchFragment()
+            if (savedInstanceState == null) {
+                switchFragment()
+                viewModel.syncUser()
+            }
         } ?: kotlin.run { viewModel.fetchUserInfo() }
     }
 
@@ -57,7 +62,13 @@ class HomePageActivity : AppCompatActivity() {
                     currentFocus?.showSuccess("updated")
                     it.data?.let {
                         prefManager.put(USER, it)
-                        switchFragment()
+                        if (it.role == Store.ADMIN_ROLE) {
+                            startActivity(Intent(this, AdminHomePageActivity::class.java))
+                            finishAffinity()
+                        } else {
+                            switchFragment()
+                        }
+
                     } ?: kotlin.run {
                         startActivity(Intent(this, UpdateProfileActivity::class.java))
                         finish()
@@ -65,6 +76,17 @@ class HomePageActivity : AppCompatActivity() {
                 }
                 Result.Status.ERROR -> {
                     currentFocus?.showError("error")
+                }
+            }
+        })
+        viewModel.syncUserLiveData.observe(this, Observer { observer ->
+            if (observer.type == Result.Status.SUCCESS) {
+                observer.data?.let {
+                    prefManager.put(USER, it)
+                    if (it.role == Store.ADMIN_ROLE) {
+                        startActivity(Intent(this, AdminHomePageActivity::class.java))
+                        finishAffinity()
+                    }
                 }
             }
         })

@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/products"
+        android:id="@+id/cart"
         android:icon="@drawable/ic_shop"
         android:title="@string/products"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/add_category"
+        android:id="@+id/add"
         android:icon="@drawable/ic_add_white"
         android:title="@string/add_category"
         app:showAsAction="ifRoom" />
