@@ -5,29 +5,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
+import com.grocery.app.constant.ADMIN_PRODUCT_TYPE
+import com.grocery.app.constant.CART_ITEM_TYPE
+import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
+import com.grocery.app.databinding.CartItemBinding
+import com.grocery.app.databinding.ProductItemWithPriceBinding
 import com.grocery.app.databinding.ProductListItemBinding
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Product
 import com.grocery.app.viewHolders.BaseVH
+import com.grocery.app.viewHolders.CartItemVH
+import com.grocery.app.viewModels.ProductGridVH
 
-class ProductListAdapter(val products: ArrayList<Product>) :
-    RecyclerView.Adapter<ProductListAdapter.ProductItemVH>() {
+class ProductListAdapter(val products: ArrayList<Product>, private val itemType: Int) :
+    RecyclerView.Adapter<BaseVH<*, Product>>() {
 
     var onClickListener: OnItemClickListener? = null
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductItemVH {
-        val binder = ProductListItemBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false)
-        return ProductItemVH(binder)
+    override fun getItemViewType(position: Int): Int {
+        return itemType
     }
 
     override fun getItemCount(): Int {
         return products.size
-    }
-
-    override fun onBindViewHolder(holder: ProductItemVH, position: Int) {
-        holder.bind(products[position])
     }
 
     fun update(arrayList: java.util.ArrayList<Product>) {
@@ -35,7 +35,7 @@ class ProductListAdapter(val products: ArrayList<Product>) :
         notifyDataSetChanged()
     }
 
-    fun clearAdapter(){
+    fun clearAdapter() {
         products.clear()
         notifyDataSetChanged()
     }
@@ -57,6 +57,38 @@ class ProductListAdapter(val products: ArrayList<Product>) :
 
         override fun onClick(v: View?) {
             onClickListener?.onItemClick(v?.id ?: -1, adapterPosition)
+        }
+
+    }
+
+    override fun onBindViewHolder(holder: BaseVH<*, Product>, position: Int) {
+        holder.bind(products[position])
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseVH<*, Product> {
+
+        return when (viewType) {
+            ADMIN_PRODUCT_TYPE -> {
+                val binder = ProductListItemBinding
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
+                ProductItemVH(binder)
+            }
+            HOMEPAGE_PRODUCT_TYPE -> {
+                val binder = ProductItemWithPriceBinding
+                        .inflate(LayoutInflater.from(parent.context), parent, false)
+                ProductGridVH(binder)
+            }
+            CART_ITEM_TYPE->{
+                    val binder = CartItemBinding
+                            .inflate(LayoutInflater.from(parent.context), parent, false)
+                    CartItemVH(binder)
+                }
+
+            else -> {
+                val binder = ProductItemWithPriceBinding
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
+                ProductGridVH(binder)
+            }
         }
 
     }

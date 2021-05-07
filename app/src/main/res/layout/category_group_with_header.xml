@@ -34,6 +34,7 @@
             android:layout_alignParentStart="true"
             android:layout_gravity="center_vertical"
             android:text="@string/category"
+            android:padding="10dp"
             android:fontFamily="@font/ptsans_bold"
             android:textSize="18sp"
             android:textColor="#070707"/>
@@ -41,12 +42,14 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnMore"
             android:layout_width="wrap_content"
-            android:layout_height="42dp"
+            android:layout_height="wrap_content"
             android:onClick="onClickBtnMore"
             android:clickable="true"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:text="@string/see_all"
+            android:textSize="18sp"
+            android:textAllCaps="false"
             android:textColor="#27ae60"
             android:focusable="true"
             style="?android:attr/borderlessButtonStyle"/>

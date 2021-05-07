@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.grocery.app.R
 import com.grocery.app.customs.Page
-import com.grocery.app.fragments.ProductListFragment
+import com.grocery.app.fragments.AdminProductListFragment
 
 class AdminProductPage : Page() {
     override fun getToolbar(context: Context): String {
@@ -13,7 +13,7 @@ class AdminProductPage : Page() {
     }
 
     override fun getFragment(): Fragment {
-        return ProductListFragment()
+        return AdminProductListFragment()
     }
 
     override fun setupToolbar(toolbar: MaterialToolbar) {
