@@ -12,8 +12,8 @@ import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Category
 
 // Adapter for 2 screen
-class CategoryItemsAdapter(private val itemList: ArrayList<Category>) :
-    RecyclerView.Adapter<CategoryItemsAdapter.GridViewHolder>() {
+class CategoryTypesAdapter(private val itemList: ArrayList<Category>) :
+    RecyclerView.Adapter<CategoryTypesAdapter.GridViewHolder>() {
 
 
     val items

@@ -32,6 +32,8 @@
             android:id="@+id/homePageTitle"
             android:gravity="center"
             android:padding="5dp"
+            android:maxLines="2"
+            android:maxWidth="10dp"
             tools:text="vegetables"
             android:textColor="#191818"
             android:textSize="14sp"/>

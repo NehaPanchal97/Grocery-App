@@ -1,6 +1,5 @@
 package com.grocery.app.homePage.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,19 +7,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.grocery.app.homePage.dataModel.ItemData
 import com.grocery.app.R
 import com.grocery.app.models.Product
 
 
 //Adapter for 3 screen
-class SpecificItemAdapter(
-                          private val itemList:ArrayList<Product>): RecyclerView.Adapter<SpecificItemAdapter.GridViewHolder>() {
+class ProductListAdapter(
+                          private val itemList:ArrayList<Product>): RecyclerView.Adapter<ProductListAdapter.GridViewHolder>() {
 
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.specific_item_with_price,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.product_item_with_price,parent,false)
         return GridViewHolder(view)
     }
 

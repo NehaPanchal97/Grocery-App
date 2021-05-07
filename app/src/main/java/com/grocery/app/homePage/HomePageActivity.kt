@@ -20,8 +20,6 @@ import com.grocery.app.models.User
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.AuthViewModel
 import kotlinx.android.synthetic.main.bottom_navigation_bar.*
-import kotlinx.android.synthetic.main.specific_item_with_price.*
-import kotlinx.android.synthetic.main.specific_itemgroup_in_product.*
 
 
 class HomePageActivity : AppCompatActivity() {
@@ -32,6 +30,16 @@ class HomePageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        bottomNavigationBar.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.home->{
+                    startActivity(Intent(this,this::class.java))
+                }
+            }
+            true
+        }
+
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         observeData()
 //       switchFragment()

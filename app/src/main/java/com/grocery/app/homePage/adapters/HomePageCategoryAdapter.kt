@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.constant.HomeCarousel
-import com.grocery.app.homePage.dataModel.ItemGroup
-import com.grocery.app.databinding.CategoryGroupBinding
+import com.grocery.app.databinding.CategoryGroupWithHeaderBinding
 import com.grocery.app.databinding.WithoutHeaderRvGroupBinding
+import com.grocery.app.homePage.dataModel.ItemGroup
 import com.grocery.app.viewHolders.BaseVH
-import kotlin.collections.ArrayList
 
 
 //Main vertical Adapter for 1 screen
@@ -20,7 +19,7 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             VIEW_GROUP_LAYOUT -> {
-                val binding = CategoryGroupBinding.inflate(inflater, parent, false)
+                val binding = CategoryGroupWithHeaderBinding.inflate(inflater, parent, false)
                 ParentViewHolder(binding)
             }
             VIEW_WITHOUT_HEADER -> {
@@ -29,7 +28,7 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
             }
 
             else -> {
-                val binding = CategoryGroupBinding.inflate(inflater, parent, false)
+                val binding = CategoryGroupWithHeaderBinding.inflate(inflater, parent, false)
                 ParentViewHolder(binding)
             }
         }
@@ -73,11 +72,11 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
 
     }
 
-    class ParentViewHolder(private val binder: CategoryGroupBinding) :
-        BaseVH<CategoryGroupBinding, ItemGroup>(binder) {
+    class ParentViewHolder(private val binder: CategoryGroupWithHeaderBinding) :
+        BaseVH<CategoryGroupWithHeaderBinding, ItemGroup>(binder) {
         override fun bind(data: ItemGroup) {
 
-            val itemListAdapter = data.listItem?.let { CategoryItemsAdapter(it) }
+            val itemListAdapter = data.listItem?.let { CategoryTypesAdapter(it) }
 
             binder.recyclerViewHorizontal.setHasFixedSize(true)
             binder.recyclerViewHorizontal.layoutManager =
