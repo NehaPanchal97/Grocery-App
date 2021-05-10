@@ -12,12 +12,26 @@ import com.grocery.app.models.Product
 import com.grocery.app.viewHolders.BaseVH
 
 class ProductGridVH(private val binder: ProductItemWithPriceBinding) :
-    BaseVH<ProductItemWithPriceBinding, Product>(binder) {
+    BaseVH<ProductItemWithPriceBinding, Product>(binder), View.OnClickListener {
+
+    lateinit var cartMap: HashMap<String, Product?>
+
+    init {
+        binder.ivAdd.setOnClickListener(this)
+        binder.ivRemove.setOnClickListener(this)
+    }
 
     override fun bind(data: Product) {
 
+        val count = cartMap[data.id]?.count ?: 0
         binder.specificItemTitle.text = data.name
         binder.tvPrice.text = data.price.toString()
         binder.itemImage.loadImage(url = data.url)
+        binder.tvCount.text = "$count"
+
+    }
+
+    override fun onClick(v: View?) {
+        itemClickListener?.onItemClick(v?.id ?: -1, bindingAdapterPosition)
     }
 }

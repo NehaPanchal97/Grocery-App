@@ -101,27 +101,29 @@ class ProductListFragment : BaseFragment() {
         return binder.root
     }
 
-//    private val _itemClickListener = object : OnItemClickListener {
-//        override fun onItemClick(itemId: Int, position: Int) {
-//            if (itemId == R.id.iv_add) {
-//                val product = itemRecyclerViewAdapter.items.getOrNull(position)
-//                viewModel.updateCart(product, isAddition = true)
-//                itemRecyclerViewAdapter.notifyItemChanged(position)
-//            } else if (itemId == R.id.iv_remove) {
-//                val product = itemRecyclerViewAdapter.items.getOrNull(position)
-//                viewModel.updateCart(product, isAddition = false)
-//                itemRecyclerViewAdapter.notifyItemChanged(position)
-//            }
-//        }
-//
-//    }
+    private val _itemClickListener = object : OnItemClickListener {
+        override fun onItemClick(itemId: Int, position: Int) {
+            if (itemId == R.id.iv_add) {
+                val product = itemRecyclerViewAdapter.items.getOrNull(position)
+                viewModel.updateCart(product, isAddition = true)
+                itemRecyclerViewAdapter.notifyItemChanged(position)
+            } else if (itemId == R.id.iv_remove) {
+                val product = itemRecyclerViewAdapter.items.getOrNull(position)
+                viewModel.updateCart(product, isAddition = false)
+                itemRecyclerViewAdapter.notifyItemChanged(position)
+            }
+        }
+
+    }
 
     private fun itemRecyclerView() {
         binder.itemRecyclerView.apply {
 
-            itemRecyclerViewAdapter = ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE)
-//            itemRecyclerViewAdapter = SpecificItemAdapter(arrayListOf(), viewModel.cartMap)
-//            itemRecyclerViewAdapter.itemClickListener = _itemClickListener
+            itemRecyclerViewAdapter = ProductListAdapter(
+                arrayListOf(),
+                HOMEPAGE_PRODUCT_TYPE, viewModel.cartMap
+            )
+            itemRecyclerViewAdapter.onClickListener = _itemClickListener
             binder.itemRecyclerView.adapter = itemRecyclerViewAdapter
         }
     }
