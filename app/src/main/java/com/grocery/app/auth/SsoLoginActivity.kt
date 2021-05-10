@@ -13,7 +13,7 @@ class SsoLoginActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sso_login_and_otp)
+        setContentView(R.layout.activity_sso_login)
         listener()
     }
 

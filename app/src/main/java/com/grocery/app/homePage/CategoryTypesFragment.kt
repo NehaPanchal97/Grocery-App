@@ -10,18 +10,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
 import com.grocery.app.constant.CATEGORY
-import com.grocery.app.databinding.ProductItemsGroupBinding
+import com.grocery.app.databinding.CategoryItemsGroupBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
-import com.grocery.app.homePage.adapters.ProductItemsAdapter
+import com.grocery.app.homePage.adapters.CategoryTypesAdapter
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.CategoryViewModel
 
 class CategoryTypesFragment : BaseFragment(), View.OnClickListener {
 
-    private lateinit var binder: ProductItemsGroupBinding
-    lateinit var listAdapter: ProductItemsAdapter
+    private lateinit var binder: CategoryItemsGroupBinding
+    lateinit var listAdapter: CategoryTypesAdapter
     lateinit var viewModel: CategoryViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +57,7 @@ class CategoryTypesFragment : BaseFragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binder = ProductItemsGroupBinding.inflate(inflater, container, false)
+        binder = CategoryItemsGroupBinding.inflate(inflater, container, false)
         return binder.root
 
     }
@@ -68,7 +68,7 @@ class CategoryTypesFragment : BaseFragment(), View.OnClickListener {
 
         binder.productRecyclerView.apply {
             layoutManager = GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)
-            listAdapter = ProductItemsAdapter(arrayListOf())
+            listAdapter = CategoryTypesAdapter(arrayListOf())
                 .apply { itemClickListener = _itemClickListener }
             binder.productRecyclerView.adapter = listAdapter
 
@@ -82,7 +82,7 @@ class CategoryTypesFragment : BaseFragment(), View.OnClickListener {
 
             val bundle = Bundle()
             bundle.putParcelable(CATEGORY, listAdapter.items[position])
-            val fragment = CategoryItemsFragment()
+            val fragment = ProductListFragment()
             fragment.arguments = bundle
             activity?.supportFragmentManager?.beginTransaction()
                 ?.add(R.id.fragment_container, fragment)

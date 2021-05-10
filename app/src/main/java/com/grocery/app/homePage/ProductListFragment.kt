@@ -9,25 +9,25 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.R
 import com.grocery.app.constant.CART
 import com.grocery.app.constant.CATEGORY
-import com.grocery.app.databinding.SpecificItemgroupInProductBinding
+import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
+import com.grocery.app.databinding.ProductItemgroupLayoutBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
-import com.grocery.app.homePage.adapters.SpecificItemAdapter
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.viewModels.ProductViewModel
-import kotlinx.android.synthetic.main.specific_itemgroup_in_product.*
 
-class CategoryItemsFragment : BaseFragment() {
+class ProductListFragment : BaseFragment() {
 
-    private lateinit var itemRecyclerViewAdapter: SpecificItemAdapter
-    lateinit var binder: SpecificItemgroupInProductBinding
+    private lateinit var itemRecyclerViewAdapter: ProductListAdapter
+    lateinit var binder: ProductItemgroupLayoutBinding
     private lateinit var viewModel: ProductViewModel
     private lateinit var catViewModel: CategoryViewModel
 
@@ -35,19 +35,19 @@ class CategoryItemsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        item_recyclerView.addItemDecoration(
+        binder.itemRecyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
                 DividerItemDecoration.VERTICAL
             )
         )
-        item_recyclerView.addItemDecoration(
+        binder.itemRecyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
                 DividerItemDecoration.HORIZONTAL
             )
         )
-        item_recyclerView.layoutManager =
+        binder.itemRecyclerView.layoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         catViewModel = ViewModelProvider(requireActivity()).get(CategoryViewModel::class.java)
@@ -97,7 +97,7 @@ class CategoryItemsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binder = SpecificItemgroupInProductBinding.inflate(inflater, container, false)
+        binder = ProductItemgroupLayoutBinding.inflate(inflater, container, false)
         return binder.root
     }
 
@@ -117,8 +117,9 @@ class CategoryItemsFragment : BaseFragment() {
     }
 
     private fun itemRecyclerView() {
-        item_recyclerView.apply {
+        binder.itemRecyclerView.apply {
 
+            itemRecyclerViewAdapter = ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE)
             itemRecyclerViewAdapter = SpecificItemAdapter(arrayListOf(), viewModel.cartMap)
             itemRecyclerViewAdapter.itemClickListener = _itemClickListener
             binder.itemRecyclerView.adapter = itemRecyclerViewAdapter

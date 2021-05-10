@@ -13,7 +13,6 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/without_header_rv"
-            android:layout_margin="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
