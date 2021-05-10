@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.adapters.ProductListAdapter
-import com.grocery.app.R
 import com.grocery.app.constant.CART
 import com.grocery.app.constant.CATEGORY
 import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
@@ -18,7 +17,6 @@ import com.grocery.app.databinding.ProductItemgroupLayoutBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
-import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.CategoryViewModel
@@ -101,27 +99,27 @@ class ProductListFragment : BaseFragment() {
         return binder.root
     }
 
-    private val _itemClickListener = object : OnItemClickListener {
-        override fun onItemClick(itemId: Int, position: Int) {
-            if (itemId == R.id.iv_add) {
-                val product = itemRecyclerViewAdapter.items.getOrNull(position)
-                viewModel.updateCart(product, isAddition = true)
-                itemRecyclerViewAdapter.notifyItemChanged(position)
-            } else if (itemId == R.id.iv_remove) {
-                val product = itemRecyclerViewAdapter.items.getOrNull(position)
-                viewModel.updateCart(product, isAddition = false)
-                itemRecyclerViewAdapter.notifyItemChanged(position)
-            }
-        }
-
-    }
+//    private val _itemClickListener = object : OnItemClickListener {
+//        override fun onItemClick(itemId: Int, position: Int) {
+//            if (itemId == R.id.iv_add) {
+//                val product = itemRecyclerViewAdapter.items.getOrNull(position)
+//                viewModel.updateCart(product, isAddition = true)
+//                itemRecyclerViewAdapter.notifyItemChanged(position)
+//            } else if (itemId == R.id.iv_remove) {
+//                val product = itemRecyclerViewAdapter.items.getOrNull(position)
+//                viewModel.updateCart(product, isAddition = false)
+//                itemRecyclerViewAdapter.notifyItemChanged(position)
+//            }
+//        }
+//
+//    }
 
     private fun itemRecyclerView() {
         binder.itemRecyclerView.apply {
 
             itemRecyclerViewAdapter = ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE)
-            itemRecyclerViewAdapter = SpecificItemAdapter(arrayListOf(), viewModel.cartMap)
-            itemRecyclerViewAdapter.itemClickListener = _itemClickListener
+//            itemRecyclerViewAdapter = SpecificItemAdapter(arrayListOf(), viewModel.cartMap)
+//            itemRecyclerViewAdapter.itemClickListener = _itemClickListener
             binder.itemRecyclerView.adapter = itemRecyclerViewAdapter
         }
     }

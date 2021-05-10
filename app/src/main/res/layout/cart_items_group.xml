@@ -47,7 +47,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
                 app:contentPadding="16dp"
                 android:layout_marginLeft="8dp"
@@ -73,41 +73,43 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/checkout_container"
-                android:layout_width="match_parent"
-                android:background="@drawable/cart_checkout_container_background"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/cart_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Total:$28.60"
-                    android:padding="20dp"
-                    android:textColor="#000000"
-                    android:fontFamily="@font/ptsans_bold"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/checkout_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toRightOf="@id/cart_amount"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:padding="10dp"
-                    android:text="Checkout"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:cornerRadius="10dp"
-
-                    android:layout_margin="15dp"
-                    android:textAllCaps="false"
-                    android:gravity="center"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/checkout_container"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="40dp"
+            android:background="@drawable/cart_checkout_container_background"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/cart_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="Total:$28.60"
+                android:padding="20dp"
+                android:textColor="#000000"
+                android:fontFamily="@font/ptsans_bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/checkout_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@id/cart_amount"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="10dp"
+                android:text="Checkout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:cornerRadius="10dp"
+                android:layout_margin="15dp"
+                android:textAllCaps="false"
+                android:gravity="center"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </RelativeLayout>
 </layout>

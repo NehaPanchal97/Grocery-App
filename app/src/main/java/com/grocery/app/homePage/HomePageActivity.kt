@@ -42,6 +42,13 @@ class HomePageActivity : AppCompatActivity() {
             true
         }
 
+        fab.setOnClickListener{
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, CartPageFragment())
+                    .addToBackStack(null)
+                    .commit()
+        }
+
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         observeData()
 //       switchFragment()
