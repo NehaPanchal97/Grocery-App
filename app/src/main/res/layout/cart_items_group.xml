@@ -35,7 +35,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cart_container_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -67,6 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
+                    android:layout_marginBottom="100dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
@@ -74,7 +75,7 @@
             </com.google.android.material.card.MaterialCardView>
 
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/checkout_container"
             android:layout_width="match_parent"
@@ -103,9 +104,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:padding="10dp"
                 android:text="Checkout"
+                android:drawableRight="@drawable/proceed_arrow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:cornerRadius="10dp"
+                android:textSize="16sp"
                 android:layout_margin="15dp"
                 android:textAllCaps="false"
                 android:gravity="center"/>
