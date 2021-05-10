@@ -1,6 +1,7 @@
 package com.grocery.app.homePage.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +9,9 @@ import com.grocery.app.constant.HomeCarousel
 import com.grocery.app.databinding.CategoryGroupWithHeaderBinding
 import com.grocery.app.databinding.WithoutHeaderRvGroupBinding
 import com.grocery.app.homePage.dataModel.ItemGroup
+import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewHolders.BaseVH
+import com.grocery.app.viewHolders.ParentViewHolder
 
 
 //Main vertical Adapter for 1 screen
@@ -72,21 +75,7 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
 
     }
 
-    class ParentViewHolder(private val binder: CategoryGroupWithHeaderBinding) :
-        BaseVH<CategoryGroupWithHeaderBinding, ItemGroup>(binder) {
-        override fun bind(data: ItemGroup) {
 
-            val itemListAdapter = data.listItem?.let { CategoryTypesAdapter(it) }
-
-            binder.recyclerViewHorizontal.setHasFixedSize(true)
-            binder.recyclerViewHorizontal.layoutManager =
-                LinearLayoutManager(binder.root.context, LinearLayoutManager.HORIZONTAL, false)
-            binder.recyclerViewHorizontal.adapter = itemListAdapter
-
-            binder.recyclerViewHorizontal.isNestedScrollingEnabled = false
-        }
-
-    }
 
     override fun onBindViewHolder(holder: BaseVH<*, ItemGroup>, position: Int) {
         dataList?.getOrNull(position)?.let {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,11 +27,23 @@ class HomeFragment : BaseFragment() {
     private lateinit var binder: HomeFragmentBinding
     lateinit var listAdapter: HomePageCategoryAdapter
     private lateinit var viewModel: CategoryViewModel
+     var imgBtn: ImageView?=null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
         catRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        imgBtn= view.findViewById(R.id.homeItemImage)
+        imgBtn?.setOnClickListener (object:View.OnClickListener {
+            override fun onClick(v: View?) {
+                activity?.supportFragmentManager?.beginTransaction()
+                        ?.add(R.id.fragment_container, ProductListFragment())
+                        ?.addToBackStack(null)
+                        ?.commit()
+            }
+
+        })
+
         setupView()
         observe()
         viewModel.fetchHomePageData(3)

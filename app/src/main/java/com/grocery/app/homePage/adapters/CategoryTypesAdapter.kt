@@ -44,7 +44,9 @@ class CategoryTypesAdapter(private val itemList: ArrayList<Category>) :
     inner class GridViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var txt_title: TextView = view.findViewById(R.id.homePageTitle) as TextView
-        var img_item: ImageView = view.findViewById(R.id.itemImage) as ImageView
+        var img_item: ImageView = view.findViewById(R.id.homeItemImage) as ImageView
+
+
     }
 
     fun updateCategory(data: ArrayList<Category>?) {

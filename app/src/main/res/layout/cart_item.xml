@@ -4,33 +4,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-<androidx.constraintlayout.widget.ConstraintLayout
+<com.google.android.material.card.MaterialCardView
 
-    android:layout_margin="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
     <ImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:id="@+id/cartItemImage"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="start"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/strawberry"
         android:contentDescription="@string/todo"
         tools:ignore="MissingConstraints" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cartItemTitle"
-        android:gravity="start"
         android:padding="5dp"
         android:layout_marginStart="5dp"
         android:maxLines="2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/cartItemImage"
-        app:layout_constraintLeft_toRightOf="@id/cartItemImage"
+
         android:maxWidth="160dp"
         android:text= "@string/vegetables"
         android:textColor="#191818"
@@ -41,7 +48,6 @@
         android:id="@+id/cart_item_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
         android:maxWidth="200dp"
         android:padding="5dp"
         android:layout_marginStart="5dp"
@@ -52,17 +58,17 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@id/cartItemTitle"
         app:layout_constraintTop_toBottomOf="@id/cartItemTitle" />
+        </LinearLayout>
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:padding="10dp"
+        android:layout_gravity="end"
         android:orientation="vertical"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toRightOf="@id/cartItemTitle"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
@@ -100,5 +106,7 @@
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
 </layout>
