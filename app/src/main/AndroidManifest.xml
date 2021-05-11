@@ -43,17 +43,17 @@
         </activity>
         <activity android:name=".auth.AccountDetailsActivity" />
         <activity android:name=".activities.DetailsPageActivity">
-
-        </activity>
-        <activity
-            android:name=".activities.UpdateProfileActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.UpdateProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activities.SplashActivity">
+
         </activity>
         <activity
             android:name=".activities.AdminHomePageActivity"
