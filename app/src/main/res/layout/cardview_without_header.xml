@@ -63,7 +63,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
->>>>>>>>> Temporary merge branch 2
             android:fontFamily="@font/ptsans_bold"
             android:text="Order Now"
             android:textColor="#27ae60"
