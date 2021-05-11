@@ -124,6 +124,9 @@ class ProductListFragment : BaseFragment() {
                 HOMEPAGE_PRODUCT_TYPE, viewModel.cartMap
             )
             itemRecyclerViewAdapter.onClickListener = _itemClickListener
+            itemRecyclerViewAdapter = ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE)
+//            itemRecyclerViewAdapter = SpecificItemAdapter(arrayListOf(), viewModel.cartMap)
+//            itemRecyclerViewAdapter.itemClickListener = _itemClickListener
             binder.itemRecyclerView.adapter = itemRecyclerViewAdapter
         }
     }

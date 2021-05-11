@@ -115,7 +115,7 @@ class ProductViewModel : ViewModel() {
                 cartTotal += (it.total ?: 0.0)
             }
         } else {
-            val items = cart.items?: arrayListOf()
+            val items = cart.items ?: arrayListOf()
             product?.let {
                 it.count = 1
                 it.total = it.price
@@ -240,4 +240,5 @@ class ProductViewModel : ViewModel() {
             cartMap[it.id ?: ""] = it
         }
     }
+
 }

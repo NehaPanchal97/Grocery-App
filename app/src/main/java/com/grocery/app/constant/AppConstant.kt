@@ -9,3 +9,4 @@ const val ADMIN_PRODUCT_TYPE = 234
 const val HOMEPAGE_PRODUCT_TYPE = 235
 const val CART_ITEM_TYPE=236
 const val CART = "cart"
+const val SIMILAR_PRODUCT = 238
