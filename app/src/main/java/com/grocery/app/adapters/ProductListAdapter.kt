@@ -18,10 +18,16 @@ import com.grocery.app.viewHolders.BaseVH
 import com.grocery.app.viewHolders.CartItemVH
 import com.grocery.app.viewModels.ProductGridVH
 
-class ProductListAdapter(val products: ArrayList<Product>, private val itemType: Int) :
+class ProductListAdapter(
+    val products: ArrayList<Product>,
+    private val itemType: Int,
+    private val cartMap: HashMap<String, Product?> = hashMapOf()
+) :
     RecyclerView.Adapter<BaseVH<*, Product>>() {
 
     var onClickListener: OnItemClickListener? = null
+    val items
+        get() = products
 
     override fun getItemViewType(position: Int): Int {
         return itemType
@@ -68,7 +74,7 @@ class ProductListAdapter(val products: ArrayList<Product>, private val itemType:
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseVH<*, Product> {
 
-        return when (viewType) {
+        val viewHolder = when (viewType) {
             ADMIN_PRODUCT_TYPE -> {
                 val binder = ProductListItemBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
@@ -76,14 +82,14 @@ class ProductListAdapter(val products: ArrayList<Product>, private val itemType:
             }
             HOMEPAGE_PRODUCT_TYPE -> {
                 val binder = ProductItemWithPriceBinding
-                        .inflate(LayoutInflater.from(parent.context), parent, false)
-                ProductGridVH(binder)
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
+                ProductGridVH(binder).apply { cartMap = this@ProductListAdapter.cartMap }
             }
-            CART_ITEM_TYPE->{
-                    val binder = CartItemBinding
-                            .inflate(LayoutInflater.from(parent.context), parent, false)
-                    CartItemVH(binder)
-                }
+            CART_ITEM_TYPE -> {
+                val binder = CartItemBinding
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
+                CartItemVH(binder)
+            }
 
             else -> {
                 val binder = ProductItemWithPriceBinding
@@ -91,6 +97,7 @@ class ProductListAdapter(val products: ArrayList<Product>, private val itemType:
                 ProductGridVH(binder)
             }
         }
-
+        viewHolder.itemClickListener = onClickListener
+        return viewHolder
     }
 }
