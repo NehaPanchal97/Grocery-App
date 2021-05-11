@@ -1,5 +1,6 @@
 package com.grocery.app.homePage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.R
+import com.grocery.app.activities.DetailsPageActivity
 import com.grocery.app.constant.CART
 import com.grocery.app.constant.CATEGORY
 import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
@@ -111,6 +113,8 @@ class ProductListFragment : BaseFragment() {
                 val product = itemRecyclerViewAdapter.items.getOrNull(position)
                 viewModel.updateCart(product, isAddition = false)
                 itemRecyclerViewAdapter.notifyItemChanged(position)
+            } else if (itemId == R.id.itemImage) {
+                startActivity(Intent(requireContext(), DetailsPageActivity::class.java))
             }
         }
 
@@ -124,7 +128,7 @@ class ProductListFragment : BaseFragment() {
                 HOMEPAGE_PRODUCT_TYPE, viewModel.cartMap
             )
             itemRecyclerViewAdapter.onClickListener = _itemClickListener
-            itemRecyclerViewAdapter = ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE)
+//            itemRecyclerViewAdapter = ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE)
 //            itemRecyclerViewAdapter = SpecificItemAdapter(arrayListOf(), viewModel.cartMap)
 //            itemRecyclerViewAdapter.itemClickListener = _itemClickListener
             binder.itemRecyclerView.adapter = itemRecyclerViewAdapter

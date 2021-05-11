@@ -56,8 +56,6 @@ class DetailsPageActivity: AppCompatActivity() {
         binder.rvSimilarProduct.apply {
 
             listAdapter = ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE)
-//            itemRecyclerViewAdapter = SpecificItemAdapter(arrayListOf(), viewModel.cartMap)
-//            itemRecyclerViewAdapter.itemClickListener = _itemClickListener
             binder.rvSimilarProduct.adapter = listAdapter
         }
     }

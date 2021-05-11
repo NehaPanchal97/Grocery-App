@@ -19,6 +19,7 @@ class ProductGridVH(private val binder: ProductItemWithPriceBinding) :
     init {
         binder.ivAdd.setOnClickListener(this)
         binder.ivRemove.setOnClickListener(this)
+        binder.itemImage.setOnClickListener(this)
     }
 
     override fun bind(data: Product) {
