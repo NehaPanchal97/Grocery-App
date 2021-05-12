@@ -10,15 +10,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.R
 import com.grocery.app.activities.DetailsPageActivity
+import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.CART
 import com.grocery.app.constant.CATEGORY
 import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
 import com.grocery.app.constant.PRODUCT
 import com.grocery.app.databinding.ProductItemgroupLayoutBinding
 import com.grocery.app.extensions.showError
+import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.listeners.OnItemClickListener
@@ -26,6 +27,7 @@ import com.grocery.app.models.Cart
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.viewModels.ProductViewModel
+import kotlinx.android.synthetic.main.product_item_with_price.*
 
 class ProductListFragment : BaseFragment() {
 
@@ -110,6 +112,7 @@ class ProductListFragment : BaseFragment() {
             if (itemId == R.id.iv_add) {
                 viewModel.updateCart(product, isAddition = true)
                 itemRecyclerViewAdapter.notifyItemChanged(position)
+
             } else if (itemId == R.id.iv_remove) {
                 viewModel.updateCart(product, isAddition = false)
                 itemRecyclerViewAdapter.notifyItemChanged(position)
@@ -122,9 +125,19 @@ class ProductListFragment : BaseFragment() {
 
     }
 
+    private fun onQuantityChanged(){
+        val count = viewModel.product.count
+
+        if (count != null) {
+            if (count<1){
+                iv_remove.visible(false)
+                tv_count.visible(false)
+            }
+        }
+    }
+
     private fun itemRecyclerView() {
         binder.itemRecyclerView.apply {
-
             itemRecyclerViewAdapter = ProductListAdapter(
                 arrayListOf(),
                 HOMEPAGE_PRODUCT_TYPE, viewModel.cartMap

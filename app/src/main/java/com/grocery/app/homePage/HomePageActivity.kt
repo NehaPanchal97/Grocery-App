@@ -42,6 +42,13 @@ class HomePageActivity : AppCompatActivity() {
             true
         }
 
+        fab.setOnClickListener{
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, CartPageFragment())
+                    .addToBackStack(null)
+                    .commit()
+        }
+
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         observeData()
 //       switchFragment()
@@ -117,16 +124,5 @@ class HomePageActivity : AppCompatActivity() {
         onBackPressed()
     }
 
-    fun remove(v: View?) {
-        if (count <= 0) count = 0
-        else count--
-        val textView = findViewById<TextView>(R.id.tv_count)
-        textView.text = "$count"
-    }
 
-    fun add(v: View?) {
-        count++
-        val textView = findViewById<TextView>(R.id.tv_count)
-        textView.text = "$count"
-    }
 }
