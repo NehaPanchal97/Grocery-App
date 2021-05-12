@@ -16,4 +16,5 @@
     <color name="backgroundEditText">#F0F3FD</color>
     <color name="cameraIcon">#D8DFFC</color>
     <color name="profilebackground">#D9E0FB</color>
+    <color name="white_color">#ffffff</color>
 </resources>
