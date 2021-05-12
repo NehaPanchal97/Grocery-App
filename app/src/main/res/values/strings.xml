@@ -3,7 +3,7 @@
     <string name="app_name">Grocery App</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_screen_heading">Continue with Phone</string>
-    <string name="verify_next_text">You will receive a 4 digit code \nto verify next </string>
+    <string name="verify_next_text">You will receive a 6 digit code \nto verify next </string>
     <string name="enter_your_phone_text">Enter your phone</string>
     <string name="mobile_no..">Ex. 98765XXXXX</string>
     <string name="country_code">+91</string>
@@ -72,8 +72,8 @@
     <string name="logout">LOGOUT</string>
     <string name="backpress">BackPress</string>
     <string name="profilepicture">ProfilePicture</string>
+    <string name="details">Packed with vitamins, fiber, and particularly high levels of antioxidants known as polyphenols, strawberries are a sodium-free, fat-free, cholesterol-free, low-calorie food. They are among the top 20 fruits in antioxidant capacity and are a good source of manganese and potassium. Just one serving -- about eight strawberries -- provides more vitamin C than an orange.</string>
     <string name="settings">Settings</string>
     <string name="product">Product</string>
     <string name="profile">Profile</string>
-    <string name="details">Packed with vitamins, fiber, and particularly high levels of antioxidants known as polyphenols, strawberries are a sodium-free, fat-free, cholesterol-free, low-calorie food. They are among the top 20 fruits in antioxidant capacity and are a good source of manganese and potassium. Just one serving -- about eight strawberries -- provides more vitamin C than an orange.</string>
 </resources>

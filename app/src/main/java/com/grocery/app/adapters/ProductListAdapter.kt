@@ -8,6 +8,7 @@ import com.grocery.app.R
 import com.grocery.app.constant.ADMIN_PRODUCT_TYPE
 import com.grocery.app.constant.CART_ITEM_TYPE
 import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
+import com.grocery.app.constant.SIMILAR_PRODUCT
 import com.grocery.app.databinding.CartItemBinding
 import com.grocery.app.databinding.ProductItemWithPriceBinding
 import com.grocery.app.databinding.ProductListItemBinding
