@@ -174,6 +174,10 @@ class ProductViewModel : ViewModel() {
     }
 
     private fun addOrUpdateProductOnStore() {
+        val ref = Firebase.firestore.collection(Store.PRODUCTS)
+        if (product.id.isBlank()) {
+            product.id = ref.document().id
+        }
         val map = hashMapOf(
             Store.NAME to product.name,
             Store.DESCRIPTION to product.description,
@@ -181,23 +185,19 @@ class ProductViewModel : ViewModel() {
             Store.ACTIVE to product.active,
             Store.CATEGORY_ID to product.categoryId,
             Store.URL to product.url,
-            Store.TAGS to product.tags
+            Store.TAGS to product.tags,
+            Store.ID to product.id
         )
 
         if ((product.name?.length ?: 0) > 2) {
             map[Store.SEARCH_KEYS] = createSearchKeys(product.name ?: "")
         }
 
-        val baseTask = Firebase.firestore.collection(Store.PRODUCTS)
-
-        val task = if (product.id.isBlank()) baseTask.add(map)
-        else baseTask
-            .document(product.id ?: "")
+        ref.document(product.id ?: "")
             .set(map)
-
-        task.addOnSuccessListener {
-            _addOrUpdateProductLiveData.value = Result.success()
-        }
+            .addOnSuccessListener {
+                _addOrUpdateProductLiveData.value = Result.success()
+            }
             .addOnFailureListener {
                 _addOrUpdateProductLiveData.value = Result.error()
             }

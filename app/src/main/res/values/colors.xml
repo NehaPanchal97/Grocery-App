@@ -17,4 +17,5 @@
     <color name="cameraIcon">#D8DFFC</color>
     <color name="profilebackground">#D9E0FB</color>
     <color name="white_color">#ffffff</color>
+    <color name="black_color">#000000</color>
 </resources>
