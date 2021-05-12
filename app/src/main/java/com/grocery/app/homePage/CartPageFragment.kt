@@ -92,7 +92,11 @@ class CartPageFragment : BaseFragment() {
     @SuppressLint("SetTextI18n")
     private fun onTotalChange(){
         val cartTotal = viewModel.cart.total?.toString()?:"0"
+        val total = viewModel.cart.total
         binder.cartAmount.text = "Total : \$$cartTotal"
+        if (total != null) {
+            binder.checkoutContainer.visible(total>0)
+        }
     }
 
 

@@ -119,16 +119,6 @@ class ProductListFragment : BaseFragment() {
 
     }
 
-    private fun onQuantityChanged(){
-        val count = viewModel.product.count
-
-        if (count != null) {
-            if (count<1){
-                iv_remove.visible(false)
-                tv_count.visible(false)
-            }
-        }
-    }
 
     private fun itemRecyclerView() {
         binder.itemRecyclerView.apply {
@@ -138,8 +128,6 @@ class ProductListFragment : BaseFragment() {
             )
             itemRecyclerViewAdapter.onClickListener = _itemClickListener
             itemRecyclerViewAdapter = ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE)
-//            itemRecyclerViewAdapter = SpecificItemAdapter(arrayListOf(), viewModel.cartMap)
-//            itemRecyclerViewAdapter.itemClickListener = _itemClickListener
             binder.itemRecyclerView.adapter = itemRecyclerViewAdapter
         }
     }

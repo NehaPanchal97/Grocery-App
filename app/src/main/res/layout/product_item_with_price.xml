@@ -61,12 +61,11 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/add_subtract_button_for_items"
-                android:gravity="bottom"
+                android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 android:layout_marginTop="10dp"
-                app:layout_constraintVertical_bias="1.0"
                 app:layout_constraintTop_toBottomOf="@id/itemImage"
                 app:layout_constraintLeft_toRightOf="@id/tv_price"
                 app:layout_constraintRight_toRightOf="parent">
@@ -77,8 +76,6 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="#27ae60"
                     android:padding="3dp"
-                    android:onClick="remove"
-                    android:layout_gravity="center"
                     app:srcCompat="@drawable/remove"
                     android:contentDescription="@string/todo" />
 
@@ -87,7 +84,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/count"
-                    android:layout_gravity="center"
                     android:textAlignment="center"
                     android:padding="3dp"
                     android:textColor="#ffffff" />
@@ -95,8 +91,6 @@
                 <ImageButton
                     android:id="@+id/iv_add"
                     android:padding="3dp"
-                    android:onClick="add"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#27ae60"
