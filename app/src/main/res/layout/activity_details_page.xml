@@ -14,8 +14,8 @@
             android:id="@+id/svDetails"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:backgroundTint="#DCDDDF"
             android:layout_marginBottom="10dp"
+            android:background="#ffffff"
             app:layout_constraintBottom_toTopOf="@+id/cvAddToCart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -23,199 +23,218 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#F4F5F7">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/ivItem"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="16:9"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/strawberry" />
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cvDetails"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    app:cardCornerRadius="16dp"
+                    android:orientation="vertical"
+                    android:paddingTop="18dp"
+                    android:paddingHorizontal="18dp"
+                    android:background="@drawable/detail_page_bg"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ivItem">
 
-                    <LinearLayout
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvDetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/ptsans_bold"
-                            android:text="Strawberry"
-                            android:textColor="@android:color/black"
-                            android:textSize="28sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:text="$17.00/kg"
-                            android:textSize="16sp" />
+                        app:cardCornerRadius="14dp"
+                        app:cardBackgroundColor="@color/white_color"
+                        app:cardElevation="0dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                            android:layout_gravity="center"
+                            android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tvProductName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="70dp"
-                                android:text="$17.20"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/ptsans_bold"
+                                android:text="Strawberry"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="28sp" />
 
                             <TextView
+                                android:id="@+id/price"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="30dp"
-                                android:text="14 Calories"
-                                android:textColor="@android:color/black"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="10dp"
+                                android:text="$17.00/kg"
                                 android:textSize="16sp" />
 
-                            <ImageView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="30dp"
-                                app:srcCompat="@drawable/ic_star" />
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                                <TextView
+                                    android:id="@+id/tvProductPrice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="40dp"
+                                    android:text="$17.20"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="30dp"
+                                    android:text="14 Calories"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="16sp" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="30dp"
+                                    app:srcCompat="@drawable/ic_star" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="4.5(2.57)"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="4.5(2.57)"
-                                android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:layout_marginTop="30dp"
+                                android:orientation="horizontal">
+
+                                <ImageButton
+                                    android:id="@+id/details_removeBtn"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="100dp"
+                                    android:backgroundTint="#27ae60"
+                                    app:srcCompat="@drawable/remove" />
+
+                                <TextView
+                                    android:id="@+id/tvProductCount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="6dp"
+                                    android:text="1 kg"
+                                    android:textSize="20sp" />
+
+                                <ImageButton
+                                    android:id="@+id/details_addBtn"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:backgroundTint="#27ae60"
+                                    app:srcCompat="@drawable/ic_add" />
+
+                            </LinearLayout>
                         </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/tvDetailsCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="14dp"
+                        android:layout_marginTop="18dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/white_color"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cvDetails">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="150dp"
-                                app:srcCompat="@drawable/ic_remove_icon" />
+                            android:orientation="vertical">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:id="@+id/tvHeading"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:text="1 kg"
-                                android:textSize="16sp" />
+                                android:padding="10dp"
+                                android:paddingStart="40dp"
+                                android:text="Details"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
 
-                            <ImageView
-                                android:layout_width="wrap_content"
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                app:srcCompat="@drawable/ic_add_icon" />
+                                android:layout_marginTop="5dp"
+                                android:backgroundTint="@color/colorPrimary"
+                                app:cardCornerRadius="10dp">
+
+                                <TextView
+                                    android:id="@+id/tvDescription"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:fontFamily="@font/ptsans_regular"
+                                    android:padding="30dp"
+                                    android:text="@string/details"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="16sp" />
+                            </com.google.android.material.card.MaterialCardView>
 
                         </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/tvDetailsCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="4dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cvDetails">
+                    </com.google.android.material.card.MaterialCardView>
 
-                    <LinearLayout
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_marginTop="16dp"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/white_color">
 
-                        <TextView
-                            android:id="@+id/tvHeading"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingStart="40dp"
-                            android:text="Details"
-                            android:padding="10dp"
-                            android:textColor="@android:color/black"
-                            android:textSize="20sp" />
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/tvDescription"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:backgroundTint="@color/colorPrimary"
-                            app:cardCornerRadius="10dp">
+                            android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:fontFamily="@font/ptsans_regular"
-                                android:padding="30dp"
-                                android:text="@string/details"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp" />
-                        </com.google.android.material.card.MaterialCardView>
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:fontFamily="@font/ptsans_bold"
+                                android:padding="10dp"
+                                android:text="Similar Products"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
 
-                    </LinearLayout>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvSimilarProduct"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp" />
 
-                </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    android:layout_margin="10dp"
-                    app:cardElevation="2dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDetailsCard">
+                    </com.google.android.material.card.MaterialCardView>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/ptsans_bold"
-                            android:layout_marginStart="10dp"
-                            android:padding="10dp"
-                            android:text="Similar Products"
-                            android:textColor="@android:color/black"
-                            android:textSize="24sp" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rvSimilarProduct"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"/>
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -227,12 +246,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:cardElevation="4dp"
             app:cardCornerRadius="16dp"
-            app:layout_constraintTop_toBottomOf="@id/svDetails"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:cardElevation="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/svDetails">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

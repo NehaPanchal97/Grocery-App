@@ -1,5 +1,6 @@
 package com.grocery.app.homePage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
+import com.grocery.app.activities.DetailsPageActivity
 import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.CART
 import com.grocery.app.constant.CATEGORY
 import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
+import com.grocery.app.constant.PRODUCT
 import com.grocery.app.databinding.ProductItemgroupLayoutBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.visible
@@ -105,15 +108,18 @@ class ProductListFragment : BaseFragment() {
 
     private val _itemClickListener = object : OnItemClickListener {
         override fun onItemClick(itemId: Int, position: Int) {
+            val product = itemRecyclerViewAdapter.items.getOrNull(position)
             if (itemId == R.id.iv_add) {
-                val product = itemRecyclerViewAdapter.items.getOrNull(position)
                 viewModel.updateCart(product, isAddition = true)
                 itemRecyclerViewAdapter.notifyItemChanged(position)
 
             } else if (itemId == R.id.iv_remove) {
-                val product = itemRecyclerViewAdapter.items.getOrNull(position)
                 viewModel.updateCart(product, isAddition = false)
                 itemRecyclerViewAdapter.notifyItemChanged(position)
+            } else if (itemId == R.id.itemImage) {
+                val intent = Intent(requireContext(),DetailsPageActivity::class.java)
+                intent.putExtra(PRODUCT,product)
+                startActivity(intent)
             }
         }
 
@@ -127,7 +133,7 @@ class ProductListFragment : BaseFragment() {
                 HOMEPAGE_PRODUCT_TYPE, viewModel.cartMap
             )
             itemRecyclerViewAdapter.onClickListener = _itemClickListener
-            itemRecyclerViewAdapter = ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE)
+//            itemRecyclerViewAdapter = ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE)
             binder.itemRecyclerView.adapter = itemRecyclerViewAdapter
         }
     }
