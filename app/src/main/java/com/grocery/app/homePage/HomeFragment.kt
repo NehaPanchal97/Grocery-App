@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,14 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
 import com.grocery.app.constant.CATEGORY
 import com.grocery.app.contracts.UpdateProfileContract
-import com.grocery.app.databinding.CategoryItemBinding
 import com.grocery.app.homePage.adapters.HomePageCategoryAdapter
 import com.grocery.app.databinding.HomeFragmentBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.listeners.OnCategoryClickListener
-import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Category
 import com.grocery.app.viewModels.CategoryViewModel
 import kotlinx.android.synthetic.main.home_fragment.*
