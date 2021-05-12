@@ -15,7 +15,9 @@ import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.homePage.adapters.CategoryTypesAdapter
+import com.grocery.app.listeners.OnCategoryClickListener
 import com.grocery.app.listeners.OnItemClickListener
+import com.grocery.app.models.Category
 import com.grocery.app.viewModels.CategoryViewModel
 
 class CategoryTypesFragment : BaseFragment(), View.OnClickListener {
@@ -77,11 +79,11 @@ class CategoryTypesFragment : BaseFragment(), View.OnClickListener {
     }
 
 
-    private val _itemClickListener = object : OnItemClickListener {
-        override fun onItemClick(itemId: Int, position: Int) {
+    private val _itemClickListener = object : OnCategoryClickListener {
+        override fun onItemClick(itemId: Int, category:Category) {
 
             val bundle = Bundle()
-            bundle.putParcelable(CATEGORY, listAdapter.items[position])
+            bundle.putParcelable(CATEGORY, category)
             val fragment = ProductListFragment()
             fragment.arguments = bundle
             activity?.supportFragmentManager?.beginTransaction()

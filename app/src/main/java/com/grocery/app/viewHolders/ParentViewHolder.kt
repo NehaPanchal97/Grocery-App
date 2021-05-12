@@ -10,15 +10,18 @@ import com.grocery.app.homePage.CategoryTypesFragment
 import com.grocery.app.homePage.ProductListFragment
 import com.grocery.app.homePage.adapters.CategoryTypesAdapter
 import com.grocery.app.homePage.dataModel.ItemGroup
+import com.grocery.app.listeners.OnCategoryClickListener
 import com.grocery.app.listeners.OnItemClickListener
 
-class ParentViewHolder(private val binder: CategoryGroupWithHeaderBinding) :
+class ParentViewHolder(private val binder: CategoryGroupWithHeaderBinding, private val itemCategoryClickListener: OnCategoryClickListener?) :
         BaseVH<CategoryGroupWithHeaderBinding, ItemGroup>(binder) {
 
 
     override fun bind(data: ItemGroup) {
 
-        val itemListAdapter = data.listItem?.let { CategoryTypesAdapter(it) }
+        val itemListAdapter = data.listItem?.let { CategoryTypesAdapter(it).apply {
+            itemClickListener = itemCategoryClickListener
+        } }
 
         binder.recyclerViewHorizontal.setHasFixedSize(true)
         binder.recyclerViewHorizontal.layoutManager =
