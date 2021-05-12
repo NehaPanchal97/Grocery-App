@@ -1,6 +1,7 @@
 package com.grocery.app.homePage
 
 import android.content.Intent
+import android.graphics.Color.red
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -20,6 +21,7 @@ import com.grocery.app.extras.Result
 import com.grocery.app.models.User
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.AuthViewModel
+import com.grocery.app.viewModels.ProductViewModel
 import kotlinx.android.synthetic.main.bottom_navigation_bar.*
 
 
@@ -27,7 +29,8 @@ class HomePageActivity : AppCompatActivity() {
 
     private val prefManager by lazy { PrefManager.getInstance(this) }
     private lateinit var viewModel: AuthViewModel
-    var count = 0
+    private lateinit var productViewModel :ProductViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -36,6 +39,9 @@ class HomePageActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.home->{
                     startActivity(Intent(this,this::class.java))
+                }
+                R.id.order->{
+                    startActivity(Intent(this,OrderDetailsPageActivity::class.java))
                 }
 
             }

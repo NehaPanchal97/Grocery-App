@@ -45,6 +45,10 @@
         <activity android:name=".activities.DetailsPageActivity">
 
         </activity>
+
+        <activity android:name=".homePage.OrderDetailsPageActivity">
+
+        </activity>
         <activity
             android:name=".activities.UpdateProfileActivity"
             android:screenOrientation="portrait" />

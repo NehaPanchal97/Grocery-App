@@ -62,6 +62,7 @@ class CartPageFragment : BaseFragment() {
         if(viewModel.cart.items?.isEmpty() !=true){
             binder.cartRecyclerView.apply {
                 listAdapter = ProductListAdapter(viewModel.cart.items?: arrayListOf(), CART_ITEM_TYPE,viewModel.cartMap)
+                binder.cartRecyclerView.itemAnimator = null
                 listAdapter.onClickListener = _itemClickListener
                 binder.cartRecyclerView.adapter=listAdapter
             }
@@ -92,7 +93,11 @@ class CartPageFragment : BaseFragment() {
     @SuppressLint("SetTextI18n")
     private fun onTotalChange(){
         val cartTotal = viewModel.cart.total?.toString()?:"0"
+        val total = viewModel.cart.total
         binder.cartAmount.text = "Total : \$$cartTotal"
+        if (total != null) {
+            binder.checkoutContainer.visible(total>0)
+        }
     }
 
 
