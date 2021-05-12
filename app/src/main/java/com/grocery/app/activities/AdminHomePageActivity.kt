@@ -20,7 +20,7 @@ class AdminHomePageActivity : BaseActivity() {
     }
 
     private fun setupView() {
-        switchPage(R.id.home)
+        switchPage(R.id.order)
 
         val navBar = findViewById<BottomNavigationView>(R.id.nav_bar)
         navBar.setOnNavigationItemSelectedListener(_navItemSelectedListener)

@@ -21,7 +21,7 @@
         android:id="@+id/cartItemImage"
         android:layout_gravity="start"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/strawberry"
+        tools:src="@tools:sample/avatars"
         android:contentDescription="@string/todo"
         tools:ignore="MissingConstraints" />
 
