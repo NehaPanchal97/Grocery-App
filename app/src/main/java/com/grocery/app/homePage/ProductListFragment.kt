@@ -24,6 +24,7 @@ import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
+import com.grocery.app.models.Product
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.viewModels.ProductViewModel
@@ -133,7 +134,6 @@ class ProductListFragment : BaseFragment() {
                 HOMEPAGE_PRODUCT_TYPE, viewModel.cartMap
             )
             itemRecyclerViewAdapter.onClickListener = _itemClickListener
-//            itemRecyclerViewAdapter = ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE)
             binder.itemRecyclerView.adapter = itemRecyclerViewAdapter
         }
     }

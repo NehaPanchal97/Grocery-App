@@ -62,6 +62,7 @@ class CartPageFragment : BaseFragment() {
         if(viewModel.cart.items?.isEmpty() !=true){
             binder.cartRecyclerView.apply {
                 listAdapter = ProductListAdapter(viewModel.cart.items?: arrayListOf(), CART_ITEM_TYPE,viewModel.cartMap)
+                binder.cartRecyclerView.itemAnimator = null
                 listAdapter.onClickListener = _itemClickListener
                 binder.cartRecyclerView.adapter=listAdapter
             }
