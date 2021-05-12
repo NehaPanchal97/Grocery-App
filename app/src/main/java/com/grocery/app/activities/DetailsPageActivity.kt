@@ -17,11 +17,13 @@ import com.grocery.app.extensions.loadImage
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
+import com.grocery.app.homePage.CartPageFragment
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
 import com.grocery.app.models.Product
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.ProductViewModel
+import kotlinx.android.synthetic.main.activity_details_page.*
 
 class DetailsPageActivity : AppCompatActivity() {
     private lateinit var listAdapter: ProductListAdapter
@@ -43,13 +45,20 @@ class DetailsPageActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         setUpView()
         observe()
-        viewModel.fetchProductList()
+        viewModel.fetchProductWithTag()
+
+//        btnAddToCart.setOnClickListener {
+//            supportFragmentManager.beginTransaction()
+//                .add(R.id.fragment_container, CartPageFragment())
+//                .addToBackStack(null)
+//                .commit()
+//        }
 
     }
 
 
     private fun observe() {
-        viewModel.productListLiveData.observe(this, Observer {
+        viewModel.similarListLiveData.observe(this, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
                 }
@@ -109,7 +118,8 @@ class DetailsPageActivity : AppCompatActivity() {
         }
         binder.tvProductName.text = _product.name
         binder.price.text = _product.price?.toInt().toString()
-        binder.tvProductPrice.text = _product.price?.toInt().toString()
+        val price = _product.price?.toInt().toString()
+        binder.tvProductPrice.text = String.format(getString(R.string.rs_symbol), price)
         binder.tvDescription.text = _product.description.toString()
         binder.ivItem.loadImage(_product.url)
     }
