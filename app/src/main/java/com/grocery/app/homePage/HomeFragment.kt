@@ -12,12 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
 import com.grocery.app.constant.CATEGORY
 import com.grocery.app.contracts.UpdateProfileContract
+import com.grocery.app.databinding.CategoryItemBinding
 import com.grocery.app.homePage.adapters.HomePageCategoryAdapter
 import com.grocery.app.databinding.HomeFragmentBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
+import com.grocery.app.listeners.OnCategoryClickListener
 import com.grocery.app.listeners.OnItemClickListener
+import com.grocery.app.models.Category
 import com.grocery.app.viewModels.CategoryViewModel
 import kotlinx.android.synthetic.main.home_fragment.*
 
@@ -27,22 +30,13 @@ class HomeFragment : BaseFragment() {
     private lateinit var binder: HomeFragmentBinding
     lateinit var listAdapter: HomePageCategoryAdapter
     private lateinit var viewModel: CategoryViewModel
-     var imgBtn: ImageView?=null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
         catRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        imgBtn= view.findViewById(R.id.homeItemImage)
-        imgBtn?.setOnClickListener (object:View.OnClickListener {
-            override fun onClick(v: View?) {
-                activity?.supportFragmentManager?.beginTransaction()
-                        ?.add(R.id.fragment_container, ProductListFragment())
-                        ?.addToBackStack(null)
-                        ?.commit()
-            }
 
-        })
 
         setupView()
         observe()
@@ -91,8 +85,24 @@ class HomeFragment : BaseFragment() {
         }
         catRecyclerView.apply {
             listAdapter = HomePageCategoryAdapter(arrayListOf())
+                    .apply { itemClickListener = _itemClickListener }
             binder.catRecyclerView.adapter = listAdapter
         }
+    }
+
+    private val _itemClickListener = object : OnCategoryClickListener {
+        override fun onItemClick(itemId: Int, category:Category) {
+
+            val bundle = Bundle()
+            bundle.putParcelable(CATEGORY, category)
+            val fragment = ProductListFragment()
+            fragment.arguments = bundle
+            activity?.supportFragmentManager?.beginTransaction()
+                    ?.add(R.id.fragment_container, fragment)
+                    ?.addToBackStack(null)
+                    ?.commit()
+        }
+
     }
 
 

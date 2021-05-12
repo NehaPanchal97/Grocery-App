@@ -9,6 +9,7 @@ import com.grocery.app.constant.HomeCarousel
 import com.grocery.app.databinding.CategoryGroupWithHeaderBinding
 import com.grocery.app.databinding.WithoutHeaderRvGroupBinding
 import com.grocery.app.homePage.dataModel.ItemGroup
+import com.grocery.app.listeners.OnCategoryClickListener
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewHolders.BaseVH
 import com.grocery.app.viewHolders.ParentViewHolder
@@ -18,12 +19,13 @@ import com.grocery.app.viewHolders.ParentViewHolder
 class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
     RecyclerView.Adapter<BaseVH<*, ItemGroup>>() {
 
+    var itemClickListener: OnCategoryClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseVH<*, ItemGroup> {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             VIEW_GROUP_LAYOUT -> {
                 val binding = CategoryGroupWithHeaderBinding.inflate(inflater, parent, false)
-                ParentViewHolder(binding)
+                ParentViewHolder(binding,itemClickListener)
             }
             VIEW_WITHOUT_HEADER -> {
                 val binding = WithoutHeaderRvGroupBinding.inflate(inflater, parent, false)
@@ -32,7 +34,7 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
 
             else -> {
                 val binding = CategoryGroupWithHeaderBinding.inflate(inflater, parent, false)
-                ParentViewHolder(binding)
+                ParentViewHolder(binding,itemClickListener)
             }
         }
     }

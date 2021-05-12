@@ -88,7 +88,7 @@ class ProductListAdapter(
             CART_ITEM_TYPE -> {
                 val binder = CartItemBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
-                CartItemVH(binder)
+                CartItemVH(binder,cartMap)
             }
 
             else -> {
