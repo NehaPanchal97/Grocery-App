@@ -2,7 +2,10 @@ package com.grocery.app.utils
 
 import android.content.Context
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.grocery.app.R
+import com.grocery.app.constant.ORDERS
 import com.grocery.app.extensions.authUser
 import com.grocery.app.models.Order
 import com.grocery.app.models.OrderStatus
@@ -23,10 +26,12 @@ object OrderUtils {
         contact: String,
         address: String
     ): Order {
+
+        val id = Firebase.firestore.collection(ORDERS).document().id
         val time = Timestamp(Date())
         val allStatus = createOrderStatus(context, time)
         return Order(
-            id = null,
+            id = id,
             allStatus = allStatus,
             createdAt = time,
             createdBy = userId,

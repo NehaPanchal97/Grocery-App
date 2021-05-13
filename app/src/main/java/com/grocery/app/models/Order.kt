@@ -8,25 +8,25 @@ import kotlinx.android.parcel.Parcelize
 @Keep
 @Parcelize
 data class Order(
-    val id: String? = null,
-    val total: Double? = null,
-    val updatedAt: Timestamp? = null,
-    val currentStatus: String? = null,
-    val createdBy: String? = null,
-    val createdAt: Timestamp? = null,
-    val allStatus: ArrayList<OrderStatus>? = null,
-    val items: ArrayList<Product>? = null,
-    val name: String? = null,
-    val contact: String? = null,
+    var id: String? = null,
+    var total: Double? = null,
+    var updatedAt: Timestamp? = null,
+    var currentStatus: String? = null,
+    var createdBy: String? = null,
+    var createdAt: Timestamp? = null,
+    var allStatus: ArrayList<OrderStatus>? = null,
+    var items: ArrayList<Product>? = null,
+    var name: String? = null,
+    var contact: String? = null,
     var deliveryAddress: String? = null
 ) : Parcelable
 
 @Keep
 @Parcelize
 data class OrderStatus(
-    val completed: Boolean? = null,
-    val createdAt: Timestamp? = null,
-    val description: String? = null,
-    val status: String? = null,
-    val updatedAt: Timestamp? = null
+    var completed: Boolean? = null,
+    var createdAt: Timestamp? = null,
+    var description: String? = null,
+    var status: String? = null,
+    var updatedAt: Timestamp? = null
 ) : Parcelable

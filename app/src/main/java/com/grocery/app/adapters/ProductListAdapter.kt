@@ -10,8 +10,11 @@ import com.grocery.app.databinding.CartItemBinding
 import com.grocery.app.databinding.OrderItemBinding
 import com.grocery.app.databinding.ProductItemWithPriceBinding
 import com.grocery.app.databinding.ProductListItemBinding
+import com.grocery.app.constant.*
+import com.grocery.app.databinding.*
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Product
+import com.grocery.app.viewHolders.AdminOrderProductVH
 import com.grocery.app.viewHolders.BaseVH
 import com.grocery.app.viewHolders.CartItemVH
 import com.grocery.app.viewHolders.OrderItemVH
@@ -62,7 +65,7 @@ class ProductListAdapter(
         }
 
         override fun onClick(v: View?) {
-            onClickListener?.onItemClick(v?.id ?: -1, adapterPosition)
+            onClickListener?.onItemClick(v?.id ?: -1, bindingAdapterPosition)
         }
 
     }
@@ -87,12 +90,17 @@ class ProductListAdapter(
             CART_ITEM_TYPE -> {
                 val binder = CartItemBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
-                CartItemVH(binder,cartMap)
+                CartItemVH(binder, cartMap)
             }
             ORDER_ITEMS -> {
                 val binder = OrderItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
                 OrderItemVH(binder,cartMap)
 
+            }
+            ADMIN_ORDER_PRODUCT_ITEM_TYPE -> {
+                val binder = AdminOrderProductItemBinding
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
+                AdminOrderProductVH(binder)
             }
 
             else -> {

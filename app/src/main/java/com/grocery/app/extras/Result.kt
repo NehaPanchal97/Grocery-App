@@ -1,6 +1,6 @@
 package com.grocery.app.extras
 
-data class Result<out T>(val type: Status, val data: T?, val message: String?) {
+data class Result<out T>(val type: Status, val data: T?, val exception: Exception?) {
 
     enum class Status {
         SUCCESS,
@@ -17,11 +17,11 @@ data class Result<out T>(val type: Status, val data: T?, val message: String?) {
             )
         }
 
-        fun <T> error(message: String? = null, data: T? = null): Result<T> {
+        fun <T> error(exp: Exception? = null, data: T? = null): Result<T> {
             return Result(
                 Status.ERROR,
                 data,
-                message
+                exp
             )
         }
 

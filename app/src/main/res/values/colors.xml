@@ -18,4 +18,6 @@
     <color name="profilebackground">#D9E0FB</color>
     <color name="white_color">#ffffff</color>
     <color name="black_color">#000000</color>
+    <color name="success_color">#4ecd64</color>
+    <color name="error_color">#fa5353</color>
 </resources>
