@@ -40,6 +40,25 @@ class CartPageFragment : BaseFragment() {
         binder.cartRecyclerView.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         setUpView()
+        listener()
+        checkoutBtn()
+    }
+
+    private fun listener(){
+        val closeBtn =binder.cartBackBtn
+        closeBtn.setOnClickListener {
+            activity?.onBackPressed()
+        }
+    }
+
+    private fun checkoutBtn(){
+        val checkout = binder.checkoutBtn
+        checkout.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()
+                    ?.add(R.id.fragment_container,CategoryTypesFragment() )
+                    ?.addToBackStack(null)
+                    ?.commit()
+        }
     }
 
 
@@ -66,8 +85,11 @@ class CartPageFragment : BaseFragment() {
                 listAdapter.onClickListener = _itemClickListener
                 binder.cartRecyclerView.adapter=listAdapter
             }
-        }else
-            binder.root.showError("Cart is empty")
+        }else{
+            binder.tvEmptyCart.visible(true)
+            binder.ivEmptyImage.visible(true)
+        }
+
 
     }
 
@@ -97,6 +119,10 @@ class CartPageFragment : BaseFragment() {
         binder.cartAmount.text = "Total : \$$cartTotal"
         if (total != null) {
             binder.checkoutContainer.visible(total>0)
+        }
+        if(viewModel.cart.items?.isEmpty()!=false){
+            binder.tvEmptyCart.visible(true)
+            binder.ivEmptyImage.visible(true)
         }
     }
 

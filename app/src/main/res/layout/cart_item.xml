@@ -1,112 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
-<com.google.android.material.card.MaterialCardView
+    <com.google.android.material.card.MaterialCardView
 
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:id="@+id/cartItemImage"
-        android:layout_gravity="start"
-        android:scaleType="centerCrop"
-        tools:src="@tools:sample/avatars"
-        android:contentDescription="@string/todo"
-        tools:ignore="MissingConstraints" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cartItemTitle"
-        android:padding="5dp"
-        android:layout_marginStart="5dp"
-        android:maxLines="2"
-        app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal">
 
-        android:maxWidth="160dp"
-        android:text= "@string/vegetables"
-        android:textColor="#191818"
-        android:textSize="18sp"
-        tools:ignore="MissingConstraints" />
+            <ImageView
+                android:id="@+id/cartItemImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="start"
+                android:contentDescription="@string/todo"
+                android:scaleType="centerCrop"
+                tools:ignore="MissingConstraints"
+                tools:src="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/cart_item_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxWidth="200dp"
-        android:padding="5dp"
-        android:layout_marginStart="5dp"
-        android:text="@string/price_of_item"
-        android:textColor="#27ae60"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@id/cartItemTitle"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@id/cartItemTitle"
-        app:layout_constraintTop_toBottomOf="@id/cartItemTitle" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/cartItemTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:maxWidth="160dp"
+                    android:maxLines="2"
+                    android:padding="5dp"
+                    android:text="@string/vegetables"
+                    android:textColor="#191818"
+                    android:textSize="18sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/cart_item_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:maxWidth="200dp"
+                    android:padding="5dp"
+                    android:text="@string/price_of_item"
+                    android:textColor="#27ae60"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@id/cartItemTitle"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="@id/cartItemTitle"
+                    app:layout_constraintTop_toBottomOf="@id/cartItemTitle" />
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_gravity="end"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/iv_cart_remove"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:contentDescription="@string/todo"
-            android:onClick="remove"
-            android:padding="3dp"
-            android:tint="#000000"
-            app:srcCompat="@drawable/remove" />
+            android:layout_gravity="end"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_cart_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#27ae60"
-            android:padding="8dp"
-            android:text="@string/count"
-            android:layout_gravity="center_horizontal"
-            android:textSize="14sp"
-            android:textColor="#ffffff" />
+            <ImageButton
+                android:id="@+id/iv_cart_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:contentDescription="@string/todo"
+                android:onClick="remove"
+                android:padding="3dp"
+                android:tint="#000000"
+                app:srcCompat="@drawable/remove" />
 
-        <ImageButton
-            android:id="@+id/iv_cart_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:contentDescription="@string/todo"
-            android:onClick="add"
-            android:padding="3dp"
-            android:tint="#000000"
-            app:srcCompat="@drawable/ic_add" />
+            <TextView
+                android:id="@+id/tv_cart_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="#27ae60"
+                android:padding="8dp"
+                android:text="@string/count"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
 
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/iv_cart_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:contentDescription="@string/todo"
+                android:onClick="add"
+                android:padding="3dp"
+                android:tint="#000000"
+                app:srcCompat="@drawable/ic_add" />
+
+        </LinearLayout>
 
 
-
-</com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>
