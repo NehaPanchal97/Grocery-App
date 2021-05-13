@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="url"
+            type="String" />
+
+        <variable
+            name="placeholder"
+            type="Integer" />
+
+        <variable
+            name="count"
+            type="String" />
+
+        <variable
+            name="name"
+            type="String" />
+
+        <variable
+            name="price"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            loadUrl="@{url}"
+            circular="@{false}"
+            placeholder="@{placeholder}"
+            android:id="@+id/product_iv"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/product_description"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@id/divider"
+            app:layout_constraintDimensionRatio="16:11"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/product_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:paddingHorizontal="12dp"
+            android:textColor="@color/black_color"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/product_iv"
+            app:layout_constraintStart_toEndOf="@id/product_iv"
+            app:layout_constraintTop_toTopOf="@id/product_iv"
+            tools:text="2 X"
+            android:text="@{count}"/>
+
+        <TextView
+            android:id="@+id/product_name_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/black_color"
+            android:textSize="15sp"
+            android:text="@{name}"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintBottom_toTopOf="@id/price_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/product_count_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="@tools:sample/full_names" />
+
+        <TextView
+            android:id="@+id/price_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="sans-serif"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="15sp"
+            android:text="@{price}"
+            app:layout_constraintBottom_toBottomOf="@id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/product_name_tv"
+            app:layout_constraintTop_toBottomOf="@id/product_name_tv"
+            tools:text="$ 254" />
+
+        <TextView
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#f2f2f2"
+            app:layout_constraintBottom_toBottomOf="@id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

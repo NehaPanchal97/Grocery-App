@@ -78,4 +78,15 @@
     <string name="profile">Profile</string>
     <string name="order_placed_msg">Your order has been placed.</string>
     <string name="no_order_available_msg">No Orders available</string>
+    <string name="order_created_at">Order on: %1$s</string>
+    <string name="order_detail">Order Detail</string>
+    <string name="rs">\u20B9 %1$s</string>
+    <string name="total">Total</string>
+    <string name="move_order_msg">Move Order to %1$s</string>
+    <string name="order_status_changed_msg">Order status changed successfully.</string>
+    <string name="unable_to_change_status_error">Unable to change status.</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="order_status_move_msg">Do you really want to move this order to %1$s state.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
