@@ -16,7 +16,6 @@ import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.homePage.adapters.CategoryTypesAdapter
 import com.grocery.app.listeners.OnCategoryClickListener
-import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Category
 import com.grocery.app.viewModels.CategoryViewModel
 

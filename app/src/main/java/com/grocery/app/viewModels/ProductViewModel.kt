@@ -26,6 +26,7 @@ class ProductViewModel : ViewModel() {
 
     private val _addOrUpdateProductLiveData by lazy { MutableLiveData<Result<Product>>() }
     private val _productListLiveData by lazy { MutableLiveData<Result<ArrayList<Product>>>() }
+    private val _similarProductListLiveData by lazy { MutableLiveData<Result<ArrayList<Product>>>() }
     private val _updateCartLiveData by lazy { MutableLiveData<Result<Void>>() }
 
     val addOrUpdateProductLiveData: LiveData<Result<Product>>
@@ -36,6 +37,9 @@ class ProductViewModel : ViewModel() {
 
     val updateCart: LiveData<Result<Void>>
         get() = _updateCartLiveData
+
+    val similarListLiveData: LiveData<Result<ArrayList<Product>>>
+        get() = _similarProductListLiveData
 
     var catList = arrayListOf<Category>()
     var product = Product()
@@ -56,6 +60,22 @@ class ProductViewModel : ViewModel() {
         }
             .addOnFailureListener {
                 _productListLiveData.value = Result.error()
+            }
+    }
+
+    fun fetchProductWithTag() {
+        _similarProductListLiveData.value = Result.loading()
+        val tags = product.tags ?: arrayListOf()
+        Firebase.firestore.collection(Store.PRODUCTS)
+            .whereArrayContainsAny("tags", tags)
+            .whereNotEqualTo("id",product.id)
+            .get()
+            .addOnSuccessListener { snapShot ->
+                val products = snapShot.toObjects(Product::class.java)
+                _similarProductListLiveData.value = Result.success(ArrayList(products))
+            }
+            .addOnFailureListener {
+                _similarProductListLiveData.value = Result.error()
             }
     }
 
