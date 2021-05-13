@@ -53,7 +53,7 @@
             android:elevation="0dp"
             android:orientation="vertical"
             android:layout_below="@id/orderTopBar"
-            android:background="@drawable/homefragment_layout_rounded_corners"
+            android:background="@drawable/home_fragment_layout_rounded_corners"
             android:padding="10dp">
 
             <com.google.android.material.card.MaterialCardView

@@ -5,17 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
-import com.grocery.app.constant.ADMIN_PRODUCT_TYPE
-import com.grocery.app.constant.CART_ITEM_TYPE
-import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
-import com.grocery.app.constant.SIMILAR_PRODUCT
+import com.grocery.app.constant.*
 import com.grocery.app.databinding.CartItemBinding
+import com.grocery.app.databinding.OrderItemBinding
 import com.grocery.app.databinding.ProductItemWithPriceBinding
 import com.grocery.app.databinding.ProductListItemBinding
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Product
 import com.grocery.app.viewHolders.BaseVH
 import com.grocery.app.viewHolders.CartItemVH
+import com.grocery.app.viewHolders.OrderItemVH
 import com.grocery.app.viewModels.ProductGridVH
 
 class ProductListAdapter(
@@ -89,6 +88,11 @@ class ProductListAdapter(
                 val binder = CartItemBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
                 CartItemVH(binder,cartMap)
+            }
+            ORDER_ITEMS -> {
+                val binder = OrderItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+                OrderItemVH(binder,cartMap)
+
             }
 
             else -> {

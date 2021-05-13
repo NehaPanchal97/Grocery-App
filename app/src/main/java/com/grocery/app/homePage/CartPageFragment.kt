@@ -18,6 +18,7 @@ import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
+import com.grocery.app.fragments.OrderFragment
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
 import com.grocery.app.models.Product
@@ -40,6 +41,7 @@ class CartPageFragment : BaseFragment() {
         binder.cartRecyclerView.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         setUpView()
+        checkoutBtn()
     }
 
 
@@ -104,6 +106,16 @@ class CartPageFragment : BaseFragment() {
     private fun initCart() {
        viewModel.cart = pref.get(CART)?: Cart()
         viewModel.initCart()
+    }
+
+    private fun checkoutBtn(){
+        val checkout = binder.checkoutBtn
+        checkout.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.add(R.id.fragment_container,OrderFragment() )
+                ?.addToBackStack(null)
+                ?.commit()
+        }
     }
 
 }

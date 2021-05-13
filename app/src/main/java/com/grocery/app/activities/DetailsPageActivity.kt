@@ -17,14 +17,11 @@ import com.grocery.app.extensions.loadImage
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
-import com.grocery.app.homePage.CartPageFragment
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
 import com.grocery.app.models.Product
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.ProductViewModel
-import kotlinx.android.synthetic.main.activity_details_page.*
-
 class DetailsPageActivity : AppCompatActivity() {
     private lateinit var listAdapter: ProductListAdapter
     lateinit var binder: ActivityDetailsPageBinding
@@ -46,14 +43,9 @@ class DetailsPageActivity : AppCompatActivity() {
         setUpView()
         observe()
         viewModel.fetchProductWithTag()
-
-//        btnAddToCart.setOnClickListener {
-//            supportFragmentManager.beginTransaction()
-//                .add(R.id.fragment_container, CartPageFragment())
-//                .addToBackStack(null)
-//                .commit()
-//        }
-
+        binder.imBackBtn.setOnClickListener {
+            onBackPressed()
+        }
     }
 
 
@@ -102,24 +94,23 @@ class DetailsPageActivity : AppCompatActivity() {
             listAdapter.onClickListener = _itemClickListener
             binder.rvSimilarProduct.adapter = listAdapter
         }
-        viewModel.cartMap[_product.id]?.count
         onQuantityChange()
         binder.detailsAddBtn.setOnClickListener {
-            val productCount = _product.count ?: 0
-            _product.count = productCount + 1
+            viewModel.updateCart(_product, true)
+            prefManager.put(CART, viewModel.cart)
             onQuantityChange()
         }
         binder.detailsRemoveBtn.setOnClickListener {
-            val productCount = _product.count ?: 0
+            val productCount = viewModel.cartMap[_product.id]?.count ?: 0
             if (productCount >= 1) {
-                _product.count = productCount - 1
+                viewModel.updateCart(_product, false)
+                prefManager.put(CART, viewModel.cart)
                 onQuantityChange()
             }
         }
         binder.tvProductName.text = _product.name
-        binder.price.text = _product.price?.toInt().toString()
+        binder.tvPriceWithUnit.text = _product.price?.toInt().toString()
         val price = _product.price?.toInt().toString()
-        binder.tvProductPrice.text = String.format(getString(R.string.rs_symbol), price)
         binder.tvDescription.text = _product.description.toString()
         binder.ivItem.loadImage(_product.url)
     }
@@ -130,10 +121,15 @@ class DetailsPageActivity : AppCompatActivity() {
     }
 
     private fun onQuantityChange() {
-        val count = _product.count ?: 0
-        binder.cvAddToCart.visible(count > 0)
-        val totalCost = _product.price?.times(count)
+        val product = viewModel.cartMap[_product.id]
+        val count = product?.count ?: 0
+//        binder.cvAddToCart.visible(count > 0)
+        val totalCost = product?.total ?: 0
         binder.tvProductCount.text = count.toString()
-        binder.tvAmount.text = totalCost.toString()
+        binder.tvProductPrice.visible(totalCost != 0)
+        binder.tvProductPrice.text =
+            String.format(getString(R.string.rs_symbol), totalCost.toString())
+
+
     }
 }

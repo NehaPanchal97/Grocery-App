@@ -79,4 +79,5 @@
     <string name="rs_symbol">₹ %s</string>
     <string name="order_placed_msg">Your order has been placed.</string>
     <string name="no_order_available_msg">No Orders available</string>
+    <string name="orderTitle">Order</string>
 </resources>

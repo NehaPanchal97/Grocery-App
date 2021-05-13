@@ -11,3 +11,4 @@ const val CART_ITEM_TYPE = 236
 const val CART = "cart"
 const val SIMILAR_PRODUCT = 238
 const val ORDERS = "orders"
+const val ORDER_ITEMS = 240
