@@ -16,19 +16,117 @@
         android:background="@android:color/transparent"
         app:fabCradleRoundedCornerRadius="25dp"
         android:backgroundTint="#27ae60"
-        android:layout_gravity="bottom"/>
+        android:layout_gravity="bottom">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationBar"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:backgroundTint="@drawable/bottom_nav_icon_selector"
-        app:itemIconTint="#C1E8D2"
-        app:itemTextColor="#C1E8D2"
-        app:labelVisibilityMode="labeled"
-        android:layout_gravity="bottom"
-        android:background="@android:color/transparent"
-        app:menu="@menu/bottom_nav_menu"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/ll_home"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/home_svg_downlaod"
+                app:itemIconTint="#C1E8D2"
+                android:background="@color/colorPrimary"
+                android:contentDescription="@string/todo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_text"
+                android:textColor="#C1E8D2"/>
+        </LinearLayout>
+            <LinearLayout
+
+              android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/ll_order"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/vector_order"
+                    android:background="@color/colorPrimary"
+                    android:contentDescription="@string/todo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/order_text"
+                    android:textColor="#C1E8D2"/>
+            </LinearLayout>
+            <LinearLayout
+
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageButton
+                    android:id="@+id/ll_offer"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/vector_offer"
+                    app:itemIconTint="#C1E8D2"
+                    android:background="@color/colorPrimary"
+                    android:contentDescription="@string/todo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/offer_text"
+                    android:textColor="#C1E8D2"/>
+            </LinearLayout>
+            <LinearLayout
+
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageButton
+                    android:id="@+id/ll_more"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/more_option_svg"
+                    app:itemIconTint="#C1E8D2"
+                    android:background="@color/colorPrimary"
+                    android:contentDescription="@string/todo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/more_text"
+                    android:textColor="#C1E8D2"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--        android:id="@+id/bottomNavigationBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="64dp"-->
+<!--        android:backgroundTint="@drawable/bottom_nav_icon_selector"-->
+<!--        app:itemIconTint="#C1E8D2"-->
+<!--        app:itemTextColor="#C1E8D2"-->
+<!--        app:labelVisibilityMode="labeled"-->
+<!--        android:layout_gravity="bottom"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        app:menu="@menu/bottom_nav_menu"/>-->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
@@ -36,7 +134,7 @@
         android:id="@+id/fab"
         android:scaleType="centerCrop"
         app:tint="@color/colorPrimary"
-        android:backgroundTint="#ffffff"
+        android:backgroundTint="@android:color/white"
         app:backgroundTint="@color/colorPrimary"
         android:layout_marginBottom="25dp"
         android:layout_gravity="center"
@@ -45,6 +143,9 @@
         app:fabCustomSize="50dp"
         android:src="@drawable/cart_svg_download"
         app:layout_anchor="@id/bottom_appBar"
-        android:focusable="true" />
+        android:focusable="true"
+        android:contentDescription="@string/todo" />
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
