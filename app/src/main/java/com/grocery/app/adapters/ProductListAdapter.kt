@@ -18,6 +18,7 @@ import com.grocery.app.viewHolders.AdminOrderProductVH
 import com.grocery.app.viewHolders.BaseVH
 import com.grocery.app.viewHolders.CartItemVH
 import com.grocery.app.viewHolders.OrderItemVH
+import com.grocery.app.viewHolders.OrderDescriptionItemVH
 import com.grocery.app.viewModels.ProductGridVH
 
 class ProductListAdapter(
@@ -101,6 +102,11 @@ class ProductListAdapter(
                 val binder = AdminOrderProductItemBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
                 AdminOrderProductVH(binder)
+            }
+            ORDER_DESCRIPTION_ITEM_TYPE->{
+                val binder = OrderDescriptionItemBinding
+                    .inflate(LayoutInflater.from(parent.context),parent,false)
+                OrderDescriptionItemVH(binder)
             }
 
             else -> {

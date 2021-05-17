@@ -15,3 +15,4 @@ const val ORDERS = "orders"
 const val ORDER_ITEMS = 240
 const val ORDER = "order"
 const val ORDER_CHANGE = "order_change"
+const val ORDER_DESCRIPTION_ITEM_TYPE = 243
