@@ -21,7 +21,6 @@ import com.grocery.app.extensions.visible
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
-import com.grocery.app.models.Product
 import com.grocery.app.models.User
 import com.grocery.app.utils.OrderUtils
 import com.grocery.app.utils.PrefManager
@@ -29,6 +28,8 @@ import com.grocery.app.viewModels.OrderViewModel
 import com.grocery.app.viewModels.ProductViewModel
 import kotlinx.android.synthetic.main.cart_item.*
 import kotlinx.android.synthetic.main.cart_items_group.view.*
+
+private typealias Status=com.grocery.app.extras.Result.Status
 
 
 class CartPageFragment : BaseFragment() {
@@ -47,7 +48,6 @@ class CartPageFragment : BaseFragment() {
         orderViewModel = ViewModelProvider(this).get(OrderViewModel::class.java)
         setUpView()
         listener()
-        checkoutBtn()
         observe()
     }
 
@@ -58,32 +58,20 @@ class CartPageFragment : BaseFragment() {
         }
     }
 
-    private fun checkoutBtn(){
-        val checkout = binder.checkoutBtn
-        checkout.setOnClickListener {
-
-            val intent = Intent(activity, OrderDetailsPageActivity::class.java)
-            startActivity(intent)
-
-
-
-        }
-    }
-
     private fun observe() {
         orderViewModel.updateOrderLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when (it.type) {
-                Result.Status.LOADING -> {
+                Status.LOADING -> {
 
                 }
-                Result.Status.SUCCESS -> {
+                Status.SUCCESS -> {
                     pref.remove(CART)
                     viewModel.resetCart()
                     listAdapter.clearAdapter()
                     onTotalChange()
                     binder.root.showSuccess(getString(R.string.order_created_msg))
                 }
-                Result.Status.ERROR -> {
+                Status.ERROR -> {
                     binder.root.showError(getString(R.string.order_create_error))
                 }
             }
