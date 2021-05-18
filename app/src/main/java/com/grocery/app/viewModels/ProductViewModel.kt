@@ -68,7 +68,7 @@ class ProductViewModel : ViewModel() {
         val tags = product.tags ?: arrayListOf()
         Firebase.firestore.collection(Store.PRODUCTS)
             .whereArrayContainsAny("tags", tags)
-            .whereNotEqualTo("id",product.id)
+            .whereNotEqualTo("id", product.id)
             .get()
             .addOnSuccessListener { snapShot ->
                 val products = snapShot.toObjects(Product::class.java)
@@ -259,6 +259,11 @@ class ProductViewModel : ViewModel() {
         cart.items?.forEach {
             cartMap[it.id ?: ""] = it
         }
+    }
+
+    fun resetCart() {
+        cart = Cart()
+        cartMap.clear()
     }
 
 }

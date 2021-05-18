@@ -3,15 +3,20 @@ package com.grocery.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
+import com.grocery.app.constant.CART
 import com.grocery.app.constant.ORDERS
+import com.grocery.app.constant.Store
 import com.grocery.app.exceptions.OrderStatusChangeException
+import com.grocery.app.extensions.authUser
 import com.grocery.app.extensions.clone
 import com.grocery.app.extensions.currentDate
+import com.grocery.app.utils.OrderUtils
 
 private typealias Result<T> = com.grocery.app.extras.Result<T>
 private typealias Order = com.grocery.app.models.Order
@@ -30,12 +35,17 @@ class OrderViewModel : ViewModel() {
     var orderUpdated = false
 
     lateinit var order: Order
+    var orderCreatedBy: String? = null
 
 
     fun fetchOrders() {
         _orderListLiveData.value = Result.loading()
-        Firebase.firestore.collection(ORDERS)
-            .get()
+        var query = Firebase.firestore.collection(ORDERS)
+            .orderBy(Store.CREATED_AT, Query.Direction.DESCENDING)
+        orderCreatedBy?.let {
+            query = query.whereEqualTo(Store.CREATED_BY, it)
+        }
+        query.get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     val orders = it.result?.toObjects<Order>() ?: arrayListOf()
@@ -43,6 +53,24 @@ class OrderViewModel : ViewModel() {
                 } else {
                     _orderListLiveData.value = Result.error()
                 }
+            }
+    }
+
+    fun createOrder(order: Order, cartId: String?) {
+        _updateOrderLiveData.value = Result.loading()
+        val cartPath = "${Store.USERS}/${authUser?.uid}/$CART/$cartId"
+        val cartRef = Firebase.firestore.document(cartPath)
+        Firebase.firestore.collection(ORDERS)
+            .document(order.id ?: "")
+            .set(order, SetOptions.merge())
+            .onSuccessTask {
+                cartRef.delete()
+            }
+            .addOnSuccessListener {
+                _updateOrderLiveData.value = Result.success()
+            }
+            .addOnFailureListener {
+                _updateOrderLiveData.value = Result.error()
             }
     }
 
