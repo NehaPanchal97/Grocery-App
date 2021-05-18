@@ -56,19 +56,19 @@ object OrderUtils {
         status.add(
             OrderStatus(
                 false, time,
-                context.getString(R.string.order_placed_msg), Status.PACKED.title
+                context.getString(R.string.order_packed_msg), Status.PACKED.title
             )
         )
         status.add(
             OrderStatus(
                 false, time,
-                context.getString(R.string.order_placed_msg), Status.DISPATCHED.title
+                context.getString(R.string.order_dispatched_msg), Status.DISPATCHED.title
             )
         )
         status.add(
             OrderStatus(
                 false, time,
-                context.getString(R.string.order_placed_msg), Status.DELIVERED.title
+                context.getString(R.string.order_delivered_msg), Status.DELIVERED.title
             )
         )
         return status
