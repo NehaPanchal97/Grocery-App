@@ -128,6 +128,8 @@ class ProductListFragment : BaseFragment() {
 
 
     private fun itemRecyclerView() {
+
+
         binder.itemRecyclerView.apply {
             itemRecyclerViewAdapter = ProductListAdapter(
                 arrayListOf(),

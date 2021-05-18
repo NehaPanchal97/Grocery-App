@@ -20,6 +20,7 @@ class ProductGridVH(private val binder: ProductItemWithPriceBinding) :
 
     override fun bind(data: Product) {
 
+
         val count = cartMap[data.id]?.count ?: 0
         binder.specificItemTitle.text = data.name
         binder.tvPrice.text = data.price.toString()
@@ -28,8 +29,6 @@ class ProductGridVH(private val binder: ProductItemWithPriceBinding) :
             binder.tvCount.text = "$count"
             binder.ivRemove.visible(true)
             binder.tvCount.visible(true)
-
-
         }else{
             binder.ivRemove.visible(false)
             binder.tvCount.visible(false)
