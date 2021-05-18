@@ -1,9 +1,6 @@
 package com.grocery.app.homePage
 
-import android.content.Context
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -22,16 +19,16 @@ import com.grocery.app.viewModels.ProductViewModel
 class OrderDetailsPageActivity : AppCompatActivity() {
 
 
-    lateinit var  binder:OrderDetailsPageBinding
-    lateinit var viewModel:OrderViewModel
+    lateinit var binder: OrderDetailsPageBinding
     private lateinit var listAdapter: ProductListAdapter
     lateinit var productViewModel: ProductViewModel
     lateinit var pref: PrefManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       binder = DataBindingUtil.setContentView(this,R.layout.order_details_page)
-        binder.rvOrderDescription.layoutManager = LinearLayoutManager(applicationContext,RecyclerView.VERTICAL,false)
+        binder = DataBindingUtil.setContentView(this, R.layout.order_details_page)
+        binder.rvOrderDescription.layoutManager =
+            LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         listener()
         setUpView()
@@ -39,24 +36,26 @@ class OrderDetailsPageActivity : AppCompatActivity() {
 
 
     private fun listener() {
-        val closeBtn =binder.orderBackBtn
+        val closeBtn = binder.orderBackBtn
         closeBtn.setOnClickListener {
             onBackPressed()
         }
     }
 
-    private fun setUpView(){
-    pref = PrefManager.getInstance(applicationContext)
+    private fun setUpView() {
+        pref = PrefManager.getInstance(applicationContext)
         initCart()
         binder.rvOrderDescription.apply {
-            listAdapter = ProductListAdapter(productViewModel.cart.items?: arrayListOf(),
-                ORDER_DESCRIPTION_ITEM_TYPE)
-            adapter=listAdapter
+            listAdapter = ProductListAdapter(
+                productViewModel.cart.items ?: arrayListOf(),
+                ORDER_DESCRIPTION_ITEM_TYPE
+            )
+            adapter = listAdapter
         }
     }
 
     private fun initCart() {
-        productViewModel.cart = pref.get(CART)?: Cart()
+        productViewModel.cart = pref.get(CART) ?: Cart()
         productViewModel.initCart()
     }
 }

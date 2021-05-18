@@ -15,7 +15,7 @@ class OrderDescriptionItemVH (private val binder: OrderDescriptionItemBinding):
 
         binder.cartItemTitle.text = data.name
         binder.cartItemPrice.text = data.price.toString()
-        binder.cartItemImage.loadImage(url = data.url)
+        binder.cartItemImage.loadImage(data.url)
 
     }
 

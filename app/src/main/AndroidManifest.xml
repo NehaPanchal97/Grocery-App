@@ -41,7 +41,6 @@
         <activity android:name=".activities.AddProductActivity">
 
         </activity>
-        <activity android:name=".auth.AccountDetailsActivity" />
         <activity android:name=".activities.DetailsPageActivity">
 
         </activity>
