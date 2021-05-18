@@ -20,8 +20,6 @@ import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.ProductViewModel
-import kotlinx.android.synthetic.main.cart_item.*
-import kotlinx.android.synthetic.main.cart_items_group.view.*
 
 
 class CartPageFragment : BaseFragment() {
@@ -55,7 +53,7 @@ class CartPageFragment : BaseFragment() {
         val checkout = binder.checkoutBtn
         checkout.setOnClickListener {
 
-            val intent = Intent(activity, OrderDetailsPageActivity::class.java)
+            val intent = Intent(activity, OrderStatusPageActivity::class.java)
             startActivity(intent)
 
 

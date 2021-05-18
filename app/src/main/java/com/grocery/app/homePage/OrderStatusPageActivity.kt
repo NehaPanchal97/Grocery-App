@@ -1,9 +1,6 @@
 package com.grocery.app.homePage
 
-import android.content.Context
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -13,16 +10,16 @@ import com.grocery.app.R
 import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.CART
 import com.grocery.app.constant.ORDER_DESCRIPTION_ITEM_TYPE
-import com.grocery.app.databinding.OrderDetailsPageBinding
+import com.grocery.app.databinding.OrderStatusPageBinding
 import com.grocery.app.models.Cart
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.OrderViewModel
 import com.grocery.app.viewModels.ProductViewModel
 
-class OrderDetailsPageActivity : AppCompatActivity() {
+class OrderStatusPageActivity : AppCompatActivity() {
 
 
-    lateinit var  binder:OrderDetailsPageBinding
+    lateinit var  binder:OrderStatusPageBinding
     lateinit var viewModel:OrderViewModel
     private lateinit var listAdapter: ProductListAdapter
     lateinit var productViewModel: ProductViewModel
@@ -30,7 +27,7 @@ class OrderDetailsPageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       binder = DataBindingUtil.setContentView(this,R.layout.order_details_page)
+       binder = DataBindingUtil.setContentView(this,R.layout.order_status_page)
         binder.rvOrderDescription.layoutManager = LinearLayoutManager(applicationContext,RecyclerView.VERTICAL,false)
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         listener()
@@ -51,7 +48,7 @@ class OrderDetailsPageActivity : AppCompatActivity() {
         binder.rvOrderDescription.apply {
             listAdapter = ProductListAdapter(productViewModel.cart.items?: arrayListOf(),
                 ORDER_DESCRIPTION_ITEM_TYPE)
-            adapter=listAdapter
+          adapter=listAdapter
         }
     }
 

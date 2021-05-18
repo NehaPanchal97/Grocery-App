@@ -13,9 +13,9 @@ class OrderDescriptionItemVH (private val binder: OrderDescriptionItemBinding):
 
     override fun bind(data: Product) {
 
-        binder.cartItemTitle.text = data.name
-        binder.cartItemPrice.text = data.price.toString()
-        binder.cartItemImage.loadImage(url = data.url)
+        binder.orderDesItemTitle.text = data.name
+        binder.orderDesItemPrice.text = data.price.toString()
+        binder.orderDesItemImage.loadImage(url = data.url)
 
     }
 
