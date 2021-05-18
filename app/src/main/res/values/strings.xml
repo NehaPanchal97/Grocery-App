@@ -107,4 +107,6 @@
     <string name="processing_order_description">Your product is processing to deliver you soon.</string>
     <string name="delivered_text">Delivered</string>
     <string name="delivered_order_description">Product will deliver to you and marked as delivered by customer</string>
+    <string name="all_orders">All Orders</string>
+    <string name="description">Description</string>
 </resources>
