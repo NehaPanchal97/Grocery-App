@@ -1,12 +1,12 @@
 package com.grocery.app.homePage
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
@@ -18,7 +18,6 @@ import com.grocery.app.databinding.CartItemsGroupBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.showSuccess
 import com.grocery.app.extensions.visible
-import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
@@ -30,7 +29,6 @@ import com.grocery.app.viewModels.OrderViewModel
 import com.grocery.app.viewModels.ProductViewModel
 import kotlinx.android.synthetic.main.cart_item.*
 import kotlinx.android.synthetic.main.cart_items_group.view.*
-import java.util.Observer
 
 
 class CartPageFragment : BaseFragment() {
@@ -48,7 +46,28 @@ class CartPageFragment : BaseFragment() {
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         orderViewModel = ViewModelProvider(this).get(OrderViewModel::class.java)
         setUpView()
+        listener()
+        checkoutBtn()
         observe()
+    }
+
+    private fun listener(){
+        val closeBtn =binder.cartBackBtn
+        closeBtn.setOnClickListener {
+            activity?.onBackPressed()
+        }
+    }
+
+    private fun checkoutBtn(){
+        val checkout = binder.checkoutBtn
+        checkout.setOnClickListener {
+
+            val intent = Intent(activity, OrderDetailsPageActivity::class.java)
+            startActivity(intent)
+
+
+
+        }
     }
 
     private fun observe() {
@@ -120,8 +139,10 @@ class CartPageFragment : BaseFragment() {
                 listAdapter.onClickListener = _itemClickListener
                 binder.cartRecyclerView.adapter = listAdapter
             }
-        } else
-            binder.root.showError("Cart is empty")
+        } else{
+            binder.tvEmptyCart.visible(true)
+            binder.ivEmptyImage.visible(true)
+        }
 
     }
 
@@ -151,6 +172,10 @@ class CartPageFragment : BaseFragment() {
         binder.cartAmount.text = "Total : \$$cartTotal"
         if (total != null) {
             binder.checkoutContainer.visible(total > 0)
+        }
+        if(viewModel.cart.items?.isEmpty()!=false){
+            binder.tvEmptyCart.visible(true)
+            binder.ivEmptyImage.visible(true)
         }
     }
 

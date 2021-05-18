@@ -57,7 +57,7 @@
     <string name="cancel">Cancel</string>
     <string name="tags">Tags</string>
     <string name="todo">TODO</string>
-    <string name="vegetables">vegetables</string>
+    <string name="vegetables">vegetables , fruits apple mango</string>
     <string name="amount_with_quantity">$17.00/kg</string>
     <string name="price_of_item">$17.20</string>
     <string name="count">0</string>
@@ -93,6 +93,22 @@
     <string name="order_status_move_msg">Do you really want to move this order to %1$s state.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="offer_text">Offer</string>
+    <string name="order_text">Order</string>
+    <string name="home_text">Home</string>
+    <string name="more_text">More</string>
+    <string name="order_details_page_header">Order Details</string>
+    <string name="order_time">9:30 AM</string>
+    <string name="order_placed_text">Order Placed</string>
+    <string name="order_placed_description">Your Order#241562 is placed for delivery</string>
+    <string name="pending_text">Pending</string>
+    <string name="pending_order_description">Your Order is pending for confirmation. Will confirm within 5 min.</string>
+    <string name="confirmed_text">Confirmed</string>
+    <string name="confirmed_order_description">Your order is confirmed and delivered within 30 minutes</string>
+    <string name="processing_text">Processing</string>
+    <string name="processing_order_description">Your product is processing to deliver you soon.</string>
+    <string name="delivered_text">Delivered</string>
+    <string name="delivered_order_description">Product will deliver to you and marked as delivered by customer</string>
     <string name="order_created_msg">Order created successfully.</string>
     <string name="order_create_error">Error in creating order</string>
 </resources>
