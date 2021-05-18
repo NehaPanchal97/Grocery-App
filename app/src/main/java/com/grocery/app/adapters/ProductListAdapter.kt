@@ -71,6 +71,7 @@ class ProductListAdapter(
 
     }
 
+
     override fun onBindViewHolder(holder: BaseVH<*, Product>, position: Int) {
         holder.bind(products[position])
     }
