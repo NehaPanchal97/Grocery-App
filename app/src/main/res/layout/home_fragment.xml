@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/topBar"
-            android:background="@drawable/homefragment_layout_rounded_corners"
+            android:background="@drawable/home_fragment_layout_rounded_corners"
             android:elevation="0dp"
             android:orientation="vertical">
 

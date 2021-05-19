@@ -13,8 +13,8 @@
     <color name="enter_no.">#868686</color>
     <color name="phone_no.">#2C2C2C</color>
     <color name="continue_text">#363125</color>
-    <color name="backgroundEditText">#F0F3FD</color>
-    <color name="cameraIcon">#D8DFFC</color>
+    <color name="backgroundEditText">#E9F7EE</color>
+    <color name="cameraIcon">#E9F7EE</color>
     <color name="profilebackground">#D9E0FB</color>
     <color name="white_color">#ffffff</color>
     <color name="black_color">#000000</color>
