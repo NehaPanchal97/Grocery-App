@@ -74,7 +74,8 @@ class ProductListFragment : BaseFragment() {
     }
 
     private fun resetCart() {
-        viewModel.resetCart()
+        val cart = pref.get(CART) ?: Cart()
+        viewModel.initCartWith(cart)
         itemRecyclerViewAdapter.notifyDataSetChanged()
     }
 
@@ -91,7 +92,8 @@ class ProductListFragment : BaseFragment() {
 
     private val _receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == ORDER_CREATED) {
+            val action = intent?.action ?: ""
+            if (action in setOf(CART_CHANGE, ORDER_CREATED)) {
                 if (lifecycle.currentState == Lifecycle.State.RESUMED) {
                     resetCart()
                 } else {
@@ -104,8 +106,11 @@ class ProductListFragment : BaseFragment() {
 
 
     private fun observe() {
+        val filter = IntentFilter()
+        filter.addAction(ORDER_CREATED)
+        filter.addAction(CART_CHANGE)
         LocalBroadcastManager.getInstance(requireContext())
-            .registerReceiver(_receiver, IntentFilter(ORDER_CREATED))
+            .registerReceiver(_receiver, filter)
         viewModel.productListLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
