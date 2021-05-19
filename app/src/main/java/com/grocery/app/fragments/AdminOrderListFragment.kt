@@ -7,17 +7,21 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.grocery.app.R
 import com.grocery.app.activities.AdminOrderDetailActivity
 import com.grocery.app.adapters.OrderListAdapter
 import com.grocery.app.constant.ORDER
 import com.grocery.app.constant.ORDER_CHANGE
+import com.grocery.app.constant.OrderStatus
 import com.grocery.app.customs.OnLoadMoreListener
 import com.grocery.app.databinding.FragmentAdminOrderListBinding
 import com.grocery.app.extensions.hide
@@ -25,8 +29,9 @@ import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.OrderViewModel
+import java.util.*
 
-class AdminOrderListFragment : BaseFragment() {
+class AdminOrderListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener {
 
     private lateinit var binder: FragmentAdminOrderListBinding
     private lateinit var viewModel: OrderViewModel
@@ -149,5 +154,43 @@ class AdminOrderListFragment : BaseFragment() {
         binder.itemRv.addOnScrollListener(_onLoadMoreListener)
 
         binder.emptyView.emptyTv.text = getString(R.string.no_order_available_msg)
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.filter) {
+            showFilterDialog()
+        }
+        return true
+    }
+
+    private fun showFilterDialog() {
+
+        val items = OrderStatus.values().filter { it != OrderStatus.OTHER }
+            .map { it.title.capitalize() }.toTypedArray()
+        val checked =
+            items.indexOfFirst { it.toLowerCase(Locale.ENGLISH) == viewModel.filterOrderByStatus }
+        MaterialAlertDialogBuilder(requireContext(), R.style.AppDialogTheme)
+            .setTitle(getString(R.string.filter_by_status))
+            .setNeutralButton(
+                getString(R.string.clear)
+            ) { _, _ ->
+                viewModel.clearFilter()
+                viewModel.fetchOrders(initialFetch = true)
+            }
+            .setPositiveButton(getString(R.string.apply)) { _, _ ->
+                viewModel.filterOrderByStatus?.let {
+                    viewModel.fetchOrders(initialFetch = true)
+                }
+            }
+            .setNegativeButton(getString(R.string.cancel)) { _, _ ->
+                viewModel.filterOrderByStatus = if (checked > -1)
+                    items[checked].toLowerCase(Locale.ENGLISH)
+                else null
+            }
+            .setSingleChoiceItems(items, checked) { _, which ->
+                viewModel.filterOrderByStatus = items[which].toLowerCase(Locale.ENGLISH)
+            }
+            .setCancelable(false)
+            .show()
     }
 }

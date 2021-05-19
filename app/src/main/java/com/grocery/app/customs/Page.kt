@@ -13,5 +13,6 @@ abstract class Page {
         val menu = toolbar.menu
         menu.findItem(R.id.cart).isVisible = false
         menu.findItem(R.id.add).isVisible = false
+        menu.findItem(R.id.filter).isVisible = false
     }
 }
