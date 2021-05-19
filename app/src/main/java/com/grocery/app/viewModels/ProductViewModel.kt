@@ -6,11 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.grocery.app.constant.DEFAULT_PAGE_SIZE
 import com.grocery.app.constant.Store
 import com.grocery.app.extensions.authUser
 import com.grocery.app.extensions.toObj
@@ -50,14 +52,15 @@ class ProductViewModel : ViewModel() {
     var cartUpdated = false
 
 
-    fun fetchProductList() {
+    fun fetchProductList(limit: Long = DEFAULT_PAGE_SIZE) {
         _productListLiveData.value = Result.loading()
-        val ref = Firebase.firestore.collection(Store.PRODUCTS)
-        val task = filterByCat?.let {
-            ref.whereEqualTo(Store.CATEGORY_ID, filterByCat?.id)
-                .get()
-        } ?: kotlin.run { ref.get() }
-        task.addOnSuccessListener { snapShot ->
+        var query = Firebase.firestore.collection(Store.PRODUCTS)
+            .orderBy(Store.CREATED_AT, Query.Direction.DESCENDING)
+            .limit(limit)
+        filterByCat?.let {
+            query = query.whereEqualTo(Store.CATEGORY_ID, filterByCat?.id)
+        }
+        query.get().addOnSuccessListener { snapShot ->
             onProductFetched(snapShot)
         }
             .addOnFailureListener {
