@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.grocery.app.activities.AdminOrderDetailActivity
 import com.grocery.app.adapters.OrderListAdapter
 import com.grocery.app.constant.ORDER
 import com.grocery.app.constant.ORDER_CHANGE
+import com.grocery.app.customs.OnLoadMoreListener
 import com.grocery.app.databinding.FragmentAdminOrderListBinding
 import com.grocery.app.extensions.hide
 import com.grocery.app.extensions.visible
@@ -81,16 +83,26 @@ class AdminOrderListFragment : BaseFragment() {
         viewModel.orderListLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
-                    loading(true)
+                    if (viewModel.loadingMore) {
+                        listAdapter.addLoader()
+                    } else {
+                        loading(true)
+                    }
                 }
                 Result.Status.SUCCESS -> {
-                    loading(false)
+                    if (!viewModel.loadingMore) {
+                        loading(false)
+                    }
                     val orders = it.data ?: arrayListOf()
-                    listAdapter.update(orders)
-                    binder.emptyView.root.visible(orders.isEmpty())
+                    listAdapter.update(addMore = viewModel.loadingMore, data = orders)
+                    binder.emptyView.root.visible(listAdapter.items.isEmpty())
                 }
                 Result.Status.ERROR -> {
-                    loading(false)
+                    if (viewModel.loadingMore) {
+                        listAdapter.removeLoader()
+                    } else {
+                        loading(false)
+                    }
                 }
             }
         })
@@ -115,10 +127,26 @@ class AdminOrderListFragment : BaseFragment() {
         }
     }
 
+    private val _onLoadMoreListener = object : OnLoadMoreListener() {
+
+        override val hasMore: Boolean
+            get() = viewModel.hasMoreOrder
+
+        override val isRequesting: Boolean
+            get() = viewModel.orderListLiveData.value?.type == Result.Status.LOADING
+
+        override fun onLoadMore() {
+            Log.d("LoadingMore", "Order")
+            viewModel.fetchOrders(initialFetch = false)
+        }
+
+    }
+
     private fun setupView() {
         listAdapter = OrderListAdapter(arrayListOf())
         listAdapter.itemClickListener = _itemClickListener
         binder.itemRv.adapter = listAdapter
+        binder.itemRv.addOnScrollListener(_onLoadMoreListener)
 
         binder.emptyView.emptyTv.text = getString(R.string.no_order_available_msg)
     }
