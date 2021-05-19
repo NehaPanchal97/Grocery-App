@@ -57,6 +57,8 @@ class HomePageActivity : AppCompatActivity() {
                 switchFragment()
             }
         } ?: kotlin.run { viewModel.fetchUserInfo() }
+
+        productViewModel.fetchProductList()
     }
 
 

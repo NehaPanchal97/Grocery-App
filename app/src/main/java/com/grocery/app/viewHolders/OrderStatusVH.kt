@@ -3,6 +3,7 @@ package com.grocery.app.viewHolders
 import androidx.core.content.ContextCompat
 import com.grocery.app.R
 import com.grocery.app.databinding.OrderStatusItemBinding
+import com.grocery.app.extensions.formatDate
 import com.grocery.app.extensions.visible
 import com.grocery.app.models.OrderStatus
 
@@ -23,7 +24,7 @@ class OrderStatusVH (private val binder: OrderStatusItemBinding):
 
          binder.statusText.text = data.status
          binder.description.text = data.description
-         binder.userResponseTime = data.createdAt?.toDate().toString()
+         binder.userResponseTime = data.updatedAt?.toDate()?.formatDate("dd-MM-yyyy")
          binder.check.background = ContextCompat.getDrawable(itemView.context, statusBg)
 
          binder.executePendingBindings()
