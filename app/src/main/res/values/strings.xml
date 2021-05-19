@@ -82,7 +82,10 @@
     <string name="order_dispatched_msg">Order has been dispatched.</string>
     <string name="order_delivered_msg">Your order has been delivered.</string>
     <string name="no_order_available_msg">No Orders available</string>
-    <string name="order_created_at">Order on: %1$s</string>
+    <string name="orderTitle">All Orders</string>
+    <string name="order_created_at">Ordered on: %1$s</string>
+    <string name="orderCreated">Ordered on: %1$s</string>
+    <string name="order_delivered_at">Delivered on: %1$s</string>
     <string name="order_detail">Order Detail</string>
     <string name="rs">\u20B9 %1$s</string>
     <string name="total">Total</string>
@@ -109,6 +112,8 @@
     <string name="processing_order_description">Your product is processing to deliver you soon.</string>
     <string name="delivered_text">Delivered</string>
     <string name="delivered_order_description">Product will deliver to you and marked as delivered by customer</string>
+    <string name="all_orders">All Orders</string>
+    <string name="description">Description</string>
     <string name="order_created_msg">Order created successfully.</string>
     <string name="order_create_error">Error in creating order</string>
 </resources>

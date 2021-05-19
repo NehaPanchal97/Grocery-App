@@ -19,7 +19,6 @@ import com.grocery.app.exceptions.OrderStatusChangeException
 import com.grocery.app.extensions.authUser
 import com.grocery.app.extensions.clone
 import com.grocery.app.extensions.currentDate
-import com.grocery.app.utils.OrderUtils
 
 private typealias Result<T> = com.grocery.app.extras.Result<T>
 private typealias Order = com.grocery.app.models.Order
@@ -28,6 +27,7 @@ class OrderViewModel : ViewModel() {
 
     private val _orderListLiveData by lazy { MutableLiveData<Result<ArrayList<Order>>>() }
     private val _updateOrderLiveData by lazy { MutableLiveData<Result<Void>>() }
+    private val _fetchOrderDetailLiveData by lazy { MutableLiveData<Result<Void>>() }
 
     val orderListLiveData
         get() = _orderListLiveData
@@ -35,9 +35,13 @@ class OrderViewModel : ViewModel() {
     val updateOrderLiveData
         get() = _updateOrderLiveData
 
+    val fetchOrderDetailLiveData
+    get() = _fetchOrderDetailLiveData
+
     var orderUpdated = false
 
     lateinit var order: Order
+     var orderId : String?=null
     var orderCreatedBy: String? = null
     var hasMoreOrder = true
     private var lastOrderSnap: DocumentSnapshot? = null
@@ -79,6 +83,24 @@ class OrderViewModel : ViewModel() {
             }
     }
 
+    fun fetchOrderDetail(){
+        _fetchOrderDetailLiveData.value = Result.loading()
+       Firebase.firestore.document("$ORDERS/$orderId")
+               .get()
+               .addOnSuccessListener { snapshot ->
+                   val order = snapshot.toObject(Order::class.java)
+                   order?.let {
+                       this.order = it
+                       _fetchOrderDetailLiveData.value = Result.success()
+                   }
+
+               }
+               .addOnFailureListener {
+                   _fetchOrderDetailLiveData.value = Result.error()
+               }
+
+    }
+
     fun createOrder(order: Order, cartId: String?) {
         _updateOrderLiveData.value = Result.loading()
         val cartPath = "${Store.USERS}/${authUser?.uid}/$CART/$cartId"
@@ -90,6 +112,7 @@ class OrderViewModel : ViewModel() {
                 cartRef.delete()
             }
             .addOnSuccessListener {
+                this.order = order
                 _updateOrderLiveData.value = Result.success()
             }
             .addOnFailureListener {
