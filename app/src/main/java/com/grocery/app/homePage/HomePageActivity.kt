@@ -128,9 +128,7 @@ class HomePageActivity : AppCompatActivity() {
         ll_home.setOnClickListener {
             startActivity(Intent(this, this::class.java))
         }
-        ll_order.setOnClickListener {
-            startActivity(Intent(this, OrderStatusPageActivity::class.java))
-        }
+
     }
 
 

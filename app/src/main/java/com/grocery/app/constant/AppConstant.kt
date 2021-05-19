@@ -13,5 +13,6 @@ const val CART = "cart"
 const val SIMILAR_PRODUCT = 238
 const val ORDERS = "orders"
 const val ORDER = "order"
+const val ORDER_ID = "order_id"
 const val ORDER_CHANGE = "order_change"
 const val ORDER_DESCRIPTION_ITEM_TYPE = 243

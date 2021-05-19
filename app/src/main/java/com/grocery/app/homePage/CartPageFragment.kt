@@ -13,6 +13,7 @@ import com.grocery.app.R
 import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.CART
 import com.grocery.app.constant.CART_ITEM_TYPE
+import com.grocery.app.constant.ORDER_ID
 import com.grocery.app.constant.USER
 import com.grocery.app.databinding.CartItemsGroupBinding
 import com.grocery.app.extensions.showError
@@ -67,7 +68,10 @@ class CartPageFragment : BaseFragment() {
                     viewModel.resetCart()
                     listAdapter.clearAdapter()
                     onTotalChange()
-                    binder.root.showSuccess(getString(R.string.order_created_msg))
+                    val orderId = orderViewModel.order.id
+                    val intent = Intent(activity, OrderStatusPageActivity::class.java)
+                    intent.putExtra(ORDER_ID,orderId)
+                    startActivity(intent)
                 }
                 Status.ERROR -> {
                     binder.root.showError(getString(R.string.order_create_error))
@@ -78,9 +82,9 @@ class CartPageFragment : BaseFragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binder = CartItemsGroupBinding.inflate(inflater, container, false)
         return binder.root
@@ -89,13 +93,13 @@ class CartPageFragment : BaseFragment() {
     private fun createOrder() {
         val user = pref.get(USER) ?: User()
         val order = OrderUtils.createOrder(
-            requireContext(),
-            viewModel.cart.items ?: arrayListOf(),
-            viewModel.cart.total ?: 0.0,
-            user.id ?: "",
-            user.name ?: "",
-            user.phone ?: "",
-            user.address ?: ""
+                requireContext(),
+                viewModel.cart.items ?: arrayListOf(),
+                viewModel.cart.total ?: 0.0,
+                user.id ?: "",
+                user.name ?: "",
+                user.phone ?: "",
+                user.address ?: ""
         )
         orderViewModel.createOrder(order, viewModel.cart.id)
     }
@@ -109,17 +113,17 @@ class CartPageFragment : BaseFragment() {
         }
         val cartTotal = viewModel.cart.total?.toString() ?: "0"
         binder.cartAmount.text = "Total : \$$cartTotal"
-        val total = viewModel.cart.total
-
-        if (total != null) {
-            binder.checkoutContainer.visible(total > 0)
-        }
+       if(viewModel.cart.items?.isEmpty()!=false){
+           binder.checkoutContainer.visible(false)
+           binder.tvEmptyCart.visible(true)
+           binder.ivEmptyImage.visible(true)
+       }
         if (viewModel.cart.items?.isEmpty() != true) {
             binder.cartRecyclerView.apply {
                 listAdapter = ProductListAdapter(
-                    viewModel.cart.items ?: arrayListOf(),
-                    CART_ITEM_TYPE,
-                    viewModel.cartMap
+                        viewModel.cart.items ?: arrayListOf(),
+                        CART_ITEM_TYPE,
+                        viewModel.cartMap
                 )
                 binder.cartRecyclerView.itemAnimator = null
                 listAdapter.onClickListener = _itemClickListener
@@ -128,6 +132,7 @@ class CartPageFragment : BaseFragment() {
         } else{
             binder.tvEmptyCart.visible(true)
             binder.ivEmptyImage.visible(true)
+            binder.checkoutContainer.visible(false)
         }
 
     }
@@ -156,12 +161,13 @@ class CartPageFragment : BaseFragment() {
         val cartTotal = viewModel.cart.total?.toString() ?: "0"
         val total = viewModel.cart.total
         binder.cartAmount.text = "Total : \$$cartTotal"
-        if (total != null) {
-            binder.checkoutContainer.visible(total > 0)
-        }
+//        if (total != null) {
+//            binder.checkoutContainer.visible(total > 0)
+//        }
         if(viewModel.cart.items?.isEmpty()!=false){
             binder.tvEmptyCart.visible(true)
             binder.ivEmptyImage.visible(true)
+            binder.checkoutContainer.visible(false)
         }
     }
 

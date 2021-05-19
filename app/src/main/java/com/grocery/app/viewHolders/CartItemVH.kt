@@ -23,7 +23,6 @@ class CartItemVH(private val binder: CartItemBinding,private val cartMap:HashMap
         binder.cartItemPrice.text = data.price.toString()
         binder.cartItemImage.loadImage(url = data.url)
         binder.tvCartCount.text = "$count"
-
     }
 
 
