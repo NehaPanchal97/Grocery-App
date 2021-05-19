@@ -20,4 +20,6 @@
     <color name="black_color">#000000</color>
     <color name="success_color">#4ecd64</color>
     <color name="error_color">#fa5353</color>
+    <color name="placed_state_color">#304fec</color>
+    <color name="pending_color">#fabf00</color>
 </resources>

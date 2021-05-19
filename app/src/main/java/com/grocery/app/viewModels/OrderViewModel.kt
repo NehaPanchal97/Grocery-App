@@ -11,10 +11,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
-import com.grocery.app.constant.CART
-import com.grocery.app.constant.DEFAULT_PAGE_SIZE
-import com.grocery.app.constant.ORDERS
-import com.grocery.app.constant.Store
+import com.grocery.app.constant.*
 import com.grocery.app.exceptions.OrderStatusChangeException
 import com.grocery.app.extensions.authUser
 import com.grocery.app.extensions.clone
@@ -36,14 +33,15 @@ class OrderViewModel : ViewModel() {
         get() = _updateOrderLiveData
 
     val fetchOrderDetailLiveData
-    get() = _fetchOrderDetailLiveData
+        get() = _fetchOrderDetailLiveData
 
     var orderUpdated = false
 
     lateinit var order: Order
-     var orderId : String?=null
+    var orderId: String? = null
     var orderCreatedBy: String? = null
     var hasMoreOrder = true
+    var filterOrderByStatus: String? = null
     private var lastOrderSnap: DocumentSnapshot? = null
 
     val loadingMore
@@ -61,6 +59,9 @@ class OrderViewModel : ViewModel() {
 
         if (!initialFetch) {
             query = query.startAfter(lastOrderSnap?.get(Store.CREATED_AT))
+        }
+        filterOrderByStatus?.let {
+            query = query.whereEqualTo(CURRENT_STATUS, it)
         }
         orderCreatedBy?.let {
             query = query.whereEqualTo(Store.CREATED_BY, it)
@@ -83,21 +84,21 @@ class OrderViewModel : ViewModel() {
             }
     }
 
-    fun fetchOrderDetail(){
+    fun fetchOrderDetail() {
         _fetchOrderDetailLiveData.value = Result.loading()
-       Firebase.firestore.document("$ORDERS/$orderId")
-               .get()
-               .addOnSuccessListener { snapshot ->
-                   val order = snapshot.toObject(Order::class.java)
-                   order?.let {
-                       this.order = it
-                       _fetchOrderDetailLiveData.value = Result.success()
-                   }
+        Firebase.firestore.document("$ORDERS/$orderId")
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val order = snapshot.toObject(Order::class.java)
+                order?.let {
+                    this.order = it
+                    _fetchOrderDetailLiveData.value = Result.success()
+                }
 
-               }
-               .addOnFailureListener {
-                   _fetchOrderDetailLiveData.value = Result.error()
-               }
+            }
+            .addOnFailureListener {
+                _fetchOrderDetailLiveData.value = Result.error()
+            }
 
     }
 
@@ -154,5 +155,9 @@ class OrderViewModel : ViewModel() {
         newOrder.currentStatus = unCompleted?.status
         newOrder.updatedAt = time
         return newOrder
+    }
+
+    fun clearFilter() {
+        filterOrderByStatus = null
     }
 }

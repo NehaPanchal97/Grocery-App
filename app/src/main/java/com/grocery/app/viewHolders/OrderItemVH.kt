@@ -41,6 +41,6 @@ class OrderItemVH(
     }
 
     override fun onClick(v: View?) {
-        itemClickListener?.onItemClick(v?.id?:-1,bindingAdapterPosition)
+        itemClickListener?.onItemClick(v?.id ?: -1, bindingAdapterPosition)
     }
 }
