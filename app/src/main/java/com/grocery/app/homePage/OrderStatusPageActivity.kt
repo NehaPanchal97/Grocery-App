@@ -64,7 +64,7 @@ class OrderStatusPageActivity : AppCompatActivity() {
                     viewModel.order.allStatus?.let { it1 -> orderAdapter.update(it1) }
                     val items = viewModel.order.items
                     if (items != null) {
-                        listAdapter.update(items)
+                        listAdapter.update(false,items)
                     }
                 }
                 Result.Status.ERROR->{

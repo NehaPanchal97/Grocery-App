@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.grocery.app.R
 import com.grocery.app.activities.DetailsPageActivity
 import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.*
+import com.grocery.app.customs.OnLoadMoreListener
 import com.grocery.app.databinding.ProductItemgroupLayoutBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
@@ -119,7 +121,7 @@ class ProductListFragment : BaseFragment() {
                 Result.Status.SUCCESS -> {
                     binder.progressBar.hide()
                     val products = it.data ?: arrayListOf()
-                    itemRecyclerViewAdapter.update(products)
+                    itemRecyclerViewAdapter.update(false, products)
                 }
 
                 Result.Status.ERROR -> {

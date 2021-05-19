@@ -5,10 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -22,6 +19,7 @@ import com.grocery.app.models.Category
 import com.grocery.app.models.Product
 import com.grocery.app.utils.isBlank
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProductViewModel : ViewModel() {
@@ -50,9 +48,18 @@ class ProductViewModel : ViewModel() {
     var cartMap = hashMapOf<String, Product?>()
     lateinit var cart: Cart
     var cartUpdated = false
+    var hasMoreProduct = true
+    var lastProductSnap: DocumentSnapshot? = null
+
+    val loadMore
+        get() = lastProductSnap != null
 
 
-    fun fetchProductList(limit: Long = DEFAULT_PAGE_SIZE) {
+    fun fetchProductList(initialFetch: Boolean = true, limit: Long = DEFAULT_PAGE_SIZE) {
+        if (initialFetch) {
+            hasMoreProduct = true
+            lastProductSnap = null
+        }
         _productListLiveData.value = Result.loading()
         var query = Firebase.firestore.collection(Store.PRODUCTS)
             .orderBy(Store.CREATED_AT, Query.Direction.DESCENDING)
@@ -60,8 +67,14 @@ class ProductViewModel : ViewModel() {
         filterByCat?.let {
             query = query.whereEqualTo(Store.CATEGORY_ID, filterByCat?.id)
         }
+        if (!initialFetch) {
+            query = query.startAfter(lastProductSnap?.get(Store.CREATED_AT))
+        }
         query.get().addOnSuccessListener { snapShot ->
+            val size = snapShot?.size() ?: 0
+            hasMoreProduct = size >= limit
             onProductFetched(snapShot)
+
         }
             .addOnFailureListener {
                 _productListLiveData.value = Result.error()
@@ -165,6 +178,11 @@ class ProductViewModel : ViewModel() {
                 }
             }
             _productListLiveData.postValue(Result.success(products))
+            delay(200)
+            if (snapShot?.isEmpty == false) {
+                val documents = snapShot.documents
+                lastProductSnap = documents.getOrNull(documents.size - 1)
+            }
         }
 
     fun addOrUpdateProduct() {

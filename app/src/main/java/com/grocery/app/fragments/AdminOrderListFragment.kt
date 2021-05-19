@@ -141,7 +141,6 @@ class AdminOrderListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener {
             get() = viewModel.orderListLiveData.value?.type == Result.Status.LOADING
 
         override fun onLoadMore() {
-            Log.d("LoadingMore", "Order")
             viewModel.fetchOrders(initialFetch = false)
         }
 

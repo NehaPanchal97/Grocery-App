@@ -22,25 +22,38 @@ import com.grocery.app.viewHolders.OrderDescriptionItemVH
 import com.grocery.app.viewModels.ProductGridVH
 
 class ProductListAdapter(
-    val products: ArrayList<Product>,
+    var products: ArrayList<Product>,
     private val itemType: Int,
     private val cartMap: HashMap<String, Product?> = hashMapOf()
 ) :
     RecyclerView.Adapter<BaseVH<*, Product>>() {
 
+    companion object {
+        const val LOAD_MORE_ITEM_TYPE = 1002
+    }
+
     var onClickListener: OnItemClickListener? = null
     val items
         get() = products
 
+    private var loading = false
+
     override fun getItemViewType(position: Int): Int {
-        return itemType
+        return if (position == products.size)
+            LOAD_MORE_ITEM_TYPE
+        else itemType
     }
 
     override fun getItemCount(): Int {
-        return products.size
+        return products.size + if (loading) 1 else 0
     }
 
-    fun update(arrayList: java.util.ArrayList<Product>) {
+    fun update(addMore: Boolean = true, arrayList: ArrayList<Product>) {
+        if (!addMore) {
+            products = arrayList
+            notifyDataSetChanged()
+            return
+        }
         products.addAll(arrayList)
         notifyDataSetChanged()
     }
@@ -104,9 +117,9 @@ class ProductListAdapter(
                     .inflate(LayoutInflater.from(parent.context), parent, false)
                 AdminOrderProductVH(binder)
             }
-            ORDER_DESCRIPTION_ITEM_TYPE->{
+            ORDER_DESCRIPTION_ITEM_TYPE -> {
                 val binder = OrderDescriptionItemBinding
-                    .inflate(LayoutInflater.from(parent.context),parent,false)
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
                 OrderDescriptionItemVH(binder)
             }
 

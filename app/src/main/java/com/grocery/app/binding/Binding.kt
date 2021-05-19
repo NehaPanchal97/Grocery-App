@@ -52,7 +52,7 @@ fun TextView.setOrderStatus(order: Order?) {
 
 @BindingAdapter("orderCreatedDate")
 fun TextView.setOrderCreatedDate(order: Order?) {
-    val createdAt = order?.createdAt?.toDate()?.formatDate("dd MMM, YYYY")
+    val createdAt = order?.createdAt?.toDate()?.formatDate("dd MMM, YYYY hh:mm a")
     this.text = this.context.getString(R.string.order_created_at, createdAt)
     this.visible(createdAt?.isNotEmpty() == true)
 }
