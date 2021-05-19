@@ -7,14 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
 import com.grocery.app.adapters.ProductListAdapter
-import com.grocery.app.constant.CART
-import com.grocery.app.constant.CART_ITEM_TYPE
-import com.grocery.app.constant.ORDER_ID
-import com.grocery.app.constant.USER
+import com.grocery.app.constant.*
 import com.grocery.app.databinding.CartItemsGroupBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.showSuccess
@@ -29,7 +27,7 @@ import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.OrderViewModel
 import com.grocery.app.viewModels.ProductViewModel
 
-private typealias Status=com.grocery.app.extras.Result.Status
+private typealias Status = com.grocery.app.extras.Result.Status
 
 
 class CartPageFragment : BaseFragment() {
@@ -51,8 +49,8 @@ class CartPageFragment : BaseFragment() {
         observe()
     }
 
-    private fun listener(){
-        val closeBtn =binder.cartBackBtn
+    private fun listener() {
+        val closeBtn = binder.cartBackBtn
         closeBtn.setOnClickListener {
             activity?.onBackPressed()
         }
@@ -70,8 +68,9 @@ class CartPageFragment : BaseFragment() {
                     listAdapter.clearAdapter()
                     onTotalChange()
                     val orderId = orderViewModel.order.id
+                    fireOrderCreatedEvent()
                     val intent = Intent(activity, OrderStatusPageActivity::class.java)
-                    intent.putExtra(ORDER_ID,orderId)
+                    intent.putExtra(ORDER_ID, orderId)
                     startActivity(intent)
                 }
                 Status.ERROR -> {
@@ -81,11 +80,16 @@ class CartPageFragment : BaseFragment() {
         })
     }
 
+    private fun fireOrderCreatedEvent() {
+        LocalBroadcastManager.getInstance(requireContext())
+            .sendBroadcast(Intent(ORDER_CREATED))
+    }
+
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         binder = CartItemsGroupBinding.inflate(inflater, container, false)
         return binder.root
@@ -94,13 +98,13 @@ class CartPageFragment : BaseFragment() {
     private fun createOrder() {
         val user = pref.get(USER) ?: User()
         val order = OrderUtils.createOrder(
-                requireContext(),
-                viewModel.cart.items ?: arrayListOf(),
-                viewModel.cart.total ?: 0.0,
-                user.id ?: "",
-                user.name ?: "",
-                user.phone ?: "",
-                user.address ?: ""
+            requireContext(),
+            viewModel.cart.items ?: arrayListOf(),
+            viewModel.cart.total ?: 0.0,
+            user.id ?: "",
+            user.name ?: "",
+            user.phone ?: "",
+            user.address ?: ""
         )
         orderViewModel.createOrder(order, viewModel.cart.id)
     }
@@ -114,23 +118,23 @@ class CartPageFragment : BaseFragment() {
         }
         val cartTotal = viewModel.cart.total?.toString() ?: "0"
         binder.cartAmount.text = "Total : \$$cartTotal"
-       if(viewModel.cart.items?.isEmpty()!=false){
-           binder.checkoutContainer.visible(false)
-           binder.tvEmptyCart.visible(true)
-           binder.ivEmptyImage.visible(true)
-       }
+        if (viewModel.cart.items?.isEmpty() != false) {
+            binder.checkoutContainer.visible(false)
+            binder.tvEmptyCart.visible(true)
+            binder.ivEmptyImage.visible(true)
+        }
         if (viewModel.cart.items?.isEmpty() != true) {
             binder.cartRecyclerView.apply {
                 listAdapter = ProductListAdapter(
-                        viewModel.cart.items ?: arrayListOf(),
-                        CART_ITEM_TYPE,
-                        viewModel.cartMap
+                    viewModel.cart.items ?: arrayListOf(),
+                    CART_ITEM_TYPE,
+                    viewModel.cartMap
                 )
                 binder.cartRecyclerView.itemAnimator = null
                 listAdapter.onClickListener = _itemClickListener
                 binder.cartRecyclerView.adapter = listAdapter
             }
-        } else{
+        } else {
             binder.tvEmptyCart.visible(true)
             binder.ivEmptyImage.visible(true)
             binder.checkoutContainer.visible(false)
@@ -165,7 +169,7 @@ class CartPageFragment : BaseFragment() {
 //        if (total != null) {
 //            binder.checkoutContainer.visible(total > 0)
 //        }
-        if(viewModel.cart.items?.isEmpty()!=false){
+        if (viewModel.cart.items?.isEmpty() != false) {
             binder.tvEmptyCart.visible(true)
             binder.ivEmptyImage.visible(true)
             binder.checkoutContainer.visible(false)

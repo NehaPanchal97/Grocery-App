@@ -16,5 +16,6 @@ const val ORDER_ITEMS = 240
 const val ORDER = "order"
 const val ORDER_ID = "order_id"
 const val ORDER_CHANGE = "order_change"
+const val ORDER_CREATED = "order_created"
 const val ORDER_DESCRIPTION_ITEM_TYPE = 243
 const val DEFAULT_PAGE_SIZE: Long = 20

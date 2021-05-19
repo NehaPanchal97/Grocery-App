@@ -46,6 +46,7 @@ class ProductViewModel : ViewModel() {
     var filterByCat: Category? = null
     var cartMap = hashMapOf<String, Product?>()
     lateinit var cart: Cart
+    var cartUpdated = false
 
 
     fun fetchProductList() {
