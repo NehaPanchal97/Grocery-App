@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -209,7 +210,8 @@ class ProductViewModel : ViewModel() {
             Store.CATEGORY_ID to product.categoryId,
             Store.URL to product.url,
             Store.TAGS to product.tags,
-            Store.ID to product.id
+            Store.ID to product.id,
+            Store.UPDATED_AT to FieldValue.serverTimestamp()
         )
 
         if ((product.name?.length ?: 0) > 2) {
@@ -217,7 +219,7 @@ class ProductViewModel : ViewModel() {
         }
 
         ref.document(product.id ?: "")
-            .set(map)
+            .set(map, SetOptions.merge())
             .addOnSuccessListener {
                 _addOrUpdateProductLiveData.value = Result.success()
             }
