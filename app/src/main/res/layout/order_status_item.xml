@@ -12,18 +12,19 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="18dp">
+    android:layout_height="wrap_content">
 
 
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+       android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
         android:padding="2dp"
         android:maxWidth="100dp"
         android:maxLines="4"
+        android:layout_marginBottom="10dp"
         tools:text="@string/order_time"
         android:text="@{userResponseTime}"
         android:textColor="@android:color/black"
@@ -34,7 +35,8 @@
         android:id="@+id/check"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/circle_check"
         android:contentDescription="@string/todo"
         android:padding="10dp"
@@ -49,8 +51,8 @@
         android:id="@+id/statusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:fontFamily="@font/ptsans_bold"
         android:text="@string/order_placed_text"
         android:textColor="@android:color/black"
@@ -81,14 +83,15 @@
     <View
         android:id="@+id/connecting_line"
         android:layout_width="2dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="3dp"
-        android:background="#DDDEE6"
+        android:background="@color/connecting_line"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@id/check"
         app:layout_constraintStart_toStartOf="@id/check"
-        app:layout_constraintTop_toBottomOf="@id/check" />
+        app:layout_constraintTop_toBottomOf="@id/check"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
