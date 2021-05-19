@@ -46,6 +46,7 @@ class ProductViewModel : ViewModel() {
     var filterByCat: Category? = null
     var cartMap = hashMapOf<String, Product?>()
     lateinit var cart: Cart
+    var cartUpdated = false
 
 
     fun fetchProductList() {
@@ -66,10 +67,12 @@ class ProductViewModel : ViewModel() {
     fun fetchProductWithTag() {
         _similarProductListLiveData.value = Result.loading()
         val tags = product.tags ?: arrayListOf()
-        Firebase.firestore.collection(Store.PRODUCTS)
-            .whereArrayContainsAny("tags", tags)
-            .whereNotEqualTo("id", product.id)
-            .get()
+        val ref = Firebase.firestore.collection(Store.PRODUCTS)
+        var query = ref.whereNotEqualTo("id", product.id)
+        if (tags.isNotEmpty()) {
+            query = query.whereArrayContainsAny("tags", tags)
+        }
+        query.get()
             .addOnSuccessListener { snapShot ->
                 val products = snapShot.toObjects(Product::class.java)
                 _similarProductListLiveData.value = Result.success(ArrayList(products))
@@ -259,6 +262,12 @@ class ProductViewModel : ViewModel() {
         cart.items?.forEach {
             cartMap[it.id ?: ""] = it
         }
+    }
+
+    fun initCartWith(cart: Cart) {
+        this.cart = cart
+        cartMap.clear()
+        initCart()
     }
 
     fun resetCart() {

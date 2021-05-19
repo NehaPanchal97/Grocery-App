@@ -1,34 +1,33 @@
 package com.grocery.app.homePage
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
 import com.grocery.app.activities.DetailsPageActivity
 import com.grocery.app.adapters.ProductListAdapter
-import com.grocery.app.constant.CART
-import com.grocery.app.constant.CATEGORY
-import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
-import com.grocery.app.constant.PRODUCT
+import com.grocery.app.constant.*
 import com.grocery.app.databinding.ProductItemgroupLayoutBinding
 import com.grocery.app.extensions.showError
-import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
-import com.grocery.app.models.Product
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.viewModels.ProductViewModel
-import kotlinx.android.synthetic.main.product_item_with_price.*
 
 class ProductListFragment : BaseFragment() {
 
@@ -66,12 +65,52 @@ class ProductListFragment : BaseFragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (viewModel.cartUpdated) {
+            viewModel.cartUpdated = false
+            resetCart()
+        }
+    }
+
+    private fun resetCart() {
+        val cart = pref.get(CART) ?: Cart()
+        viewModel.initCartWith(cart)
+        itemRecyclerViewAdapter.notifyDataSetChanged()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        LocalBroadcastManager.getInstance(requireContext())
+            .unregisterReceiver(_receiver)
+    }
+
     private fun initCart() {
         viewModel.cart = pref.get(CART) ?: Cart()
         viewModel.initCart()
     }
 
+    private val _receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val action = intent?.action ?: ""
+            if (action in setOf(CART_CHANGE, ORDER_CREATED)) {
+                if (lifecycle.currentState == Lifecycle.State.RESUMED) {
+                    resetCart()
+                } else {
+                    viewModel.cartUpdated = true
+                }
+            }
+        }
+
+    }
+
+
     private fun observe() {
+        val filter = IntentFilter()
+        filter.addAction(ORDER_CREATED)
+        filter.addAction(CART_CHANGE)
+        LocalBroadcastManager.getInstance(requireContext())
+            .registerReceiver(_receiver, filter)
         viewModel.productListLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
@@ -118,8 +157,8 @@ class ProductListFragment : BaseFragment() {
                 viewModel.updateCart(product, isAddition = false)
                 itemRecyclerViewAdapter.notifyItemChanged(position)
             } else if (itemId == R.id.itemImage) {
-                val intent = Intent(requireContext(),DetailsPageActivity::class.java)
-                intent.putExtra(PRODUCT,product)
+                val intent = Intent(requireContext(), DetailsPageActivity::class.java)
+                intent.putExtra(PRODUCT, product)
                 startActivity(intent)
             }
         }

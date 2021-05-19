@@ -3,6 +3,8 @@ package com.grocery.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -10,6 +12,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.grocery.app.constant.CART
+import com.grocery.app.constant.DEFAULT_PAGE_SIZE
 import com.grocery.app.constant.ORDERS
 import com.grocery.app.constant.Store
 import com.grocery.app.exceptions.OrderStatusChangeException
@@ -40,20 +43,40 @@ class OrderViewModel : ViewModel() {
     lateinit var order: Order
      var orderId : String?=null
     var orderCreatedBy: String? = null
+    var hasMoreOrder = true
+    private var lastOrderSnap: DocumentSnapshot? = null
+
+    val loadingMore
+        get() = lastOrderSnap != null
 
 
-    fun fetchOrders() {
+    fun fetchOrders(initialFetch: Boolean = true, limit: Long = DEFAULT_PAGE_SIZE) {
+        if (initialFetch) {
+            hasMoreOrder = true
+            lastOrderSnap = null
+        }
         _orderListLiveData.value = Result.loading()
         var query = Firebase.firestore.collection(ORDERS)
             .orderBy(Store.CREATED_AT, Query.Direction.DESCENDING)
+
+        if (!initialFetch) {
+            query = query.startAfter(lastOrderSnap?.get(Store.CREATED_AT))
+        }
         orderCreatedBy?.let {
             query = query.whereEqualTo(Store.CREATED_BY, it)
         }
-        query.get()
+        query.limit(limit).get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
+                    val size = it.result?.size() ?: 0
+                    hasMoreOrder = size >= limit
                     val orders = it.result?.toObjects<Order>() ?: arrayListOf()
                     _orderListLiveData.value = Result.success(ArrayList(orders))
+
+                    if (it.result?.isEmpty == false) {
+                        val documents = it.result?.documents
+                        lastOrderSnap = documents?.getOrNull(documents.size - 1)
+                    }
                 } else {
                     _orderListLiveData.value = Result.error()
                 }

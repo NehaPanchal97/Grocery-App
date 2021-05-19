@@ -23,6 +23,8 @@ import com.grocery.app.extensions.cast
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.showSuccess
 import com.grocery.app.extras.Result
+import com.grocery.app.fragments.OrderFragment
+import com.grocery.app.models.Cart
 import com.grocery.app.models.User
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.AuthViewModel
@@ -134,6 +136,12 @@ class HomePageActivity : AppCompatActivity() {
             startActivity(Intent(this, this::class.java))
         }
 
+        ll_order.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, OrderFragment())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     private fun cartCount(){

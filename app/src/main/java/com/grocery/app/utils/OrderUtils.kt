@@ -13,7 +13,7 @@ import com.grocery.app.models.Product
 import java.util.*
 import kotlin.collections.ArrayList
 
-typealias Status = com.grocery.app.constant.OrderStatus
+private typealias Status = com.grocery.app.constant.OrderStatus
 
 object OrderUtils {
 
