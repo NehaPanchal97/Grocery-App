@@ -94,11 +94,11 @@ class ProductListAdapter(
                     .inflate(LayoutInflater.from(parent.context), parent, false)
                 CartItemVH(binder, cartMap)
             }
-            ORDER_ITEMS -> {
-                val binder = OrderItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-                OrderItemVH(binder,cartMap)
-
-            }
+//            ORDER_ITEMS -> {
+//                val binder = OrderItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+//                OrderItemVH(binder,cartMap)
+//
+//            }
             ADMIN_ORDER_PRODUCT_ITEM_TYPE -> {
                 val binder = AdminOrderProductItemBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
