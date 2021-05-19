@@ -1,13 +1,18 @@
 package com.grocery.app.homePage
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import com.grocery.app.R
 import com.grocery.app.activities.AdminHomePageActivity
 import com.grocery.app.activities.UpdateProfileActivity
@@ -40,7 +45,7 @@ class HomePageActivity : AppCompatActivity() {
 
         bottomMenuAction()
         fabAction()
-
+        cartCount()
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         observeData()
@@ -139,7 +144,21 @@ class HomePageActivity : AppCompatActivity() {
         }
     }
 
-
+    private fun cartCount(){
+        fab.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            @SuppressLint("UnsafeExperimentalUsageError")
+            override fun onGlobalLayout() {
+                val count = productViewModel.cartMap.size
+                val badgeDrawable = BadgeDrawable.create(this@HomePageActivity)
+                badgeDrawable.number = count
+                badgeDrawable.backgroundColor = Color.BLUE
+                badgeDrawable.horizontalOffset =30
+                badgeDrawable.verticalOffset =20
+                BadgeUtils.attachBadgeDrawable(badgeDrawable,fab,null)
+                fab.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+    }
 
 }
 

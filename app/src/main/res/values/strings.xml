@@ -116,4 +116,5 @@
     <string name="description">Description</string>
     <string name="order_created_msg">Order created successfully.</string>
     <string name="order_create_error">Error in creating order</string>
+    <string name="search_hint">Search your daily grocery food...</string>
 </resources>
