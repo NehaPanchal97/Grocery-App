@@ -50,7 +50,8 @@ object OrderUtils {
         status.add(
             OrderStatus(
                 true, time,
-                context.getString(R.string.order_placed_msg), Status.PLACED.title
+                context.getString(R.string.order_placed_msg), Status.PLACED.title,
+                updatedAt = time
             )
         )
         status.add(
