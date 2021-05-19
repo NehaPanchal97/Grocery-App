@@ -25,9 +25,6 @@ class OrderDescriptionItemVH (private val binder: OrderDescriptionItemBinding):
     @SuppressLint("SetTextI18n")
     override fun bind(data: Product) {
 
-        binder.cartItemTitle.text = data.name
-        binder.cartItemPrice.text = data.price.toString()
-        binder.cartItemImage.loadImage(data.url)
 
         val price = data.price
         binder.orderDesItemTitle.text = data.name

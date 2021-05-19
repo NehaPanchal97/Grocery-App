@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.adapters.OrderItemAdapter
 import com.grocery.app.adapters.ProductListAdapter
-import com.grocery.app.constant.CART
-import com.grocery.app.constant.ORDER_ITEMS
+import com.grocery.app.constant.*
 import com.grocery.app.databinding.FragmentOrderBinding
 import com.grocery.app.extensions.authUser
 import com.grocery.app.extras.Result
+import com.grocery.app.homePage.OrderStatusPageActivity
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
 import com.grocery.app.utils.PrefManager
@@ -76,7 +76,9 @@ class OrderFragment : BaseFragment(), OnItemClickListener {
 
     override fun onItemClick(itemId: Int, position: Int) {
         val order = listAdapter.items[position]
-//        val intent = Intent(activity)
+        val intent = Intent(activity,OrderStatusPageActivity::class.java)
+        intent.putExtra(ORDER_ID,order.id)
+        startActivity(intent)
 
     }
 
