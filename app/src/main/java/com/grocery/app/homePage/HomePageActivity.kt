@@ -1,19 +1,13 @@
 package com.grocery.app.homePage
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.badge.BadgeUtils
 import com.grocery.app.R
 import com.grocery.app.activities.AdminHomePageActivity
 import com.grocery.app.activities.UpdateProfileActivity
@@ -31,7 +25,6 @@ import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.AuthViewModel
 import com.grocery.app.viewModels.ProductViewModel
 import kotlinx.android.synthetic.main.bottom_navigation_bar.*
-import kotlinx.android.synthetic.main.bottom_navigation_bar.view.*
 
 
 class HomePageActivity : AppCompatActivity() {
@@ -45,22 +38,8 @@ class HomePageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binder = DataBindingUtil.setContentView(this, R.layout.activity_home)
 
-//        bottomNavigationBar.setOnNavigationItemSelectedListener {
-//            when(it.itemId){
-//                R.id.home->{
-//                    startActivity(Intent(this,this::class.java))
-//                }
-//                R.id.order->{
-//                    startActivity(Intent(this,OrderDetailsPageActivity::class.java))
-//                }
-//
-//            }
-//            true
-//        }
-
         bottomMenuAction()
         fabAction()
-
 
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
@@ -151,6 +130,7 @@ class HomePageActivity : AppCompatActivity() {
         ll_home.setOnClickListener {
             startActivity(Intent(this, this::class.java))
         }
+
         ll_order.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, OrderFragment())
@@ -158,6 +138,8 @@ class HomePageActivity : AppCompatActivity() {
                 .commit()
         }
     }
+
+
 
 }
 

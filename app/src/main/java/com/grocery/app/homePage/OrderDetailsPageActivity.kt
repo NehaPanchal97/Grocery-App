@@ -1,3 +1,4 @@
+
 package com.grocery.app.homePage
 
 import android.os.Bundle
@@ -41,7 +42,6 @@ class OrderDetailsPageActivity : AppCompatActivity() {
             onBackPressed()
         }
     }
-
     private fun setUpView() {
         pref = PrefManager.getInstance(applicationContext)
         initCart()
