@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<data>
+    <variable
+        name="userResponseTime"
+        type="String" />
+</data>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="18dp">
+
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="2dp"
+        android:maxWidth="100dp"
+        android:maxLines="4"
+        tools:text="@string/order_time"
+        android:text="@{userResponseTime}"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/check"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/circle_check"
+        android:contentDescription="@string/todo"
+        android:padding="10dp"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintLeft_toRightOf="@id/time"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/ptsans_bold"
+        android:text="@string/order_placed_text"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintLeft_toRightOf="@id/check"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/ptsans_regular"
+        android:maxWidth="200dp"
+        android:maxLines="4"
+        android:paddingBottom="10dp"
+        android:text="@string/pending_order_description"
+        android:textColor="#EE424345"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@id/check"
+        app:layout_constraintStart_toStartOf="@id/statusText"
+        app:layout_constraintTop_toBottomOf="@id/statusText" />
+
+    <View
+        android:id="@+id/connecting_line"
+        android:layout_width="2dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:background="#DDDEE6"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@id/check"
+        app:layout_constraintStart_toStartOf="@id/check"
+        app:layout_constraintTop_toBottomOf="@id/check" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
