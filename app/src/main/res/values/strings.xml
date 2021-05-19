@@ -101,7 +101,7 @@
     <string name="home_text">Home</string>
     <string name="more_text">More</string>
     <string name="order_details_page_header">Order Details</string>
-    <string name="order_time">9:30 AM</string>
+    <string name="order_time">9:30 AM, 9;50,9:80</string>
     <string name="order_placed_text">Order Placed</string>
     <string name="order_placed_description">Your Order#241562 is placed for delivery</string>
     <string name="pending_text">Pending</string>

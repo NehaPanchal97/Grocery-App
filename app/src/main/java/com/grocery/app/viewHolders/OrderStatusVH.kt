@@ -22,9 +22,9 @@ class OrderStatusVH (private val binder: OrderStatusItemBinding):
              binder.connectingLine.visible(false)
          else binder.connectingLine.visible(true)
 
-         binder.statusText.text = data.status
+         binder.statusText.text = data.status?.capitalize()
          binder.description.text = data.description
-         binder.userResponseTime = data.updatedAt?.toDate()?.formatDate("dd-MM-yyyy")
+         binder.userResponseTime = data.updatedAt?.toDate()?.formatDate("dd-MM-yyyy , h:m a")
          binder.check.background = ContextCompat.getDrawable(itemView.context, statusBg)
 
          binder.executePendingBindings()

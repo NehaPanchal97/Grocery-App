@@ -17,17 +17,17 @@
 
     <TextView
         android:id="@+id/time"
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
         android:layout_height="wrap_content"
-       android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
+       android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
         android:padding="2dp"
-        android:maxWidth="100dp"
-        android:maxLines="4"
+        android:maxLines="3"
         android:layout_marginBottom="10dp"
         tools:text="@string/order_time"
         android:text="@{userResponseTime}"
         android:textColor="@android:color/black"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

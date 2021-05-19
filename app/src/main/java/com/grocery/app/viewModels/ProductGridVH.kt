@@ -1,6 +1,7 @@
 package com.grocery.app.viewModels
 
 import android.view.View
+import com.grocery.app.R
 import com.grocery.app.databinding.ProductItemWithPriceBinding
 import com.grocery.app.extensions.loadImage
 import com.grocery.app.extensions.visible
@@ -21,9 +22,11 @@ class ProductGridVH(private val binder: ProductItemWithPriceBinding) :
     override fun bind(data: Product) {
 
 
+        val context = itemView.context
+        val price = data.price
         val count = cartMap[data.id]?.count ?: 0
         binder.specificItemTitle.text = data.name
-        binder.tvPrice.text = data.price.toString()
+        binder.tvPrice.text =context.getString(R.string.rs_symbol, price.toString())
         binder.itemImage.loadImage(url = data.url)
         if (count>0){
             binder.tvCount.text = "$count"
