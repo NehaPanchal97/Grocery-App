@@ -24,7 +24,9 @@ object OrderUtils {
         userId: String,
         name: String,
         contact: String,
-        address: String
+        address: String,
+        totalDiscount: Double,
+        payableAmount: Double
     ): Order {
 
         val id = Firebase.firestore.collection(ORDERS).document().id
@@ -38,6 +40,8 @@ object OrderUtils {
             currentStatus = Status.PLACED.title,
             items = products,
             total = total,
+            totalDiscount = totalDiscount,
+            payableAmount = payableAmount,
             updatedAt = time,
             contact = contact,
             deliveryAddress = address,

@@ -104,7 +104,9 @@ class CartPageFragment : BaseFragment() {
             user.id ?: "",
             user.name ?: "",
             user.phone ?: "",
-            user.address ?: ""
+            user.address ?: "",
+            viewModel.cart.totalDiscount ?: 0.0,
+            viewModel.cart.payableAmount ?: 0.0
         )
         orderViewModel.createOrder(order, viewModel.cart.id)
     }

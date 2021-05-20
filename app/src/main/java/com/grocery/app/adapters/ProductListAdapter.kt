@@ -63,7 +63,7 @@ class ProductListAdapter(
         }
     }
 
-    fun removeLoader() {
+    private fun removeLoader() {
         if (loading) {
             loading = false
             notifyItemRemoved(products.size)

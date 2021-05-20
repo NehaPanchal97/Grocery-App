@@ -60,7 +60,7 @@ class HomePageActivity : AppCompatActivity() {
             }
         } ?: kotlin.run { viewModel.fetchUserInfo() }
 
-        productViewModel.fetchProductList()
+//        productViewModel.fetchProductList()
     }
 
 
