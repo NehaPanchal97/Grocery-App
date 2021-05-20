@@ -7,6 +7,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,10 +15,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.grocery.app.R
 import com.grocery.app.adapters.ProductListAdapter
-import com.grocery.app.constant.CART
-import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
-import com.grocery.app.constant.PRODUCT
-import com.grocery.app.constant.Store
+import com.grocery.app.constant.*
 import com.grocery.app.databinding.ActivitySearchBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
@@ -89,6 +87,10 @@ class SearchActivity : AppCompatActivity() {
         })
     }
 
+    private fun fireOrderCreatedEvent() {
+        LocalBroadcastManager.getInstance(applicationContext)
+            .sendBroadcast(Intent(CART_CHANGE))
+    }
 
     private val _itemClickListener = object : OnItemClickListener {
         override fun onItemClick(itemId: Int, position: Int) {
