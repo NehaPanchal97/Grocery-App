@@ -119,4 +119,5 @@
     <string name="search_hint">Search your daily grocery food...</string>
     <string name="filter_by_status">Filter By Status</string>
     <string name="searchHeaderText">Hey ,\nLet\'s search your grocery food</string>
+    <string name="discount_per">Discount (%)</string>
 </resources>

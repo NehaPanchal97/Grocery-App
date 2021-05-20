@@ -2,6 +2,8 @@ package com.grocery.app.viewModels
 
 import android.net.Uri
 import androidx.core.widget.doAfterTextChanged
+import android.util.Log
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +13,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.grocery.app.constant.DEFAULT_PAGE_SIZE
+import com.grocery.app.constant.ORDERS
 import com.grocery.app.constant.Store
+import com.grocery.app.constant.Store.PRODUCTS
 import com.grocery.app.extensions.authUser
 import com.grocery.app.extensions.toObj
 import com.grocery.app.extras.Result
@@ -22,6 +26,7 @@ import com.grocery.app.utils.isBlank
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.concurrent.timerTask
 
 class ProductViewModel : ViewModel() {
 
@@ -64,6 +69,7 @@ class ProductViewModel : ViewModel() {
         if (initialFetch) {
             hasMoreProduct = true
             lastProductSnap = null
+            batchUpdate()
         }
         _productListLiveData.value = Result.loading()
         var query = Firebase.firestore.collection(Store.PRODUCTS)
@@ -84,6 +90,10 @@ class ProductViewModel : ViewModel() {
             .addOnFailureListener {
                 _productListLiveData.value = Result.error()
             }
+    }
+
+    private fun batchUpdate() {
+        //To update batch
     }
 
     fun fetchProductWithTag() {
@@ -238,20 +248,24 @@ class ProductViewModel : ViewModel() {
 
     private fun addOrUpdateProductOnStore() {
         val ref = Firebase.firestore.collection(Store.PRODUCTS)
-        if (product.id.isBlank()) {
-            product.id = ref.document().id
-        }
+
+        val productId = product.id ?: ref.document().id
+        val time = FieldValue.serverTimestamp()
         val map = hashMapOf(
             Store.NAME to product.name,
             Store.DESCRIPTION to product.description,
             Store.PRICE to product.price,
-            Store.ACTIVE to product.active,
+            Store.ACTIVE to (product.active ?: true),
             Store.CATEGORY_ID to product.categoryId,
             Store.URL to product.url,
             Store.TAGS to product.tags,
-            Store.ID to product.id,
-            Store.UPDATED_AT to FieldValue.serverTimestamp()
+            Store.DISCOUNT to (product.discount ?: 0),
+            Store.ID to productId,
+            Store.UPDATED_AT to time
         )
+        if (product.id.isBlank()) {
+            map[Store.CREATED_AT] = time
+        }
 
         if ((product.name?.length ?: 0) > 2) {
             map[Store.SEARCH_KEYS] = createSearchKeys(product.name ?: "")
