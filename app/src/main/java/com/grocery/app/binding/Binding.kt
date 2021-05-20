@@ -1,15 +1,15 @@
 package com.grocery.app.binding
 
+import android.graphics.Paint
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.grocery.app.R
 import com.grocery.app.constant.OrderStatus
-import com.grocery.app.extensions.formatDate
-import com.grocery.app.extensions.loadImage
-import com.grocery.app.extensions.visible
+import com.grocery.app.extensions.*
 import com.grocery.app.models.Order
+import com.grocery.app.models.Product
 
 
 @BindingAdapter("loadUrl", "circular", "placeholder")
@@ -66,4 +66,29 @@ fun ImageView.setOrderUrl(order: Order?) {
 fun TextView.setItemsInOrder(order: Order?) {
     val itemCount = order?.items?.size ?: 0
     this.text = "$itemCount Items"
+}
+
+@BindingAdapter("productPrice")
+fun TextView.setProductPrice(product: Product?) {
+    this.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+    this.text = product?.price?.trim
+    val discount = product?.discount ?: 0.0
+    this.visible(discount > 0)
+}
+
+@BindingAdapter("productDiscountedPrice")
+fun TextView.setProductDiscountedPrice(product: Product?) {
+
+    val discount = product?.discount ?: 0.0
+    val actualPrice = product?.price ?: 0.0
+    val discountedPrice = actualPrice - actualPrice.percentage(discount)
+    val priceToShow = if (discount > 0) discountedPrice else actualPrice
+    this.text = this.context.getString(R.string.rs, priceToShow.trim)
+}
+
+@BindingAdapter("productDiscount")
+fun TextView.setProductDiscount(product: Product?) {
+    val discount = product?.discount ?: 0.0
+    this.text = "${discount.trim}% off"
+    this.visible(discount > 0)
 }

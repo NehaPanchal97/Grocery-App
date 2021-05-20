@@ -153,7 +153,7 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
         binder.descEt.addTextChangedListener { _product.description = it.toString() }
         binder.priceEt.addTextChangedListener { _product.price = it.toString().toDouble() }
         binder.discountEt.addTextChangedListener {
-            _product.discount = it.toString().toIntOrNull() ?: 0
+            _product.discount = it.toString().toDoubleOrNull()
         }
         loadProductImage()
 

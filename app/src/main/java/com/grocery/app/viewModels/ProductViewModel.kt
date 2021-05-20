@@ -1,9 +1,6 @@
 package com.grocery.app.viewModels
 
 import android.net.Uri
-import androidx.core.widget.doAfterTextChanged
-import android.util.Log
-import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,11 +10,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.grocery.app.constant.DEFAULT_PAGE_SIZE
-import com.grocery.app.constant.ORDERS
 import com.grocery.app.constant.Store
-import com.grocery.app.constant.Store.PRODUCTS
-import com.grocery.app.extensions.authUser
-import com.grocery.app.extensions.toObj
+import com.grocery.app.extensions.*
 import com.grocery.app.extras.Result
 import com.grocery.app.models.Cart
 import com.grocery.app.models.Category
@@ -26,7 +20,6 @@ import com.grocery.app.utils.isBlank
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.concurrent.timerTask
 
 class ProductViewModel : ViewModel() {
 
@@ -49,8 +42,8 @@ class ProductViewModel : ViewModel() {
     val similarListLiveData: LiveData<Result<ArrayList<Product>>>
         get() = _similarProductListLiveData
 
-    val productWithKeyLiveData : LiveData<Result<ArrayList<Product>>>
-    get() = _productWithKeyLiveData
+    val productWithKeyLiveData: LiveData<Result<ArrayList<Product>>>
+        get() = _productWithKeyLiveData
 
     var catList = arrayListOf<Category>()
     var product = Product()
@@ -65,7 +58,7 @@ class ProductViewModel : ViewModel() {
         get() = lastProductSnap != null
 
 
-    fun fetchProductList(initialFetch: Boolean = true, limit: Long = DEFAULT_PAGE_SIZE) {
+    fun fetchProductList(initialFetch: Boolean = true, limit: Long? = DEFAULT_PAGE_SIZE) {
         if (initialFetch) {
             hasMoreProduct = true
             lastProductSnap = null
@@ -74,7 +67,9 @@ class ProductViewModel : ViewModel() {
         _productListLiveData.value = Result.loading()
         var query = Firebase.firestore.collection(Store.PRODUCTS)
             .orderBy(Store.CREATED_AT, Query.Direction.DESCENDING)
-            .limit(limit)
+        limit?.let {
+            query = query.limit(it)
+        }
         filterByCat?.let {
             query = query.whereEqualTo(Store.CATEGORY_ID, filterByCat?.id)
         }
@@ -83,7 +78,9 @@ class ProductViewModel : ViewModel() {
         }
         query.get().addOnSuccessListener { snapShot ->
             val size = snapShot?.size() ?: 0
-            hasMoreProduct = size >= limit
+            limit?.let {
+                hasMoreProduct = size >= it
+            }
             onProductFetched(snapShot)
 
         }
@@ -121,7 +118,7 @@ class ProductViewModel : ViewModel() {
             .whereArrayContains("search_keys", keys)
             .get()
             .addOnSuccessListener {
-                val products =   it.toObjects(Product::class.java)
+                val products = it.toObjects(Product::class.java)
                 _productWithKeyLiveData.value = Result.success(ArrayList(products))
             }
     }
@@ -132,11 +129,7 @@ class ProductViewModel : ViewModel() {
         isAddition: Boolean = true
     ) {
         _updateCartLiveData.value = Result.loading()
-        if (isAddition) {
-            evaluateAddInCart(product)
-        } else {
-            evaluateRemoveFromCart(product)
-        }
+        evaluateCartUpdate(product, isAddition)
         val ref = Firebase.firestore
             .collection("${Store.USERS}/${authUser?.uid}/${Store.CART}")
         if (cart.id?.isEmpty() != false) {
@@ -153,47 +146,34 @@ class ProductViewModel : ViewModel() {
             }
     }
 
-    private fun evaluateRemoveFromCart(product: Product?) {
-        var cartTotal = cart.total ?: 0.0
-        cartMap[product?.id ?: ""]?.let {
-            val count = it.count ?: 0
-            if (count < 2) {
-                cartMap.remove(it.id)
-                cart.items?.remove(it)
-                cartTotal -= (it.total ?: 0.0)
-            } else {
-                it.count = count - 1
-                cartTotal -= it.total ?: 0.0
-                it.total = (it.price ?: 0.0) * (it.count ?: 0)
-                cartTotal += it.total ?: 0.0
-            }
-        }
-        cart.total = cartTotal
-    }
+    private fun evaluateCartUpdate(product: Product?, isAddition: Boolean = true) {
 
-    private fun evaluateAddInCart(product: Product?) {
-        var cartTotal = cart.total ?: 0.0
-        if (cartMap.containsKey(product?.id ?: "")) {
-            val item = cartMap[product?.id ?: ""]
-            item?.let {
-                it.price = product?.price
-                it.count = (it.count ?: 0) + 1
-                cartTotal -= (it.total ?: 0.0)
-                it.total = (it.price ?: 0.0) * (it.count ?: 0)
-                cartTotal += (it.total ?: 0.0)
-            }
+        val item = product?.clone()
+        val itemCount = cartMap[product?.id]?.count ?: 0
+        item?.count = itemCount + if (isAddition) 1 else -1
+        item?.total = item?.count?.times(item.price ?: 0.0)?.round(2)
+        item?.totalDiscount = item?.total?.percentage(item.discount ?: 0.0)?.round(2)
+
+        if (item?.count == 0) {
+            cartMap.remove(product.id ?: "")
         } else {
-            val items = cart.items ?: arrayListOf()
-            product?.let {
-                it.count = 1
-                it.total = it.price
-                items.add(it)
-                cart.items = items
-                cartTotal += (it.total ?: 0.0)
-                cartMap[it.id ?: ""] = it
+            cartMap[product?.id ?: ""] = item
+        }
+
+        val items = arrayListOf<Product>()
+        var total = 0.0
+        var totalDiscount = 0.0
+        cartMap.forEach {
+            it.value?.let { product ->
+                total += product.total ?: 0.0
+                totalDiscount += product.totalDiscount ?: 0.0
+                items.add(product)
             }
         }
-        cart.total = cartTotal
+        cart.total = total
+        cart.totalDiscount = totalDiscount
+        cart.payableAmount = total.minus(totalDiscount)
+        cart.items = items
     }
 
     private fun onProductFetched(snapShot: QuerySnapshot?) =
@@ -259,7 +239,7 @@ class ProductViewModel : ViewModel() {
             Store.CATEGORY_ID to product.categoryId,
             Store.URL to product.url,
             Store.TAGS to product.tags,
-            Store.DISCOUNT to (product.discount ?: 0),
+            Store.DISCOUNT to (product.discount ?: 0.0),
             Store.ID to productId,
             Store.UPDATED_AT to time
         )

@@ -16,6 +16,7 @@ class AdminOrderProductVH(private val binder: AdminOrderProductItemBinding) :
         binder.count = "$count X"
         binder.name = data.name
         binder.price = res.getString(R.string.rs, data.price?.toString())
+        binder.product = data
         binder.executePendingBindings()
     }
 }
