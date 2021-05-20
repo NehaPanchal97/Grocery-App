@@ -14,6 +14,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.grocery.app.R
 import com.grocery.app.adapters.ProductListAdapter
+import com.grocery.app.constant.CART
 import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
 import com.grocery.app.constant.PRODUCT
 import com.grocery.app.constant.Store
@@ -21,7 +22,9 @@ import com.grocery.app.databinding.ActivitySearchBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.listeners.OnItemClickListener
+import com.grocery.app.models.Cart
 import com.grocery.app.models.Product
+import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.ProductViewModel
 
 class SearchActivity : AppCompatActivity() {
@@ -29,14 +32,15 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var itemRvAdapter : ProductListAdapter
     private lateinit var viewModel: ProductViewModel
     lateinit var binder : ActivitySearchBinding
+    lateinit var pref: PrefManager
     var product = Product()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binder = DataBindingUtil.setContentView(this,R.layout.activity_search)
 
+        pref = PrefManager.getInstance(applicationContext)
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
-
         binder.productItemRV.addItemDecoration(
             DividerItemDecoration(
                applicationContext,
@@ -53,6 +57,7 @@ class SearchActivity : AppCompatActivity() {
             GridLayoutManager(applicationContext, 2, RecyclerView.VERTICAL, false)
 
         itemRecyclerView()
+        initCart()
 
         binder.editTextSearch.doAfterTextChanged { result ->
             if (result?.length?: 0 > 2 ) {
@@ -73,7 +78,7 @@ class SearchActivity : AppCompatActivity() {
                 }
                 Result.Status.SUCCESS -> {
                         val products = result.data ?: arrayListOf()
-                        itemRvAdapter.update(products)
+                        itemRvAdapter.update(false,products)
                 }
 
                 Result.Status.ERROR -> {
@@ -117,6 +122,10 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    private fun initCart() {
+        viewModel.cart = pref.get(CART) ?: Cart()
+        viewModel.initCart()
+    }
 
 
 }

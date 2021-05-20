@@ -118,4 +118,5 @@
     <string name="order_create_error">Error in creating order</string>
     <string name="search_hint">Search your daily grocery food...</string>
     <string name="filter_by_status">Filter By Status</string>
+    <string name="searchHeaderText">Hey ,\nLet\'s search your grocery food</string>
 </resources>
