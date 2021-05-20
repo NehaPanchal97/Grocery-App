@@ -1,6 +1,7 @@
 package com.grocery.app.viewModels
 
 import android.net.Uri
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,6 +28,7 @@ class ProductViewModel : ViewModel() {
     private val _addOrUpdateProductLiveData by lazy { MutableLiveData<Result<Product>>() }
     private val _productListLiveData by lazy { MutableLiveData<Result<ArrayList<Product>>>() }
     private val _similarProductListLiveData by lazy { MutableLiveData<Result<ArrayList<Product>>>() }
+    private val _productWithKeyLiveData by lazy { MutableLiveData<Result<ArrayList<Product>>>() }
     private val _updateCartLiveData by lazy { MutableLiveData<Result<Void>>() }
 
     val addOrUpdateProductLiveData: LiveData<Result<Product>>
@@ -40,6 +42,9 @@ class ProductViewModel : ViewModel() {
 
     val similarListLiveData: LiveData<Result<ArrayList<Product>>>
         get() = _similarProductListLiveData
+
+    val productWithKeyLiveData : LiveData<Result<ArrayList<Product>>>
+    get() = _productWithKeyLiveData
 
     var catList = arrayListOf<Category>()
     var product = Product()
@@ -78,6 +83,19 @@ class ProductViewModel : ViewModel() {
                 _similarProductListLiveData.value = Result.error()
             }
     }
+
+    fun fetchProductWithKey(keys: String) {
+        _productWithKeyLiveData.value = Result.loading()
+
+        Firebase.firestore.collection(Store.PRODUCTS)
+            .whereArrayContains("search_keys", keys)
+            .get()
+            .addOnSuccessListener {
+                val products =   it.toObjects(Product::class.java)
+                _productWithKeyLiveData.value = Result.success(ArrayList(products))
+            }
+    }
+
 
     fun updateCart(
         product: Product?,

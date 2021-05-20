@@ -43,35 +43,21 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
                 android:id="@+id/search_container"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_margin="25dp"
                 android:background="@drawable/text_search_container"
                 android:textColor="#EDEFF2"
+                android:gravity="start|center"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvText" >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextSearch"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:gravity="start"
-                    android:background="@null"
-                    android:backgroundTint="@color/search_bg_color"
-                    android:drawableStart="@drawable/ic_search"
-                    android:paddingEnd="4dp"
-                    android:padding="1dp"
-                    android:hint="@string/search_hint"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/search_container"
-                    tools:ignore="RtlSymmetry" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
+                app:layout_constraintTop_toBottomOf="@id/tvText"
+                android:hint="@string/search_hint"
+                android:padding="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:drawableStartCompat="@drawable/ic_search" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

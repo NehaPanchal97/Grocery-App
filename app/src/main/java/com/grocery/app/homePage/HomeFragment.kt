@@ -1,5 +1,6 @@
 package com.grocery.app.homePage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
+import com.grocery.app.activities.SearchActivity
 import com.grocery.app.constant.CATEGORY
 import com.grocery.app.contracts.UpdateProfileContract
 import com.grocery.app.homePage.adapters.HomePageCategoryAdapter
@@ -38,6 +40,11 @@ class HomeFragment : BaseFragment() {
         setupView()
         observe()
         viewModel.fetchHomePageData(3)
+
+        binder.searchContainer.setOnClickListener {
+            val intent = Intent(activity,SearchActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun observe() {

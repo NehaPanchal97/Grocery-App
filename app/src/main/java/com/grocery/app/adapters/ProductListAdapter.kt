@@ -22,7 +22,7 @@ import com.grocery.app.viewHolders.OrderDescriptionItemVH
 import com.grocery.app.viewModels.ProductGridVH
 
 class ProductListAdapter(
-    val products: ArrayList<Product>,
+    var products: ArrayList<Product>,
     private val itemType: Int,
     private val cartMap: HashMap<String, Product?> = hashMapOf()
 ) :
@@ -41,7 +41,7 @@ class ProductListAdapter(
     }
 
     fun update(arrayList: java.util.ArrayList<Product>) {
-        products.addAll(arrayList)
+       products = arrayList
         notifyDataSetChanged()
     }
 

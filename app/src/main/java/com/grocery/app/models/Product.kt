@@ -16,6 +16,7 @@ open class Product(
     var categoryId: String? = null,
     var url: String? = null,
     var tags: ArrayList<String?>? = null,
+    var keys: ArrayList<String?>? = null,
     var count: Int? = null,
     var total: Double? = null
 ) : Parcelable
