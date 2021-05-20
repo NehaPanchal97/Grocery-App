@@ -81,7 +81,7 @@ class AdminOrderDetailActivity : BaseActivity() {
         )
         binder.productRv.adapter = listAdapter
         onActionChange(true)
-        binder.totalTv.text = getString(R.string.rs, _order.total?.toString())
+        binder.totalTv.text = getString(R.string.rs, _order.payableAmount?.toString())
         binder.actionBtn.setOnClickListener {
             showConfirmationAlert()
         }

@@ -20,5 +20,7 @@ object Store {
     const val SEARCH_KEYS = "search_keys"
     const val CART = "cart"
     const val CREATED_AT = "createdAt"
+    const val UPDATED_AT = "updatedAt"
     const val CREATED_BY = "createdBy"
+    const val DISCOUNT = "discount"
 }

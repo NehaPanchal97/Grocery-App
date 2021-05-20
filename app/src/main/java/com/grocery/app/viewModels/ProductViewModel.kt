@@ -5,20 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.grocery.app.constant.DEFAULT_PAGE_SIZE
 import com.grocery.app.constant.Store
-import com.grocery.app.extensions.authUser
-import com.grocery.app.extensions.toObj
+import com.grocery.app.extensions.*
 import com.grocery.app.extras.Result
 import com.grocery.app.models.Cart
 import com.grocery.app.models.Category
 import com.grocery.app.models.Product
 import com.grocery.app.utils.isBlank
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProductViewModel : ViewModel() {
@@ -27,6 +27,7 @@ class ProductViewModel : ViewModel() {
     private val _addOrUpdateProductLiveData by lazy { MutableLiveData<Result<Product>>() }
     private val _productListLiveData by lazy { MutableLiveData<Result<ArrayList<Product>>>() }
     private val _similarProductListLiveData by lazy { MutableLiveData<Result<ArrayList<Product>>>() }
+    private val _productWithKeyLiveData by lazy { MutableLiveData<Result<ArrayList<Product>>>() }
     private val _updateCartLiveData by lazy { MutableLiveData<Result<Void>>() }
 
     val addOrUpdateProductLiveData: LiveData<Result<Product>>
@@ -41,27 +42,55 @@ class ProductViewModel : ViewModel() {
     val similarListLiveData: LiveData<Result<ArrayList<Product>>>
         get() = _similarProductListLiveData
 
+    val productWithKeyLiveData: LiveData<Result<ArrayList<Product>>>
+        get() = _productWithKeyLiveData
+
     var catList = arrayListOf<Category>()
     var product = Product()
     var filterByCat: Category? = null
     var cartMap = hashMapOf<String, Product?>()
     lateinit var cart: Cart
     var cartUpdated = false
+    var hasMoreProduct = true
+    var lastProductSnap: DocumentSnapshot? = null
+
+    val loadMore
+        get() = lastProductSnap != null
 
 
-    fun fetchProductList() {
+    fun fetchProductList(initialFetch: Boolean = true, limit: Long? = DEFAULT_PAGE_SIZE) {
+        if (initialFetch) {
+            hasMoreProduct = true
+            lastProductSnap = null
+            batchUpdate()
+        }
         _productListLiveData.value = Result.loading()
-        val ref = Firebase.firestore.collection(Store.PRODUCTS)
-        val task = filterByCat?.let {
-            ref.whereEqualTo(Store.CATEGORY_ID, filterByCat?.id)
-                .get()
-        } ?: kotlin.run { ref.get() }
-        task.addOnSuccessListener { snapShot ->
+        var query = Firebase.firestore.collection(Store.PRODUCTS)
+            .orderBy(Store.CREATED_AT, Query.Direction.DESCENDING)
+        limit?.let {
+            query = query.limit(it)
+        }
+        filterByCat?.let {
+            query = query.whereEqualTo(Store.CATEGORY_ID, filterByCat?.id)
+        }
+        if (!initialFetch) {
+            query = query.startAfter(lastProductSnap?.get(Store.CREATED_AT))
+        }
+        query.get().addOnSuccessListener { snapShot ->
+            val size = snapShot?.size() ?: 0
+            limit?.let {
+                hasMoreProduct = size >= it
+            }
             onProductFetched(snapShot)
+
         }
             .addOnFailureListener {
                 _productListLiveData.value = Result.error()
             }
+    }
+
+    private fun batchUpdate() {
+        //To update batch
     }
 
     fun fetchProductWithTag() {
@@ -82,16 +111,25 @@ class ProductViewModel : ViewModel() {
             }
     }
 
+    fun fetchProductWithKey(keys: String) {
+        _productWithKeyLiveData.value = Result.loading()
+
+        Firebase.firestore.collection(Store.PRODUCTS)
+            .whereArrayContains("search_keys", keys)
+            .get()
+            .addOnSuccessListener {
+                val products = it.toObjects(Product::class.java)
+                _productWithKeyLiveData.value = Result.success(ArrayList(products))
+            }
+    }
+
+
     fun updateCart(
         product: Product?,
         isAddition: Boolean = true
     ) {
         _updateCartLiveData.value = Result.loading()
-        if (isAddition) {
-            evaluateAddInCart(product)
-        } else {
-            evaluateRemoveFromCart(product)
-        }
+        evaluateCartUpdate(product, isAddition)
         val ref = Firebase.firestore
             .collection("${Store.USERS}/${authUser?.uid}/${Store.CART}")
         if (cart.id?.isEmpty() != false) {
@@ -108,47 +146,34 @@ class ProductViewModel : ViewModel() {
             }
     }
 
-    private fun evaluateRemoveFromCart(product: Product?) {
-        var cartTotal = cart.total ?: 0.0
-        cartMap[product?.id ?: ""]?.let {
-            val count = it.count ?: 0
-            if (count < 2) {
-                cartMap.remove(it.id)
-                cart.items?.remove(it)
-                cartTotal -= (it.total ?: 0.0)
-            } else {
-                it.count = count - 1
-                cartTotal -= it.total ?: 0.0
-                it.total = (it.price ?: 0.0) * (it.count ?: 0)
-                cartTotal += it.total ?: 0.0
-            }
-        }
-        cart.total = cartTotal
-    }
+    private fun evaluateCartUpdate(product: Product?, isAddition: Boolean = true) {
 
-    private fun evaluateAddInCart(product: Product?) {
-        var cartTotal = cart.total ?: 0.0
-        if (cartMap.containsKey(product?.id ?: "")) {
-            val item = cartMap[product?.id ?: ""]
-            item?.let {
-                it.price = product?.price
-                it.count = (it.count ?: 0) + 1
-                cartTotal -= (it.total ?: 0.0)
-                it.total = (it.price ?: 0.0) * (it.count ?: 0)
-                cartTotal += (it.total ?: 0.0)
-            }
+        val item = product?.clone()
+        val itemCount = cartMap[product?.id]?.count ?: 0
+        item?.count = itemCount + if (isAddition) 1 else -1
+        item?.total = item?.count?.times(item.price ?: 0.0)?.round(2)
+        item?.totalDiscount = item?.total?.percentage(item.discount ?: 0.0)?.round(2)
+
+        if (item?.count == 0) {
+            cartMap.remove(product.id ?: "")
         } else {
-            val items = cart.items ?: arrayListOf()
-            product?.let {
-                it.count = 1
-                it.total = it.price
-                items.add(it)
-                cart.items = items
-                cartTotal += (it.total ?: 0.0)
-                cartMap[it.id ?: ""] = it
+            cartMap[product?.id ?: ""] = item
+        }
+
+        val items = arrayListOf<Product>()
+        var total = 0.0
+        var totalDiscount = 0.0
+        cartMap.forEach {
+            it.value?.let { product ->
+                total += product.total ?: 0.0
+                totalDiscount += product.totalDiscount ?: 0.0
+                items.add(product)
             }
         }
-        cart.total = cartTotal
+        cart.total = total
+        cart.totalDiscount = totalDiscount
+        cart.payableAmount = total.minus(totalDiscount)
+        cart.items = items
     }
 
     private fun onProductFetched(snapShot: QuerySnapshot?) =
@@ -161,6 +186,11 @@ class ProductViewModel : ViewModel() {
                 }
             }
             _productListLiveData.postValue(Result.success(products))
+            delay(200)
+            if (snapShot?.isEmpty == false) {
+                val documents = snapShot.documents
+                lastProductSnap = documents.getOrNull(documents.size - 1)
+            }
         }
 
     fun addOrUpdateProduct() {
@@ -198,26 +228,31 @@ class ProductViewModel : ViewModel() {
 
     private fun addOrUpdateProductOnStore() {
         val ref = Firebase.firestore.collection(Store.PRODUCTS)
-        if (product.id.isBlank()) {
-            product.id = ref.document().id
-        }
+
+        val productId = product.id ?: ref.document().id
+        val time = FieldValue.serverTimestamp()
         val map = hashMapOf(
             Store.NAME to product.name,
             Store.DESCRIPTION to product.description,
             Store.PRICE to product.price,
-            Store.ACTIVE to product.active,
+            Store.ACTIVE to (product.active ?: true),
             Store.CATEGORY_ID to product.categoryId,
             Store.URL to product.url,
             Store.TAGS to product.tags,
-            Store.ID to product.id
+            Store.DISCOUNT to (product.discount ?: 0.0),
+            Store.ID to productId,
+            Store.UPDATED_AT to time
         )
+        if (product.id.isBlank()) {
+            map[Store.CREATED_AT] = time
+        }
 
         if ((product.name?.length ?: 0) > 2) {
             map[Store.SEARCH_KEYS] = createSearchKeys(product.name ?: "")
         }
 
         ref.document(product.id ?: "")
-            .set(map)
+            .set(map, SetOptions.merge())
             .addOnSuccessListener {
                 _addOrUpdateProductLiveData.value = Result.success()
             }

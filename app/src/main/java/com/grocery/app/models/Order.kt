@@ -10,6 +10,8 @@ import kotlinx.android.parcel.Parcelize
 data class Order(
     var id: String? = null,
     var total: Double? = null,
+    var totalDiscount: Double? = null,
+    var payableAmount: Double? = null,
     var updatedAt: Timestamp? = null,
     var currentStatus: String? = null,
     var createdBy: String? = null,

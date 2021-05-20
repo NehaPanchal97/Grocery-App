@@ -14,6 +14,7 @@ import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.ADMIN_PRODUCT_TYPE
 import com.grocery.app.contracts.AddProductContract
 import com.grocery.app.contracts.UpdateProductContract
+import com.grocery.app.customs.OnLoadMoreListener
 import com.grocery.app.databinding.FragmentProductListBinding
 import com.grocery.app.extensions.hide
 import com.grocery.app.extensions.showError
@@ -89,15 +90,20 @@ class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener
         viewModel.productListLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
-                    loading(true)
-                    binder.emptyView.root.hide()
+                    if (viewModel.loadMore) {
+                        listAdapter.addLoader()
+                    } else {
+                        loading(true)
+                        binder.emptyView.root.hide()
+                    }
                 }
                 Result.Status.SUCCESS -> {
-                    loading(false)
+                    if (!viewModel.loadMore) {
+                        loading(false)
+                    }
                     val products = it.data ?: arrayListOf()
-                    binder.emptyView.root.visible(products.isEmpty())
-                    listAdapter.update(products)
-
+                    listAdapter.update(viewModel.loadMore, products)
+                    binder.emptyView.root.visible(listAdapter.items.isEmpty())
                 }
                 Result.Status.ERROR -> {
                     loading(false)
@@ -125,11 +131,26 @@ class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener
 
         //Toolbar
         binder.emptyView.emptyTv.text = getString(R.string.no_product_available)
+        binder.productRv.addOnScrollListener(_onLoadMoreListener)
     }
 
     private fun refreshList() {
         listAdapter.clearAdapter()
         viewModel.fetchProductList()
+    }
+
+    private val _onLoadMoreListener = object : OnLoadMoreListener() {
+
+        override val hasMore: Boolean
+            get() = viewModel.hasMoreProduct
+
+        override val isRequesting: Boolean
+            get() = viewModel.productListLiveData.value?.type == Result.Status.LOADING
+
+        override fun onLoadMore() {
+            viewModel.fetchProductList(initialFetch = false)
+        }
+
     }
 
     private val updateProduct =

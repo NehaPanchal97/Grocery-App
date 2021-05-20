@@ -60,7 +60,7 @@ class DetailsPageActivity : AppCompatActivity() {
                 }
                 Result.Status.SUCCESS -> {
                     val products = it.data ?: arrayListOf()
-                    listAdapter.update(products)
+                    listAdapter.update(false,products)
                 }
 
                 Result.Status.ERROR -> {
