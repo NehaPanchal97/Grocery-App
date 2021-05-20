@@ -51,7 +51,7 @@ class ProductListAdapter(
             return
         }
        removeLoader()
-        val oldSize = products.sizeproducts = arrayList
+        val oldSize = products.size
         notifyItemRangeInserted(oldSize, arrayList.size)
     }
 
