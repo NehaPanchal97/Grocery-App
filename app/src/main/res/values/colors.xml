@@ -22,4 +22,6 @@
     <color name="error_color">#fa5353</color>
     <color name="connecting_line">#DDDEE6</color>
     <color name="search_bg_color">#F4F5F7</color>
+    <color name="placed_state_color">#304fec</color>
+    <color name="pending_color">#fabf00</color>
 </resources>

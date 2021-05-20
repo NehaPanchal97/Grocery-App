@@ -13,7 +13,7 @@ import com.grocery.app.models.Product
 import java.util.*
 import kotlin.collections.ArrayList
 
-typealias Status = com.grocery.app.constant.OrderStatus
+private typealias Status = com.grocery.app.constant.OrderStatus
 
 object OrderUtils {
 
@@ -50,7 +50,8 @@ object OrderUtils {
         status.add(
             OrderStatus(
                 true, time,
-                context.getString(R.string.order_placed_msg), Status.PLACED.title
+                context.getString(R.string.order_placed_msg), Status.PLACED.title,
+                updatedAt = time
             )
         )
         status.add(

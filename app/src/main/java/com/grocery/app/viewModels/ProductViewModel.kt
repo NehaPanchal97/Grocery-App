@@ -6,11 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.grocery.app.constant.DEFAULT_PAGE_SIZE
 import com.grocery.app.constant.Store
 import com.grocery.app.extensions.authUser
 import com.grocery.app.extensions.toObj
@@ -20,6 +20,7 @@ import com.grocery.app.models.Category
 import com.grocery.app.models.Product
 import com.grocery.app.utils.isBlank
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProductViewModel : ViewModel() {
@@ -51,17 +52,34 @@ class ProductViewModel : ViewModel() {
     var filterByCat: Category? = null
     var cartMap = hashMapOf<String, Product?>()
     lateinit var cart: Cart
+    var cartUpdated = false
+    var hasMoreProduct = true
+    var lastProductSnap: DocumentSnapshot? = null
+
+    val loadMore
+        get() = lastProductSnap != null
 
 
-    fun fetchProductList() {
+    fun fetchProductList(initialFetch: Boolean = true, limit: Long = DEFAULT_PAGE_SIZE) {
+        if (initialFetch) {
+            hasMoreProduct = true
+            lastProductSnap = null
+        }
         _productListLiveData.value = Result.loading()
-        val ref = Firebase.firestore.collection(Store.PRODUCTS)
-        val task = filterByCat?.let {
-            ref.whereEqualTo(Store.CATEGORY_ID, filterByCat?.id)
-                .get()
-        } ?: kotlin.run { ref.get() }
-        task.addOnSuccessListener { snapShot ->
+        var query = Firebase.firestore.collection(Store.PRODUCTS)
+            .orderBy(Store.CREATED_AT, Query.Direction.DESCENDING)
+            .limit(limit)
+        filterByCat?.let {
+            query = query.whereEqualTo(Store.CATEGORY_ID, filterByCat?.id)
+        }
+        if (!initialFetch) {
+            query = query.startAfter(lastProductSnap?.get(Store.CREATED_AT))
+        }
+        query.get().addOnSuccessListener { snapShot ->
+            val size = snapShot?.size() ?: 0
+            hasMoreProduct = size >= limit
             onProductFetched(snapShot)
+
         }
             .addOnFailureListener {
                 _productListLiveData.value = Result.error()
@@ -71,10 +89,12 @@ class ProductViewModel : ViewModel() {
     fun fetchProductWithTag() {
         _similarProductListLiveData.value = Result.loading()
         val tags = product.tags ?: arrayListOf()
-        Firebase.firestore.collection(Store.PRODUCTS)
-            .whereArrayContainsAny("tags", tags)
-            .whereNotEqualTo("id", product.id)
-            .get()
+        val ref = Firebase.firestore.collection(Store.PRODUCTS)
+        var query = ref.whereNotEqualTo("id", product.id)
+        if (tags.isNotEmpty()) {
+            query = query.whereArrayContainsAny("tags", tags)
+        }
+        query.get()
             .addOnSuccessListener { snapShot ->
                 val products = snapShot.toObjects(Product::class.java)
                 _similarProductListLiveData.value = Result.success(ArrayList(products))
@@ -176,6 +196,11 @@ class ProductViewModel : ViewModel() {
                 }
             }
             _productListLiveData.postValue(Result.success(products))
+            delay(200)
+            if (snapShot?.isEmpty == false) {
+                val documents = snapShot.documents
+                lastProductSnap = documents.getOrNull(documents.size - 1)
+            }
         }
 
     fun addOrUpdateProduct() {
@@ -224,7 +249,8 @@ class ProductViewModel : ViewModel() {
             Store.CATEGORY_ID to product.categoryId,
             Store.URL to product.url,
             Store.TAGS to product.tags,
-            Store.ID to product.id
+            Store.ID to product.id,
+            Store.UPDATED_AT to FieldValue.serverTimestamp()
         )
 
         if ((product.name?.length ?: 0) > 2) {
@@ -232,7 +258,7 @@ class ProductViewModel : ViewModel() {
         }
 
         ref.document(product.id ?: "")
-            .set(map)
+            .set(map, SetOptions.merge())
             .addOnSuccessListener {
                 _addOrUpdateProductLiveData.value = Result.success()
             }
@@ -277,6 +303,12 @@ class ProductViewModel : ViewModel() {
         cart.items?.forEach {
             cartMap[it.id ?: ""] = it
         }
+    }
+
+    fun initCartWith(cart: Cart) {
+        this.cart = cart
+        cartMap.clear()
+        initCart()
     }
 
     fun resetCart() {

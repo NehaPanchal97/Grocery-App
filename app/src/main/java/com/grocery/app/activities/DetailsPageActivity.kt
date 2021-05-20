@@ -1,15 +1,18 @@
 package com.grocery.app.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
 import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.CART
+import com.grocery.app.constant.CART_CHANGE
 import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
 import com.grocery.app.constant.PRODUCT
 import com.grocery.app.databinding.ActivityDetailsPageBinding
@@ -22,6 +25,7 @@ import com.grocery.app.models.Cart
 import com.grocery.app.models.Product
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.ProductViewModel
+
 class DetailsPageActivity : AppCompatActivity() {
     private lateinit var listAdapter: ProductListAdapter
     lateinit var binder: ActivityDetailsPageBinding
@@ -56,7 +60,7 @@ class DetailsPageActivity : AppCompatActivity() {
                 }
                 Result.Status.SUCCESS -> {
                     val products = it.data ?: arrayListOf()
-                    listAdapter.update(products)
+                    listAdapter.update(false,products)
                 }
 
                 Result.Status.ERROR -> {
@@ -67,20 +71,28 @@ class DetailsPageActivity : AppCompatActivity() {
         })
     }
 
+    private fun fireCartChangeEvent() {
+        LocalBroadcastManager.getInstance(this)
+            .sendBroadcast(Intent(CART_CHANGE))
+    }
+
 
     private val _itemClickListener = object : OnItemClickListener {
         override fun onItemClick(itemId: Int, position: Int) {
             if (itemId == R.id.iv_add) {
-                val product = listAdapter.items.getOrNull(position)
-                viewModel.updateCart(product, isAddition = true)
-                listAdapter.notifyItemChanged(position)
+                onCartUpdated(true, position)
             } else if (itemId == R.id.iv_remove) {
-                val product = listAdapter.items.getOrNull(position)
-                viewModel.updateCart(product, isAddition = false)
-                listAdapter.notifyItemChanged(position)
+                onCartUpdated(false, position)
             }
         }
 
+    }
+
+    private fun onCartUpdated(isAdded: Boolean, position: Int) {
+        val product = listAdapter.items.getOrNull(position)
+        viewModel.updateCart(product, isAddition = isAdded)
+        listAdapter.notifyItemChanged(position)
+        fireCartChangeEvent()
     }
 
     private fun setUpView() {
@@ -99,6 +111,7 @@ class DetailsPageActivity : AppCompatActivity() {
             viewModel.updateCart(_product, true)
             prefManager.put(CART, viewModel.cart)
             onQuantityChange()
+            fireCartChangeEvent()
         }
         binder.detailsRemoveBtn.setOnClickListener {
             val productCount = viewModel.cartMap[_product.id]?.count ?: 0
@@ -106,6 +119,7 @@ class DetailsPageActivity : AppCompatActivity() {
                 viewModel.updateCart(_product, false)
                 prefManager.put(CART, viewModel.cart)
                 onQuantityChange()
+                fireCartChangeEvent()
             }
         }
         binder.tvProductName.text = _product.name
