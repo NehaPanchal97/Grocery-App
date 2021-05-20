@@ -29,7 +29,7 @@ import com.grocery.app.viewModels.OrderViewModel
 import com.grocery.app.viewModels.ProductViewModel
 
 
-class OrderStatusPageActivity : AppCompatActivity() {
+class OrderStatusPageActivity : AppCompatActivity(), OnItemClickListener {
 
 
     lateinit var  binder:OrderStatusPageBinding
@@ -98,12 +98,19 @@ class OrderStatusPageActivity : AppCompatActivity() {
                     ORDER_DESCRIPTION_ITEM_TYPE)
             binder.rvOrderDescription.adapter=listAdapter
         }
-
+        listAdapter.onClickListener=this
 
     }
 
     private fun initCart() {
         productViewModel.cart = pref.get(CART)?: Cart()
         productViewModel.initCart()
+    }
+
+    override fun onItemClick(itemId: Int, position: Int) {
+        val product = listAdapter.items.getOrNull(position)
+        val intent = Intent(this,DetailsPageActivity::class.java)
+        intent.putExtra(PRODUCT,product)
+        startActivity(intent)
     }
 }
