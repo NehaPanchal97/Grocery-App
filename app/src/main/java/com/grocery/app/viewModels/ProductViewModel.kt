@@ -1,9 +1,6 @@
 package com.grocery.app.viewModels
 
 import android.net.Uri
-import androidx.core.widget.doAfterTextChanged
-import android.util.Log
-import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -45,8 +42,8 @@ class ProductViewModel : ViewModel() {
     val similarListLiveData: LiveData<Result<ArrayList<Product>>>
         get() = _similarProductListLiveData
 
-    val productWithKeyLiveData : LiveData<Result<ArrayList<Product>>>
-    get() = _productWithKeyLiveData
+    val productWithKeyLiveData: LiveData<Result<ArrayList<Product>>>
+        get() = _productWithKeyLiveData
 
     var catList = arrayListOf<Category>()
     var product = Product()
@@ -121,7 +118,7 @@ class ProductViewModel : ViewModel() {
             .whereArrayContains("search_keys", keys)
             .get()
             .addOnSuccessListener {
-                val products =   it.toObjects(Product::class.java)
+                val products = it.toObjects(Product::class.java)
                 _productWithKeyLiveData.value = Result.success(ArrayList(products))
             }
     }
@@ -176,8 +173,7 @@ class ProductViewModel : ViewModel() {
         cart.total = total
         cart.totalDiscount = totalDiscount
         cart.payableAmount = total.minus(totalDiscount)
-        cart.items?.clear()
-        cart.items?.addAll(items)
+        cart.items = items
     }
 
     private fun onProductFetched(snapShot: QuerySnapshot?) =

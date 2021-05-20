@@ -81,7 +81,7 @@ fun TextView.setProductDiscountedPrice(product: Product?) {
 
     val discount = product?.discount ?: 0.0
     val actualPrice = product?.price ?: 0.0
-    val discountedPrice = actualPrice.percentage(discount)
+    val discountedPrice = actualPrice - actualPrice.percentage(discount)
     val priceToShow = if (discount > 0) discountedPrice else actualPrice
     this.text = this.context.getString(R.string.rs, priceToShow.trim)
 }
