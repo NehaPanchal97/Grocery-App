@@ -5,7 +5,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -30,6 +32,7 @@ import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.AuthViewModel
 import com.grocery.app.viewModels.ProductViewModel
 import kotlinx.android.synthetic.main.bottom_navigation_bar.*
+import org.w3c.dom.Text
 
 
 class HomePageActivity : AppCompatActivity() {
@@ -45,11 +48,10 @@ class HomePageActivity : AppCompatActivity() {
 
         bottomMenuAction()
         fabAction()
-        cartCount()
+        fabCount()
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         observeData()
-//       switchFragment()
         val user = prefManager.get<User>(USER)
         viewModel.syncUser()
         user?.let {
@@ -57,11 +59,12 @@ class HomePageActivity : AppCompatActivity() {
                 switchFragment()
             }
         } ?: kotlin.run { viewModel.fetchUserInfo() }
+
+        productViewModel.fetchProductList()
     }
 
 
     private fun switchFragment(fragment: Fragment = HomeFragment()) {
-//        bottomNavigationBar.background = null
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
         transaction.commit()
@@ -132,11 +135,15 @@ class HomePageActivity : AppCompatActivity() {
     }
 
     private fun bottomMenuAction(){
-        ll_home.setOnClickListener {
-            startActivity(Intent(this, this::class.java))
+
+        binder.navBar.llHome.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, HomeFragment())
+                    .addToBackStack(null)
+                    .commit()
         }
 
-        ll_order.setOnClickListener {
+       binder.navBar.llOrder.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, OrderFragment())
                 .addToBackStack(null)
@@ -144,20 +151,20 @@ class HomePageActivity : AppCompatActivity() {
         }
     }
 
-    private fun cartCount(){
-        fab.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            @SuppressLint("UnsafeExperimentalUsageError")
-            override fun onGlobalLayout() {
-                val count = productViewModel.cartMap.size
-                val badgeDrawable = BadgeDrawable.create(this@HomePageActivity)
-                badgeDrawable.number = count
-                badgeDrawable.backgroundColor = Color.BLUE
-                badgeDrawable.horizontalOffset =30
-                badgeDrawable.verticalOffset =20
-                BadgeUtils.attachBadgeDrawable(badgeDrawable,fab,null)
-                fab.viewTreeObserver.removeOnGlobalLayoutListener(this)
+    private fun fabCount(){
+        val cartCount = 2
+        val count = findViewById<TextView>(R.id.cart_badge)
+        count.text = cartCount.toString()
+        if (cartCount == 0) {
+            if (count?.visibility != View.GONE) {
+                count?.visibility = View.GONE
             }
-        })
+        } else {
+            if (count?.visibility != View.VISIBLE) {
+                count?.visibility = View.VISIBLE
+            }
+        }
+
     }
 
 }
