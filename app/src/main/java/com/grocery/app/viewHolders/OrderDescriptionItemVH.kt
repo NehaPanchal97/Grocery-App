@@ -1,37 +1,35 @@
 package com.grocery.app.viewHolders
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.view.View
-import androidx.core.content.ContextCompat.startActivity
-import com.grocery.app.adapters.ProductListAdapter
-import com.grocery.app.databinding.CartItemBinding
+
+import com.grocery.app.R
 import com.grocery.app.databinding.OrderDescriptionItemBinding
 import com.grocery.app.extensions.loadImage
-import com.grocery.app.extensions.showSuccess
-import com.grocery.app.homePage.OrderStatusPageActivity
-import com.grocery.app.homePage.adapters.CategoryTypesAdapter
-import com.grocery.app.listeners.OnCategoryClickListener
-import com.grocery.app.listeners.OnItemClickListener
-import com.grocery.app.models.Order
 import com.grocery.app.models.Product
-import com.grocery.app.viewModels.OrderViewModel
 
 class OrderDescriptionItemVH (private val binder: OrderDescriptionItemBinding):
-    BaseVH<OrderDescriptionItemBinding, Product>(binder){
+    BaseVH<OrderDescriptionItemBinding, Product>(binder),View.OnClickListener{
 
 
 
     @SuppressLint("SetTextI18n")
     override fun bind(data: Product) {
-
+        val context = itemView.context
 
         val price = data.price
         binder.orderDesItemTitle.text = data.name
-        binder.orderDesItemPrice.text = " $ $price "
+        binder.orderDesItemPrice.text =  context.getString(R.string.rs_symbol, price.toString())
         binder.orderDesItemImage.loadImage(url = data.url)
-
     }
 
+    init {
+        binder.orderDesItemImage.setOnClickListener(this)
+    }
 
+    override fun onClick(v: View?) {
+        itemClickListener?.onItemClick(v?.id?:-1,bindingAdapterPosition)
+    }
 }
+
+
