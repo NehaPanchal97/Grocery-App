@@ -22,4 +22,5 @@ object Store {
     const val CREATED_AT = "createdAt"
     const val UPDATED_AT = "updatedAt"
     const val CREATED_BY = "createdBy"
+    const val DISCOUNT = "discount"
 }

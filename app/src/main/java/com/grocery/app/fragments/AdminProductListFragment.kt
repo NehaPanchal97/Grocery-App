@@ -91,20 +91,18 @@ class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener
             when (it.type) {
                 Result.Status.LOADING -> {
                     if (viewModel.loadMore) {
-                        //todo addLoader
+                        listAdapter.addLoader()
                     } else {
                         loading(true)
                         binder.emptyView.root.hide()
                     }
                 }
                 Result.Status.SUCCESS -> {
-                    if (viewModel.loadMore){
-                        //todo remove loader
-                    }else{
+                    if (!viewModel.loadMore) {
                         loading(false)
                     }
                     val products = it.data ?: arrayListOf()
-                    listAdapter.update(false,products)
+                    listAdapter.update(viewModel.loadMore, products)
                     binder.emptyView.root.visible(listAdapter.items.isEmpty())
                 }
                 Result.Status.ERROR -> {
@@ -133,7 +131,7 @@ class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener
 
         //Toolbar
         binder.emptyView.emptyTv.text = getString(R.string.no_product_available)
-//        binder.productRv.addOnScrollListener(_onLoadMoreListener)
+        binder.productRv.addOnScrollListener(_onLoadMoreListener)
     }
 
     private fun refreshList() {

@@ -140,6 +140,7 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
             binder.nameEt.setText(it.name)
             binder.descEt.setText(it.description)
             binder.priceEt.setText("${it.price}")
+            binder.discountEt.setText(it.discount?.toString())
         }
         //Toolbar
         binder.toolBar.title =
@@ -151,6 +152,9 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
         binder.nameEt.addTextChangedListener { _product.name = it.toString() }
         binder.descEt.addTextChangedListener { _product.description = it.toString() }
         binder.priceEt.addTextChangedListener { _product.price = it.toString().toDouble() }
+        binder.discountEt.addTextChangedListener {
+            _product.discount = it.toString().toIntOrNull() ?: 0
+        }
         loadProductImage()
 
         //active
