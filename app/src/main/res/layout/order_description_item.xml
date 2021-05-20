@@ -27,6 +27,7 @@
                 android:contentDescription="@string/todo"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="centerCrop"
+                android:padding="8dp"
                 tools:ignore="MissingConstraints"
                 tools:src="@tools:sample/avatars" />
 
