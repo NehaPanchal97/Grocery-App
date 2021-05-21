@@ -65,7 +65,7 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
         //horizontal recycler view without header of homepage i.e 2 row
 
         override fun bind(data: ItemGroup) {
-            val itemListAdapter = WithoutHeaderAdapter(data.listItem)
+            val itemListAdapter = data.listItem?.let { WithoutHeaderAdapter(it) }
 
             binder.withoutHeaderRv.setHasFixedSize(true)
             binder.withoutHeaderRv.layoutManager =

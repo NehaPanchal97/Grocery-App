@@ -50,8 +50,9 @@ class ProductListAdapter(
             notifyDataSetChanged()
             return
         }
-       removeLoader()
+        removeLoader()
         val oldSize = products.size
+        products.addAll(arrayList)
         notifyItemRangeInserted(oldSize, arrayList.size)
     }
 

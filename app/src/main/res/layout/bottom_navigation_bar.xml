@@ -17,7 +17,7 @@
         app:fabAlignmentMode="center"
         android:gravity="center"
         android:background="@android:color/transparent"
-        app:fabCradleRoundedCornerRadius="20dp"
+        app:fabCradleRoundedCornerRadius="25dp"
         android:backgroundTint="#27ae60"
         android:layout_gravity="bottom">
 
