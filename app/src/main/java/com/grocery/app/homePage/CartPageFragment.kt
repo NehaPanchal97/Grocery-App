@@ -144,6 +144,13 @@ class CartPageFragment : BaseFragment() {
 
     }
 
+    private fun fireCartChangeEvent() {
+        context?.let {
+            LocalBroadcastManager.getInstance(it)
+                .sendBroadcast(Intent(CART_CHANGE))
+        }
+    }
+
     private val _itemClickListener = object : OnItemClickListener {
         @SuppressLint("SetTextI18n")
         override fun onItemClick(itemId: Int, position: Int) {
@@ -152,11 +159,13 @@ class CartPageFragment : BaseFragment() {
                 viewModel.updateCart(product, isAddition = true)
                 listAdapter.notifyItemChanged(position)
                 onTotalChange()
+                fireCartChangeEvent()
             } else if (itemId == R.id.iv_cart_remove) {
                 val product = listAdapter.items.getOrNull(position)
                 viewModel.updateCart(product, isAddition = false)
                 listAdapter.notifyItemChanged(position)
                 onTotalChange()
+                fireCartChangeEvent()
             }
 
         }

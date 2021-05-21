@@ -148,16 +148,25 @@ class ProductListFragment : BaseFragment() {
         return binder.root
     }
 
+    private fun fireCartChangeEvent() {
+        LocalBroadcastManager.getInstance(requireContext())
+                .sendBroadcast(Intent(CART_CHANGE))
+    }
+
     private val _itemClickListener = object : OnItemClickListener {
         override fun onItemClick(itemId: Int, position: Int) {
             val product = itemRecyclerViewAdapter.items.getOrNull(position)
             if (itemId == R.id.iv_add) {
                 viewModel.updateCart(product, isAddition = true)
                 itemRecyclerViewAdapter.notifyItemChanged(position)
+                pref.put(CART, viewModel.cart)
+                fireCartChangeEvent()
 
             } else if (itemId == R.id.iv_remove) {
                 viewModel.updateCart(product, isAddition = false)
                 itemRecyclerViewAdapter.notifyItemChanged(position)
+                pref.put(CART, viewModel.cart)
+                fireCartChangeEvent()
             } else if (itemId == R.id.itemImage) {
                 val intent = Intent(requireContext(), DetailsPageActivity::class.java)
                 intent.putExtra(PRODUCT, product)
