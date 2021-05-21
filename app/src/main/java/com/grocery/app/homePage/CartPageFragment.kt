@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
@@ -40,6 +41,13 @@ class CartPageFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binder.cartRecyclerView.addItemDecoration(
+                DividerItemDecoration(
+                        requireContext(),
+                        DividerItemDecoration.VERTICAL
+                )
+        )
         binder.cartRecyclerView.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
@@ -72,6 +80,7 @@ class CartPageFragment : BaseFragment() {
                     val intent = Intent(activity, OrderStatusPageActivity::class.java)
                     intent.putExtra(ORDER_ID, orderId)
                     startActivity(intent)
+                    fireCartChangeEvent()
                 }
                 Status.ERROR -> {
                     binder.root.showError(getString(R.string.order_create_error))
@@ -84,6 +93,12 @@ class CartPageFragment : BaseFragment() {
         LocalBroadcastManager.getInstance(requireContext())
             .sendBroadcast(Intent(ORDER_CREATED))
     }
+
+    private fun fireCartChangeEvent() {
+        LocalBroadcastManager.getInstance(requireContext())
+                .sendBroadcast(Intent(CART_CHANGE))
+    }
+
 
 
     override fun onCreateView(
@@ -118,31 +133,19 @@ class CartPageFragment : BaseFragment() {
         binder.checkoutBtn.setOnClickListener {
             createOrder()
         }
-        val cartTotal = viewModel.cart.total?.toString() ?: "0"
-        binder.cartAmount.text = "Total : \$$cartTotal"
-        if (viewModel.cart.items?.isEmpty() != false) {
-            binder.checkoutContainer.visible(false)
-            binder.tvEmptyCart.visible(true)
-            binder.ivEmptyImage.visible(true)
-        }
-        if (viewModel.cart.items?.isEmpty() != true) {
-            binder.cartRecyclerView.apply {
-                listAdapter = ProductListAdapter(
+        onTotalChange()
+        binder.cartRecyclerView.apply {
+            listAdapter = ProductListAdapter(
                     viewModel.cart.items ?: arrayListOf(),
                     CART_ITEM_TYPE,
                     viewModel.cartMap
-                )
-                binder.cartRecyclerView.itemAnimator = null
-                listAdapter.onClickListener = _itemClickListener
-                binder.cartRecyclerView.adapter = listAdapter
-            }
-        } else {
-            binder.tvEmptyCart.visible(true)
-            binder.ivEmptyImage.visible(true)
-            binder.checkoutContainer.visible(false)
+            )
+            binder.cartRecyclerView.itemAnimator = null
+            listAdapter.onClickListener = _itemClickListener
+            binder.cartRecyclerView.adapter = listAdapter
         }
-
     }
+
 
 
     private val _itemClickListener = object : OnItemClickListener {
@@ -153,22 +156,27 @@ class CartPageFragment : BaseFragment() {
                 viewModel.updateCart(product, isAddition = true)
                 listAdapter.notifyItemChanged(position)
                 onTotalChange()
+                pref.put(CART,viewModel.cart)
+                fireCartChangeEvent()
             } else if (itemId == R.id.iv_cart_remove) {
                 val product = listAdapter.items.getOrNull(position)
                 viewModel.updateCart(product, isAddition = false)
-                listAdapter.notifyItemChanged(position)
+                listAdapter.update(arrayList = viewModel.cart.items?: arrayListOf())
                 onTotalChange()
+                pref.put(CART,viewModel.cart)
+                fireCartChangeEvent()
             }
 
         }
 
     }
 
+
+
     @SuppressLint("SetTextI18n", "StringFormatMatches")
     private fun onTotalChange() {
-        val cartTotal = viewModel.cart.payableAmount.toString()
-        val total = viewModel.cart.total
-        binder.cartAmount.text = activity?.resources?.getString(R.string.rs_symbol,cartTotal)
+        val cartTotal = viewModel.cart.payableAmount?.toInt().toString()
+        binder.cartAmount.text = getString(R.string.cart_total,cartTotal)
         if (viewModel.cart.items?.isEmpty() != false) {
             binder.tvEmptyCart.visible(true)
             binder.ivEmptyImage.visible(true)

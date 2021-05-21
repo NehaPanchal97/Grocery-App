@@ -2,6 +2,7 @@ package com.grocery.app.viewHolders
 
 import android.view.View
 import com.grocery.app.R
+import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.databinding.CartItemBinding
 import com.grocery.app.extensions.loadImage
 import com.grocery.app.extensions.visible
@@ -20,12 +21,16 @@ class CartItemVH(private val binder: CartItemBinding,private val cartMap:HashMap
     override fun bind(data: Product) {
 
         val context = itemView.context
-        val price = data.price
+        val price = data.price?.toInt()
         val count = cartMap[data.id]?.count ?: 0
         binder.cartItemTitle.text = data.name
         binder.cartItemPrice.text =context.getString(R.string.rs_symbol, price.toString())
         binder.cartItemImage.loadImage(url = data.url)
         binder.tvCartCount.text = "$count"
+        if (count>0){
+            binder.cartItemContainer.visible(true)
+        }else
+            binder.cartItemContainer.visible(false)
     }
 
 
