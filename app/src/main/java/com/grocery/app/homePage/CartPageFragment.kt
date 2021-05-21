@@ -168,9 +168,6 @@ class CartPageFragment : BaseFragment() {
         val cartTotal = viewModel.cart.total?.toString() ?: "0"
         val total = viewModel.cart.total
         binder.cartAmount.text = "Total : \$$cartTotal"
-//        if (total != null) {
-//            binder.checkoutContainer.visible(total > 0)
-//        }
         if (viewModel.cart.items?.isEmpty() != false) {
             binder.tvEmptyCart.visible(true)
             binder.ivEmptyImage.visible(true)

@@ -26,8 +26,9 @@
         android:textSize="10sp"
         android:layout_marginBottom="10dp"
         tools:text="@string/order_time"
-        android:text="@{userResponseTime}"
         android:textColor="@color/lightGrey"
+        android:text="@string/order_time"
+
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

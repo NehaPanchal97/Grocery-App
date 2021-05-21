@@ -1,29 +1,30 @@
 package com.grocery.app.homePage
 
-import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.badge.BadgeUtils
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.grocery.app.R
 import com.grocery.app.activities.AdminHomePageActivity
 import com.grocery.app.activities.UpdateProfileActivity
+import com.grocery.app.constant.CART
+import com.grocery.app.constant.CART_CHANGE
 import com.grocery.app.constant.Store
 import com.grocery.app.constant.USER
 import com.grocery.app.databinding.ActivityHomeBinding
 import com.grocery.app.extensions.cast
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.showSuccess
+import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.OrderFragment
 import com.grocery.app.models.Cart
@@ -32,7 +33,6 @@ import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.AuthViewModel
 import com.grocery.app.viewModels.ProductViewModel
 import kotlinx.android.synthetic.main.bottom_navigation_bar.*
-import org.w3c.dom.Text
 
 
 class HomePageActivity : AppCompatActivity() {
@@ -46,9 +46,6 @@ class HomePageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binder = DataBindingUtil.setContentView(this, R.layout.activity_home)
 
-        bottomMenuAction()
-        fabAction()
-        fabCount()
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         observeData()
@@ -60,10 +57,56 @@ class HomePageActivity : AppCompatActivity() {
             }
         } ?: kotlin.run { viewModel.fetchUserInfo() }
 
-//        productViewModel.fetchProductList()
+        bottomMenuAction()
+        fabAction()
+
+        initCart()
+        fabCount()
+        productViewModel.fetchProductList()
+
     }
 
 
+    private val receiver = object :BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val action = intent?.action ?: ""
+            if (action == CART_CHANGE) {
+                if (lifecycle.currentState == Lifecycle.State.RESUMED) {
+                    resetCart()
+
+                } else{
+                    productViewModel.cartUpdated = true
+                }
+
+            }
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (productViewModel.cartUpdated){
+            productViewModel.cartUpdated = false
+            resetCart()
+        }
+    }
+
+    private fun resetCart(){
+        val cart = prefManager.get(CART)?:Cart()
+        productViewModel.initCartWith(cart)
+        fabCount()
+    }
+
+    private fun initCart(){
+       productViewModel.cart = prefManager.get(CART) ?: Cart()
+        productViewModel.initCart()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(applicationContext)
+                .unregisterReceiver(receiver)
+    }
     private fun switchFragment(fragment: Fragment = HomeFragment()) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
@@ -71,6 +114,11 @@ class HomePageActivity : AppCompatActivity() {
     }
 
     private fun observeData() {
+        val filter = IntentFilter()
+        filter.addAction(CART_CHANGE)
+        LocalBroadcastManager.getInstance(applicationContext)
+                .registerReceiver(receiver,filter)
+
         viewModel.fetchUserLiveData.observe(this, Observer { it ->
             when (it.type) {
                 Result.Status.LOADING -> {
@@ -152,17 +200,13 @@ class HomePageActivity : AppCompatActivity() {
     }
 
     private fun fabCount(){
-        val cartCount = 2
-        val count = findViewById<TextView>(R.id.cart_badge)
+        val cartCount =productViewModel.cart.items?.size?:0
+        val count = binder.navBar.cartBadge
         count.text = cartCount.toString()
         if (cartCount == 0) {
-            if (count?.visibility != View.GONE) {
-                count?.visibility = View.GONE
-            }
+           binder.navBar.cartBadge.visible(false)
         } else {
-            if (count?.visibility != View.VISIBLE) {
-                count?.visibility = View.VISIBLE
-            }
+            binder.navBar.cartBadge.visible(true)
         }
 
     }
