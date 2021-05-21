@@ -25,4 +25,5 @@
     <color name="placed_state_color">#304fec</color>
     <color name="pending_color">#fabf00</color>
     <color name="lightGrey">#EE424345</color>
+    <color name="searchHeaderTextColor">#C1E8D2</color>
 </resources>

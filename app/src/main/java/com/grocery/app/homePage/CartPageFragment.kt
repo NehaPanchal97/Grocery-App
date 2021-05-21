@@ -1,11 +1,15 @@
 package com.grocery.app.homePage
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,7 +60,47 @@ class CartPageFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (viewModel.cartUpdated){
+            viewModel.cartUpdated = false
+            resetCart()
+        }
+    }
+
+    private fun resetCart() {
+        val cart = pref.get(CART)?: Cart()
+        viewModel.initCartWith(cart)
+        listAdapter.notifyDataSetChanged()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        LocalBroadcastManager.getInstance(requireContext())
+            .unregisterReceiver(_receiver)
+    }
+
+    private val _receiver = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val action = intent?.action?: ""
+            if (action in setOf(CART_CHANGE)){
+                if (lifecycle.currentState == Lifecycle.State.RESUMED){
+                    resetCart()
+                }
+                else{
+                    viewModel.cartUpdated = true
+                }
+            }
+        }
+
+    }
+
     private fun observe() {
+        val filter = IntentFilter()
+        filter.addAction(CART_CHANGE)
+        LocalBroadcastManager.getInstance(requireContext())
+            .registerReceiver(_receiver,filter)
+
         orderViewModel.updateOrderLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when (it.type) {
                 Status.LOADING -> {
