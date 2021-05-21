@@ -8,13 +8,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#F4F5F7">
 
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="0dp"
         android:background="@color/colorPrimary"
         android:orientation="vertical">
 
@@ -61,7 +63,7 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/orderTopBar"
                 android:background="@drawable/homefragment_layout_rounded_corners"
-                android:elevation="0dp"
+                android:elevation="4dp"
                 android:orientation="vertical"
                 android:padding="10dp">
 
@@ -93,6 +95,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginRight="8dp"
+                    android:elevation="10dp"
                     android:layout_marginBottom="@null"
                     app:cardCornerRadius="20dp"
                     app:contentPadding="5dp"

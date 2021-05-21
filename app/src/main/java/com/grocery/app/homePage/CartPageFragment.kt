@@ -144,12 +144,6 @@ class CartPageFragment : BaseFragment() {
 
     }
 
-    private fun fireCartChangeEvent() {
-        context?.let {
-            LocalBroadcastManager.getInstance(it)
-                .sendBroadcast(Intent(CART_CHANGE))
-        }
-    }
 
     private val _itemClickListener = object : OnItemClickListener {
         @SuppressLint("SetTextI18n")
@@ -159,24 +153,22 @@ class CartPageFragment : BaseFragment() {
                 viewModel.updateCart(product, isAddition = true)
                 listAdapter.notifyItemChanged(position)
                 onTotalChange()
-                fireCartChangeEvent()
             } else if (itemId == R.id.iv_cart_remove) {
                 val product = listAdapter.items.getOrNull(position)
                 viewModel.updateCart(product, isAddition = false)
                 listAdapter.notifyItemChanged(position)
                 onTotalChange()
-                fireCartChangeEvent()
             }
 
         }
 
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "StringFormatMatches")
     private fun onTotalChange() {
-        val cartTotal = viewModel.cart.total?.toString() ?: "0"
+        val cartTotal = viewModel.cart.payableAmount.toString()
         val total = viewModel.cart.total
-        binder.cartAmount.text = "Total : \$$cartTotal"
+        binder.cartAmount.text = activity?.resources?.getString(R.string.rs_symbol,cartTotal)
         if (viewModel.cart.items?.isEmpty() != false) {
             binder.tvEmptyCart.visible(true)
             binder.ivEmptyImage.visible(true)
