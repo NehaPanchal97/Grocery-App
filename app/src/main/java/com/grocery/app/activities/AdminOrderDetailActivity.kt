@@ -16,6 +16,7 @@ import com.grocery.app.databinding.ActivityAdminOrderDetailBinding
 import com.grocery.app.exceptions.OrderStatusChangeException
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.showSuccess
+import com.grocery.app.extensions.trim
 import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
 import com.grocery.app.models.Cart
@@ -81,7 +82,7 @@ class AdminOrderDetailActivity : BaseActivity() {
         )
         binder.productRv.adapter = listAdapter
         onActionChange(true)
-        binder.totalTv.text = getString(R.string.rs, _order.payableAmount?.toString())
+        binder.totalTv.text = getString(R.string.rs, _order.payableAmount?.trim)
         binder.actionBtn.setOnClickListener {
             showConfirmationAlert()
         }
