@@ -75,6 +75,10 @@ class OrderChangeService : Service() {
 
     private fun sendOrderPlacedToAdmin(admins: List<User>, order: Order?) {
         val fcmTokens = admins.map { it.fcmToken }
+        if (fcmTokens.isEmpty()) {
+            stopSelf()
+            return
+        }
         val data = hashMapOf<String, String?>(
             TITLE to getString(R.string.order_received),
             BODY to getString(R.string._has_placed_order, order?.name)

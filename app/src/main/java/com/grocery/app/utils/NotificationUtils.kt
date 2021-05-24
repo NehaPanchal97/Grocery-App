@@ -44,7 +44,7 @@ object NotificationUtils {
             })
     }
 
-     fun sendLocalNotification(
+    fun sendLocalNotification(
         context: Context,
         notificationId: Int? = null,
         title: String?,
@@ -59,11 +59,12 @@ object NotificationUtils {
         )
 
         val channelId = context.getString(com.grocery.app.R.string.grocery_notification_id)
+        val bigTextStyle = NotificationCompat.BigTextStyle().bigText(body)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.mipmap.ic_launcher_round)
             .setContentTitle(title)
-            .setContentText(body)
+            .setStyle(bigTextStyle)
             .setAutoCancel(true)
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
