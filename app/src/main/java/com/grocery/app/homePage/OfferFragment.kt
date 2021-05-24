@@ -1,5 +1,6 @@
 package com.grocery.app.homePage
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +11,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.grocery.app.activities.DiscountPageActivity
+import com.grocery.app.constant.DISCOUNT
 import com.grocery.app.constant.OFFER_PAGE
+import com.grocery.app.constant.ORDER_ID
+import com.grocery.app.constant.TITLE
 import com.grocery.app.databinding.OfferFragmentBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
@@ -18,19 +23,30 @@ import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.homePage.adapters.WithoutHeaderAdapter
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.CategoryViewModel
+import com.grocery.app.viewModels.ProductViewModel
 
 class OfferFragment: BaseFragment(), OnItemClickListener {
 
     lateinit var  binder : OfferFragmentBinding
     lateinit var listAdapter: WithoutHeaderAdapter
     lateinit var viewModel:CategoryViewModel
+    lateinit var productViewModel:ProductViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
+        productViewModel=ViewModelProvider(this).get(ProductViewModel::class.java)
         binder.offerRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        listener()
         setUpView()
         observe()
         viewModel.fetchOfferDetail()
+
+    }
+
+    private fun listener(){
+        binder.offerBackBtn.setOnClickListener {
+
+        }
     }
 
     private fun observe(){
@@ -74,6 +90,10 @@ class OfferFragment: BaseFragment(), OnItemClickListener {
     }
 
     override fun onItemClick(itemId: Int, position: Int) {
+        val discount = productViewModel.discount
+        val intent = DiscountPageActivity.newIntent(requireContext(),10.0,"30% Discount")
+        startActivity(intent)
+
 
     }
 

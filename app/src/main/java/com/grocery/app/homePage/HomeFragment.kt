@@ -13,11 +13,11 @@ import com.grocery.app.R
 import com.grocery.app.activities.SearchActivity
 import com.grocery.app.constant.CATEGORY
 import com.grocery.app.contracts.UpdateProfileContract
-import com.grocery.app.homePage.adapters.HomePageCategoryAdapter
 import com.grocery.app.databinding.HomeFragmentBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
+import com.grocery.app.homePage.adapters.HomePageCategoryAdapter
 import com.grocery.app.listeners.OnCategoryClickListener
 import com.grocery.app.models.Category
 import com.grocery.app.viewModels.CategoryViewModel

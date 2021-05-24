@@ -1,16 +1,20 @@
 package com.grocery.app.homePage.adapters
 
+import android.content.ContentProvider
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
 import com.grocery.app.activities.DetailsPageActivity
+import com.grocery.app.activities.DiscountPageActivity
 import com.grocery.app.constant.HomeCarousel
 import com.grocery.app.constant.WITHOUT_HEADER_HOME_PAGE
 import com.grocery.app.databinding.CategoryGroupWithHeaderBinding
