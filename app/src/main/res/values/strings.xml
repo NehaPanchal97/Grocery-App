@@ -10,6 +10,7 @@
     <string name="continue_text">Continue</string>
     <string name="verify_phone">Verify Phone</string>
     <string name="code_sent">Code is sent to %s </string>
+    <string name="cart_total">Total : \u20B9 %1$s </string>
     <string name="create_account">Verify and Create Account</string>
     <string name="did_not_receive">Didn\'t receive code?</string>
     <string name="request_again"><b>Request again </b></string>

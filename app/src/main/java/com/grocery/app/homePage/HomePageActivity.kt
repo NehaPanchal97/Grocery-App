@@ -59,7 +59,6 @@ class HomePageActivity : AppCompatActivity() {
 
         bottomMenuAction()
         fabAction()
-
         initCart()
         fabCount()
         productViewModel.fetchProductList()
