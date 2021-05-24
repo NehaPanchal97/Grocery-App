@@ -117,11 +117,13 @@
             <TextView
                 android:id="@+id/cart_amount"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/ptsans_bold"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
                 android:padding="20dp"
-                android:text="Total:$28.60"
+                android:text="@string/cart_total"
+                android:textSize="16sp"
                 android:textColor="#000000"
+                android:layout_marginTop="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
