@@ -183,14 +183,14 @@ class HomePageActivity : AppCompatActivity() {
 
     private fun bottomMenuAction(){
 
-        binder.navBar.llHome.setOnClickListener {
+        binder.navBar.navHome.setOnClickListener {
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, HomeFragment())
                     .addToBackStack(null)
                     .commit()
         }
 
-       binder.navBar.llOrder.setOnClickListener {
+       binder.navBar.navOrder.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, OrderFragment())
                 .addToBackStack(null)

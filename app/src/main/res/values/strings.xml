@@ -121,4 +121,5 @@
     <string name="filter_by_status">Filter By Status</string>
     <string name="searchHeaderText">Hey ,\nLet\'s search your grocery food</string>
     <string name="discount_per">Discount (%)</string>
+    <string name="zero_count">0</string>
 </resources>
