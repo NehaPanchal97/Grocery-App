@@ -5,8 +5,8 @@ import com.grocery.app.databinding.CardviewWithoutHeaderBinding
 import com.grocery.app.extensions.loadImage
 import com.grocery.app.models.Category
 
-class WithoutHeaderItemVH(private val binder: CardviewWithoutHeaderBinding):
-        BaseVH<CardviewWithoutHeaderBinding, Category>(binder),View.OnClickListener{
+class WithoutHeaderItemVH(private val binder: CardviewWithoutHeaderBinding) :
+    BaseVH<CardviewWithoutHeaderBinding, Category>(binder),View.OnClickListener{
 
     init {
         binder.discountContainer.setOnClickListener(this)

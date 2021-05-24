@@ -78,10 +78,10 @@
     <string name="product">Product</string>
     <string name="profile">Profile</string>
     <string name="rs_symbol">₹ %s</string>
-    <string name="order_placed_msg">Your order has been placed.</string>
-    <string name="order_packed_msg">Seller has packed your items.</string>
-    <string name="order_dispatched_msg">Order has been dispatched.</string>
-    <string name="order_delivered_msg">Your order has been delivered.</string>
+    <string name="order_placed_msg">Your order #%1$s was placed for delivery.</string>
+    <string name="order_confirmed_msg">Your order is confirmed. Will deliver soon.</string>
+    <string name="order_processing_msg">Your product is processing to deliver you on time.</string>
+    <string name="order_delivered_msg">Product delivered to you and marked as delivered by customer.</string>
     <string name="no_order_available_msg">No Orders available</string>
     <string name="orderTitle">All Orders</string>
     <string name="order_created_at">Ordered on: %1$s</string>
@@ -122,4 +122,8 @@
     <string name="searchHeaderText">Hey ,\nLet\'s search your grocery food</string>
     <string name="discount_per">Discount (%)</string>
     <string name="zero_count">0</string>
+    <string name="order_placed_title">Order Placed</string>
+    <string name="order_confirmed_title">Confirmed</string>
+    <string name="order_processing_title">Processing</string>
+    <string name="order_delivered_title">Delivered</string>
 </resources>

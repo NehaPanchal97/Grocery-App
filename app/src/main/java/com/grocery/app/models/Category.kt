@@ -9,9 +9,9 @@ class Category(
     var id: String? = null,
     var rank: Int? = null,
     var url: String? = null,
-    var discount:Double?=null,
-    var offerTitle:String?=null,
-    var offerDescription:String?=null
+    var discount: Double? = null,
+    var offerTitle: String? = null,
+    var offerDescription: String? = null
 ) : Cloneable, Parcelable {
 
     override fun clone(): Any {
