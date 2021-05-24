@@ -23,3 +23,6 @@ const val DEFAULT_PAGE_SIZE: Long = 20
 const val CURRENT_STATUS = "currentStatus"
 const val WITHOUT_HEADER_HOME_PAGE = 245
 const val OFFER_PAGE =246
+const val DISCOUNT_ITEM = 250
+const val DISCOUNT = "discount"
+const val TITLE = "title"

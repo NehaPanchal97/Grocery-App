@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.grocery.app.R
 import com.grocery.app.activities.AdminHomePageActivity
+import com.grocery.app.activities.DiscountPageActivity
 import com.grocery.app.activities.UpdateProfileActivity
 import com.grocery.app.constant.CART
 import com.grocery.app.constant.CART_CHANGE
