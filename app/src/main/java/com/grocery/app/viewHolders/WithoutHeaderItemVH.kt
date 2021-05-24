@@ -6,11 +6,11 @@ import com.grocery.app.extensions.loadImage
 import com.grocery.app.models.Category
 import com.grocery.app.models.Product
 
-class WithoutHeaderItemVH(private val binder: CardviewWithoutHeaderBinding):
-        BaseVH<CardviewWithoutHeaderBinding, Category>(binder) {
+class WithoutHeaderItemVH(private val binder: CardviewWithoutHeaderBinding) :
+    BaseVH<CardviewWithoutHeaderBinding, Category>(binder) {
     override fun bind(data: Category) {
-        binder.offerText.text = data.name
+        binder.offerText.text = data.offerDescription
         binder.cardviewImage.loadImage(url = data.url)
-        binder.discount.text = data.discount
+        binder.discount.text = data.offerTitle
     }
 }

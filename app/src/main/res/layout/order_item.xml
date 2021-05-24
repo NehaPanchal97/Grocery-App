@@ -6,27 +6,12 @@
     <data>
 
         <variable
-            name="name"
-            type="String" />
-        <variable
-            name="url"
-            type="String" />
-        <variable
-            name="status"
-            type="String" />
-        <variable
             name="orderCreatedAt"
             type="String" />
-        <variable
-            name="itemCount"
-            type="String" />
-        <variable
-            name="statusColor"
-            type="Integer" />
 
         <variable
-            name="placeholder"
-            type="Integer" />
+            name="order"
+            type="com.grocery.app.models.Order" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -59,9 +44,7 @@
 
             <ImageView
                 android:id="@+id/product_iv"
-                circular="@{false}"
-                loadUrl="@{url}"
-                placeholder="@{placeholder}"
+                orderUrl="@{order}"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="12dp"
@@ -80,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:fontFamily="@font/ptsans_regular"
-                android:text="@{name}"
+                android:text="@{order.name}"
                 android:textColor="@color/black_color"
                 android:textSize="14sp"
                 android:maxLines="3"
@@ -95,7 +78,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="@{itemCount}"
+                itemsInOrder="@{order}"
                 android:textColor="#3342fe"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="@id/tvStatus"
@@ -113,8 +96,7 @@
                 android:fontFamily="sans-serif"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="6dp"
-                android:text="@{status}"
-                android:textColor="@{statusColor}"
+                orderStatus="@{order}"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -2,8 +2,8 @@ package com.grocery.app.constant
 
 enum class OrderStatus(val title: String) {
     PLACED("placed"),
-    PACKED("packed"),
-    DISPATCHED("dispatched"),
+    CONFIRMED("confirmed"),
+    PROCESSING("processing"),
     DELIVERED("delivered"),
     CANCELLED("cancelled"),
     OTHER("other")
