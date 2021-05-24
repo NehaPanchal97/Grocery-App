@@ -17,10 +17,7 @@ import com.grocery.app.R
 import com.grocery.app.activities.AdminHomePageActivity
 import com.grocery.app.activities.DiscountPageActivity
 import com.grocery.app.activities.UpdateProfileActivity
-import com.grocery.app.constant.CART
-import com.grocery.app.constant.CART_CHANGE
-import com.grocery.app.constant.Store
-import com.grocery.app.constant.USER
+import com.grocery.app.constant.*
 import com.grocery.app.databinding.ActivityHomeBinding
 import com.grocery.app.extensions.cast
 import com.grocery.app.extensions.showError
@@ -51,7 +48,7 @@ class HomePageActivity : AppCompatActivity() {
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         observeData()
         val user = prefManager.get<User>(USER)
-        viewModel.syncUser()
+        viewModel.syncUser(prefManager.getString(FCM_TOKEN))
         user?.let {
             if (savedInstanceState == null) {
                 switchFragment()

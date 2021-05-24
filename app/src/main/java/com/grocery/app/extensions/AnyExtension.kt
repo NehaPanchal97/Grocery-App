@@ -1,8 +1,10 @@
 package com.grocery.app.extensions
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.grocery.app.BuildConfig
 import java.text.DecimalFormat
 import kotlin.math.pow
 
@@ -27,3 +29,9 @@ val Double.trim: String
         val formatter = DecimalFormat("#.#")
         return formatter.format(this)
     }
+
+fun String.logD(message: String) {
+    if (BuildConfig.DEBUG) {
+        Log.d(this, message)
+    }
+}

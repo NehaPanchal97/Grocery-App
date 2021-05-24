@@ -6,5 +6,6 @@ data class User(
     var url: String? = null,
     var address: String? = null,
     var id: String? = null,
-    var role: String? = null
+    var role: String? = null,
+    var fcmToken: String? = null
 )
