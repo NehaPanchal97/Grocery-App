@@ -86,6 +86,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
 
 
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
@@ -99,5 +100,8 @@ dependencies {
 
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.0.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.4.0'
 }
 apply plugin: 'com.google.gms.google-services'

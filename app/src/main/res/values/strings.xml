@@ -125,4 +125,8 @@
     <string name="order_confirmed_title">Confirmed</string>
     <string name="order_processing_title">Processing</string>
     <string name="order_delivered_title">Delivered</string>
+    <string name="grocery_notification_id">grocery_channel_id</string>
+    <string name="grocery_channel_name">Grocery Notification</string>
+    <string name="_has_placed_order">%1$s has placed an order.</string>
+    <string name="order_received">Order Received</string>
 </resources>

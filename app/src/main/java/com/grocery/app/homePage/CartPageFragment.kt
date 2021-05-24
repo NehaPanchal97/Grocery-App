@@ -20,13 +20,12 @@ import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.*
 import com.grocery.app.databinding.CartItemsGroupBinding
 import com.grocery.app.extensions.showError
-import com.grocery.app.extensions.showSuccess
 import com.grocery.app.extensions.visible
 import com.grocery.app.fragments.BaseFragment
-import com.grocery.app.fragments.OrderFragment
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
 import com.grocery.app.models.User
+import com.grocery.app.services.OrderChangeService
 import com.grocery.app.utils.OrderUtils
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.OrderViewModel
@@ -47,10 +46,10 @@ class CartPageFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binder.cartRecyclerView.addItemDecoration(
-                DividerItemDecoration(
-                        requireContext(),
-                        DividerItemDecoration.VERTICAL
-                )
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
         )
         binder.cartRecyclerView.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -70,14 +69,14 @@ class CartPageFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.cartUpdated){
+        if (viewModel.cartUpdated) {
             viewModel.cartUpdated = false
             resetCart()
         }
     }
 
     private fun resetCart() {
-        val cart = pref.get(CART)?: Cart()
+        val cart = pref.get(CART) ?: Cart()
         viewModel.initCartWith(cart)
         listAdapter.notifyDataSetChanged()
     }
@@ -88,14 +87,13 @@ class CartPageFragment : BaseFragment() {
             .unregisterReceiver(_receiver)
     }
 
-    private val _receiver = object : BroadcastReceiver(){
+    private val _receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            val action = intent?.action?: ""
-            if (action in setOf(CART_CHANGE)){
-                if (lifecycle.currentState == Lifecycle.State.RESUMED){
+            val action = intent?.action ?: ""
+            if (action in setOf(CART_CHANGE)) {
+                if (lifecycle.currentState == Lifecycle.State.RESUMED) {
                     resetCart()
-                }
-                else{
+                } else {
                     viewModel.cartUpdated = true
                 }
             }
@@ -107,7 +105,7 @@ class CartPageFragment : BaseFragment() {
         val filter = IntentFilter()
         filter.addAction(CART_CHANGE)
         LocalBroadcastManager.getInstance(requireContext())
-            .registerReceiver(_receiver,filter)
+            .registerReceiver(_receiver, filter)
 
         orderViewModel.updateOrderLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when (it.type) {
@@ -125,12 +123,25 @@ class CartPageFragment : BaseFragment() {
                     intent.putExtra(ORDER_ID, orderId)
                     startActivity(intent)
                     fireCartChangeEvent()
+                    if (orderViewModel.orderCreated) {
+                        orderViewModel.orderCreated = false
+                        onOrderCreated()
+                    }
+
                 }
                 Status.ERROR -> {
                     binder.root.showError(getString(R.string.order_create_error))
                 }
             }
         })
+    }
+
+    private fun onOrderCreated() {
+        context?.let {
+            val order = orderViewModel.order
+            val i = OrderChangeService.getIntent(it, order)
+            it.startService(i)
+        }
     }
 
     private fun fireOrderCreatedEvent() {
@@ -140,9 +151,8 @@ class CartPageFragment : BaseFragment() {
 
     private fun fireCartChangeEvent() {
         LocalBroadcastManager.getInstance(requireContext())
-                .sendBroadcast(Intent(CART_CHANGE))
+            .sendBroadcast(Intent(CART_CHANGE))
     }
-
 
 
     override fun onCreateView(
@@ -180,16 +190,15 @@ class CartPageFragment : BaseFragment() {
         onTotalChange()
         binder.cartRecyclerView.apply {
             listAdapter = ProductListAdapter(
-                    viewModel.cart.items ?: arrayListOf(),
-                    CART_ITEM_TYPE,
-                    viewModel.cartMap
+                viewModel.cart.items ?: arrayListOf(),
+                CART_ITEM_TYPE,
+                viewModel.cartMap
             )
             binder.cartRecyclerView.itemAnimator = null
             listAdapter.onClickListener = _itemClickListener
             binder.cartRecyclerView.adapter = listAdapter
         }
     }
-
 
 
     private val _itemClickListener = object : OnItemClickListener {
@@ -200,14 +209,14 @@ class CartPageFragment : BaseFragment() {
                 viewModel.updateCart(product, isAddition = true)
                 listAdapter.notifyItemChanged(position)
                 onTotalChange()
-                pref.put(CART,viewModel.cart)
+                pref.put(CART, viewModel.cart)
                 fireCartChangeEvent()
             } else if (itemId == R.id.iv_cart_remove) {
                 val product = listAdapter.items.getOrNull(position)
                 viewModel.updateCart(product, isAddition = false)
-                listAdapter.update(arrayList = viewModel.cart.items?: arrayListOf())
+                listAdapter.update(arrayList = viewModel.cart.items ?: arrayListOf())
                 onTotalChange()
-                pref.put(CART,viewModel.cart)
+                pref.put(CART, viewModel.cart)
                 fireCartChangeEvent()
             }
 
@@ -216,11 +225,10 @@ class CartPageFragment : BaseFragment() {
     }
 
 
-
     @SuppressLint("SetTextI18n", "StringFormatMatches")
     private fun onTotalChange() {
         val cartTotal = viewModel.cart.payableAmount?.toInt().toString()
-        binder.cartAmount.text = getString(R.string.cart_total,cartTotal)
+        binder.cartAmount.text = getString(R.string.cart_total, cartTotal)
         if (viewModel.cart.items?.isEmpty() != false) {
             binder.tvEmptyCart.visible(true)
             binder.ivEmptyImage.visible(true)

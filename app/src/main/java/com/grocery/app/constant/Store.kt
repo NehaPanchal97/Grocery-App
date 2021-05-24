@@ -23,4 +23,6 @@ object Store {
     const val UPDATED_AT = "updatedAt"
     const val CREATED_BY = "createdBy"
     const val DISCOUNT = "discount"
+    const val FCM_TOKEN = "fcmToken"
+    const val ROLE = "role"
 }

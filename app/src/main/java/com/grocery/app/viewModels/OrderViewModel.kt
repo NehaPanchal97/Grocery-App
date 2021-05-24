@@ -43,7 +43,7 @@ class OrderViewModel : ViewModel() {
     var hasMoreOrder = true
     var filterOrderByStatus: String? = null
     private var lastOrderSnap: DocumentSnapshot? = null
-
+    var orderCreated = false
     val loadingMore
         get() = lastOrderSnap != null
 
@@ -113,6 +113,7 @@ class OrderViewModel : ViewModel() {
                 cartRef.delete()
             }
             .addOnSuccessListener {
+                orderCreated = true
                 this.order = order
                 _updateOrderLiveData.value = Result.success()
             }
