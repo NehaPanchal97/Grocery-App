@@ -196,6 +196,13 @@ class HomePageActivity : AppCompatActivity() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        binder.navBar.navOffer.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, OfferFragment())
+                    .addToBackStack(null)
+                    .commit()
+        }
     }
 
     private fun fabCount(){

@@ -1,16 +1,25 @@
 package com.grocery.app.homePage.adapters
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.grocery.app.R
+import com.grocery.app.activities.DetailsPageActivity
 import com.grocery.app.constant.HomeCarousel
+import com.grocery.app.constant.WITHOUT_HEADER_HOME_PAGE
 import com.grocery.app.databinding.CategoryGroupWithHeaderBinding
 import com.grocery.app.databinding.WithoutHeaderRvGroupBinding
+import com.grocery.app.fragments.OrderFragment
 import com.grocery.app.homePage.dataModel.ItemGroup
 import com.grocery.app.listeners.OnCategoryClickListener
 import com.grocery.app.listeners.OnItemClickListener
+import com.grocery.app.models.Category
 import com.grocery.app.viewHolders.BaseVH
 import com.grocery.app.viewHolders.ParentViewHolder
 
@@ -61,11 +70,11 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
 
 
     class WithoutHeaderVH(private val binder: WithoutHeaderRvGroupBinding) :
-        BaseVH<WithoutHeaderRvGroupBinding, ItemGroup>(binder) {
+        BaseVH<WithoutHeaderRvGroupBinding, ItemGroup>(binder), OnItemClickListener {
         //horizontal recycler view without header of homepage i.e 2 row
 
         override fun bind(data: ItemGroup) {
-            val itemListAdapter = data.listItem?.let { WithoutHeaderAdapter(it) }
+            val itemListAdapter = data.listItem?.let { WithoutHeaderAdapter(ArrayList(it), WITHOUT_HEADER_HOME_PAGE) }
 
             binder.withoutHeaderRv.setHasFixedSize(true)
             binder.withoutHeaderRv.layoutManager =
@@ -73,6 +82,13 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
             binder.withoutHeaderRv.adapter = itemListAdapter
 
             binder.withoutHeaderRv.isNestedScrollingEnabled = false
+
+            itemListAdapter?.itemClickListener=this
+        }
+
+        override fun onItemClick(itemId: Int, position: Int) {
+           Log.d("pressed","Btn Clicked")
+
         }
 
     }

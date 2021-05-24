@@ -92,6 +92,7 @@ class HomeFragment : BaseFragment() {
                     .apply { itemClickListener = _itemClickListener }
             binder.catRecyclerView.adapter = listAdapter
         }
+
     }
 
     private val _itemClickListener = object : OnCategoryClickListener {
