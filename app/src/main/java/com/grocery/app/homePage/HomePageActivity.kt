@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.grocery.app.R
 import com.grocery.app.activities.AdminHomePageActivity
+import com.grocery.app.activities.DiscountPageActivity
 import com.grocery.app.activities.UpdateProfileActivity
 import com.grocery.app.constant.*
 import com.grocery.app.databinding.ActivityHomeBinding
@@ -180,18 +181,25 @@ class HomePageActivity : AppCompatActivity() {
 
     private fun bottomMenuAction(){
 
-        binder.navBar.llHome.setOnClickListener {
+        binder.navBar.navHome.setOnClickListener {
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, HomeFragment())
                     .addToBackStack(null)
                     .commit()
         }
 
-       binder.navBar.llOrder.setOnClickListener {
+       binder.navBar.navOrder.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, OrderFragment())
                 .addToBackStack(null)
                 .commit()
+        }
+
+        binder.navBar.navOffer.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, OfferFragment())
+                    .addToBackStack(null)
+                    .commit()
         }
     }
 

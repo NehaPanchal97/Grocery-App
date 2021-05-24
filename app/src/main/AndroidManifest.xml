@@ -27,6 +27,10 @@
 
         <activity android:name=".activities.SearchActivity"
             android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".activities.DiscountPageActivity"></activity>
+        <activity
+            android:name=".activities.SearchActivity"
+            android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".auth.SsoLoginActivity" />
         <activity android:name=".auth.OtpScreenActivity" />
         <activity android:name=".activities.AddCategoryActivity" />

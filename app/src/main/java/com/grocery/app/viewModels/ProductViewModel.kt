@@ -10,6 +10,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.grocery.app.constant.DEFAULT_PAGE_SIZE
+import com.grocery.app.constant.DISCOUNT
 import com.grocery.app.constant.Store
 import com.grocery.app.extensions.*
 import com.grocery.app.extras.Result
@@ -53,6 +54,7 @@ class ProductViewModel : ViewModel() {
     var cartUpdated = false
     var hasMoreProduct = true
     var lastProductSnap: DocumentSnapshot? = null
+    var discount: Double? = null
 
     val loadMore
         get() = lastProductSnap != null
@@ -66,7 +68,8 @@ class ProductViewModel : ViewModel() {
         }
         _productListLiveData.value = Result.loading()
         var query = Firebase.firestore.collection(Store.PRODUCTS)
-            .orderBy(Store.CREATED_AT, Query.Direction.DESCENDING)
+            .whereGreaterThanOrEqualTo(DISCOUNT,discount?:0.0)
+            .orderBy(Store.DISCOUNT, Query.Direction.DESCENDING)
         limit?.let {
             query = query.limit(it)
         }
