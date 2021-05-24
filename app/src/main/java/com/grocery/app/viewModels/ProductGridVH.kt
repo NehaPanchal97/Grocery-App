@@ -23,7 +23,7 @@ class ProductGridVH(private val binder: ProductItemWithPriceBinding) :
 
 
         val context = itemView.context
-        val price = data.price
+        val price = data.price?.toInt()
         val count = cartMap[data.id]?.count ?: 0
         binder.specificItemTitle.text = data.name
         binder.tvPrice.text =context.getString(R.string.rs_symbol, price.toString())

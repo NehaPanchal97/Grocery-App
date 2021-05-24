@@ -4,102 +4,119 @@
 
     </data>
 
-<LinearLayout
+<RelativeLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#27ae60"
+    android:id="@+id/fragment_container_search"
     tools:context=".activities.SearchActivity"
     android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/searchContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_back"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
         <TextView
             android:id="@+id/tvText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
             android:layout_marginTop="25dp"
             android:text="@string/searchHeaderText"
-            android:textColor="#C1E8D2" />
+            android:textColor="@color/searchHeaderTextColor"
+            android:textSize="16sp"
+            android:layout_marginStart="60dp"
+            app:layout_constraintStart_toEndOf="@id/backBtn"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tvSearch"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_margin="15dp"
-            android:background="@drawable/text_search_container"
+            android:layout_margin="20dp"
             android:textColor="#EDEFF2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvText" >
+            app:layout_constraintStart_toStartOf="parent"
+            app:boxCornerRadiusBottomEnd="32dp"
+            app:boxCornerRadiusBottomStart="2dp"
+            app:boxCornerRadiusTopEnd="32dp"
+            app:boxCornerRadiusTopStart="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextSearch"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:gravity="start|center"
-                android:background="@null"
+                android:background="@color/design_default_color_background"
                 android:backgroundTint="@color/search_bg_color"
                 android:drawableStart="@drawable/ic_search"
-                android:padding="1dp" />
+                android:drawablePadding="10dp"
+                android:focusable="true"
+                android:padding="0dp"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:layout_marginBottom="20dp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/searchContainer"
         android:background="@drawable/home_fragment_layout_rounded_corners"
         android:elevation="0dp"
-        android:orientation="vertical">
-
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/home_progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="gone" />
+        android:layout_marginTop="20dp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productItemRV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/cart_checkout_container_background">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/checkout_btn"
+            android:id="@+id/addToCartBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:drawableRight="@drawable/proceed_arrow"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Checkout"
+            android:text="Add to Cart"
             android:textAllCaps="false"
             android:textSize="16sp"
             app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/cart_amount"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+</RelativeLayout>
 </layout>
