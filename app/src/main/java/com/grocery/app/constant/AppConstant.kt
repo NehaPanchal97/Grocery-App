@@ -21,3 +21,6 @@ const val CART_CHANGE = "cart_change"
 const val ORDER_DESCRIPTION_ITEM_TYPE = 243
 const val DEFAULT_PAGE_SIZE: Long = 20
 const val CURRENT_STATUS = "currentStatus"
+const val DISCOUNT_ITEM = 250
+const val DISCOUNT = "discount"
+const val TITLE = "title"

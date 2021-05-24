@@ -11,6 +11,6 @@ class WithoutHeaderItemVH(private val binder: CardviewWithoutHeaderBinding):
     override fun bind(data: Category) {
         binder.offerText.text = data.name
         binder.cardviewImage.loadImage(url = data.url)
-        binder.discount.text = data.discount
+        binder.discount.text = data.discount.toString()
     }
 }

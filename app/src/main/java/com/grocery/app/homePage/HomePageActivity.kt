@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.grocery.app.R
 import com.grocery.app.activities.AdminHomePageActivity
+import com.grocery.app.activities.DiscountPageActivity
 import com.grocery.app.activities.UpdateProfileActivity
 import com.grocery.app.constant.CART
 import com.grocery.app.constant.CART_CHANGE
@@ -195,6 +196,10 @@ class HomePageActivity : AppCompatActivity() {
                 .add(R.id.fragment_container, OrderFragment())
                 .addToBackStack(null)
                 .commit()
+        }
+        binder.navBar.llOffer.setOnClickListener {
+            val intent = DiscountPageActivity.newIntent(this,10.0,"30% Discount")
+            startActivity(intent)
         }
     }
 
