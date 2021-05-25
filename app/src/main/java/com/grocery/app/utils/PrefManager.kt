@@ -12,6 +12,8 @@ class PrefManager private constructor(context: Context) {
     private var _pref =
         context.getSharedPreferences("Grocery_pref", Context.MODE_PRIVATE)
 
+    private val keysToRetain = setOf<String>()
+
     companion object {
         private lateinit var sInstance: PrefManager
         private val lock = Any()
@@ -37,21 +39,6 @@ class PrefManager private constructor(context: Context) {
 
     fun getString(key: String, default: String? = null): String? {
         return _pref.getString(key, default)
-    }
-
-    fun getInt(key: String, default: Int? = null): Int {
-        return _pref.getInt(key, default ?: -1)
-    }
-
-    fun getBool(key: String, default: Boolean = false): Boolean {
-        return _pref.getBoolean(key, default)
-    }
-
-    fun putBool(key: String, value: Boolean) {
-        _pref.edit {
-            putBoolean(key, value)
-            apply()
-        }
     }
 
 
@@ -87,7 +74,12 @@ class PrefManager private constructor(context: Context) {
     }
 
     fun clear() {
+        val persisted = keysToRetain.filter { _pref.contains(it) }
+            .map { Pair(it, _pref.getString(it, null)) }
         _pref.edit().clear().apply()
+        persisted.forEach {
+            _pref.edit().putString(it.first, it.second).apply()
+        }
     }
 
 }

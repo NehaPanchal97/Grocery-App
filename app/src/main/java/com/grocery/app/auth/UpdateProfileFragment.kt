@@ -21,6 +21,7 @@ import com.grocery.app.fragments.ImagePickerFragment
 import com.grocery.app.listeners.OnProfileUpdatedListener
 import com.grocery.app.models.User
 import com.grocery.app.utils.PrefManager
+import com.grocery.app.utils.signOut
 import com.grocery.app.viewModels.AuthViewModel
 import kotlinx.android.synthetic.main.fragment_authentication.*
 
@@ -63,8 +64,7 @@ class UpdateProfileFragment : ImagePickerFragment() {
         observe()
         binder.btnLogout.setOnClickListener {
             context?.showToast("Logging Out")
-            Firebase.auth.signOut()
-            prefManager.clear()
+            context?.signOut()
             startActivity(Intent(context, SsoLoginActivity::class.java))
             activity?.finishAffinity()
         }

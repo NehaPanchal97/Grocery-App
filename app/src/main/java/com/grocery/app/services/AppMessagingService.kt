@@ -48,7 +48,6 @@ class AppMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(fcmToken: String) {
         TAG.logD("Refreshed Token: $fcmToken")
-        pref.putString(FCM_TOKEN, fcmToken)
         if (authUser != null && pref.contains(USER)) {
             sendTokenToFirestore(fcmToken)
         }

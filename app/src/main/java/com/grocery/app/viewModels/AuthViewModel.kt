@@ -8,11 +8,13 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.grocery.app.constant.CART
 import com.grocery.app.constant.Store
 import com.grocery.app.constant.USER
 import com.grocery.app.extensions.authUser
+import com.grocery.app.extensions.logD
 import com.grocery.app.extensions.toObj
 import com.grocery.app.models.User
 import com.grocery.app.extras.Result
@@ -20,6 +22,10 @@ import com.grocery.app.models.Cart
 import com.grocery.app.utils.isBlank
 
 class AuthViewModel : ViewModel() {
+
+    companion object {
+        const val TAG = "AuthViewModel"
+    }
 
     private val _updateUserLiveData by lazy { MutableLiveData<Result<Void>>() }
 
@@ -109,14 +115,14 @@ class AuthViewModel : ViewModel() {
             }
     }
 
-    fun syncUser(fcmToken: String?) {
+    fun syncUser() {
         val db = Firebase.firestore
 
         db.document(Store.USERS + "/" + authUser?.uid)
             .get()
             .onSuccessTask {
                 if (it?.exists() == true) {
-                    updateFcmToken(fcmToken)
+                    updateFcmToken()
                     _syncLiveData.value = Result.success(Pair(USER, it.toObject(User::class.java)))
                 }
                 db.collection("${Store.USERS}/${authUser?.uid}/${Store.CART}")
@@ -134,19 +140,17 @@ class AuthViewModel : ViewModel() {
             }
     }
 
-    private fun updateFcmToken(fcmToken: String?) {
-        if (fcmToken == null) {
-            return
-        }
-        Firebase.firestore
-            .document(Store.USERS + "/" + authUser?.uid)
-            .update(Store.FCM_TOKEN, fcmToken)
-            .addOnCompleteListener { }
+    private fun updateFcmToken() {
+        FirebaseMessaging.getInstance().token
+            .addOnSuccessListener {
+                Firebase.firestore
+                    .document(Store.USERS + "/" + authUser?.uid)
+                    .update(Store.FCM_TOKEN, it)
+                    .addOnCompleteListener { }
+            }
+            .addOnFailureListener {
+                TAG.logD("Error fetching FCM Token")
+            }
+
     }
-
-    fun syncCart() {
-        Firebase.firestore
-    }
-
-
 }

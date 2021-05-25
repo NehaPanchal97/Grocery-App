@@ -47,7 +47,7 @@ class HomePageActivity : AppCompatActivity() {
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         observeData()
         val user = prefManager.get<User>(USER)
-        viewModel.syncUser(prefManager.getString(FCM_TOKEN))
+        viewModel.syncUser()
         user?.let {
             if (savedInstanceState == null) {
                 switchFragment()
