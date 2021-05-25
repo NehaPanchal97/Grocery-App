@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -44,6 +43,7 @@ class OrderViewModel : ViewModel() {
     var filterOrderByStatus: String? = null
     private var lastOrderSnap: DocumentSnapshot? = null
     var orderCreated = false
+    var orderUpdatedByAdmin = false
     val loadingMore
         get() = lastOrderSnap != null
 
@@ -139,6 +139,7 @@ class OrderViewModel : ViewModel() {
         }
             .addOnSuccessListener {
                 order = it
+                orderUpdatedByAdmin = true
                 _updateOrderLiveData.value = Result.success()
             }
             .addOnFailureListener {

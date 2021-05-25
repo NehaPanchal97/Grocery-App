@@ -21,6 +21,7 @@ import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
 import com.grocery.app.models.Cart
 import com.grocery.app.models.Order
+import com.grocery.app.services.OrderChangeService
 import com.grocery.app.viewModels.OrderViewModel
 
 class AdminOrderDetailActivity : BaseActivity() {
@@ -50,6 +51,7 @@ class AdminOrderDetailActivity : BaseActivity() {
                 Result.Status.SUCCESS -> {
                     loading(false)
                     onActionChange()
+                    sendNotification()
                     binder.root.showSuccess(getString(R.string.order_status_changed_msg))
                 }
                 Result.Status.ERROR -> {
@@ -62,6 +64,14 @@ class AdminOrderDetailActivity : BaseActivity() {
                 }
             }
         })
+    }
+
+    private fun sendNotification() {
+        if (viewModel.orderUpdatedByAdmin) {
+            viewModel.orderUpdatedByAdmin = false
+            val i = OrderChangeService.getIntent(this, viewModel.order)
+            startService(i)
+        }
     }
 
     override fun loading(show: Boolean) {

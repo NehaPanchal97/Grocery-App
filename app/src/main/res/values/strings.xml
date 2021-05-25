@@ -129,4 +129,6 @@
     <string name="grocery_channel_name">Grocery Notification</string>
     <string name="_has_placed_order">%1$s has placed an order.</string>
     <string name="order_received">Order Received</string>
+    <string name="order_cancelled_title">Order Cancelled</string>
+    <string name="_order_cancelled">%1$s has cancelled order #%2$s.</string>
 </resources>
