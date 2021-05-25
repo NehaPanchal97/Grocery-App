@@ -127,17 +127,17 @@ class CategoryViewModel : ViewModel() {
         }
 
 
-        if (homeDealsSnap?.documents?.isNotEmpty() == true) {
-            val dealList = homeDealsSnap?.toObjects(Category::class.java)
-            dealList?.let {
-                homeData.add(
-                    ItemGroup(
-                        carousel = HomeCarousel.DEALS,
-                        listItem = ArrayList(it)
-                    )
-                )
-            }
-        }
+//        if (homeDealsSnap?.documents?.isNotEmpty() == true) {
+//            val dealList = homeDealsSnap?.toObjects(Category::class.java)
+//            dealList?.let {
+//                homeData.add(
+//                    ItemGroup(
+//                        carousel = HomeCarousel.DEALS,
+//                        listItem = ArrayList(it)
+//                    )
+//                )
+//            }
+//        }
 
         if (homeDiscountSnap?.documents?.isNotEmpty() == true) {
             val discountList = homeDiscountSnap?.toObjects(Category::class.java)

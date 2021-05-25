@@ -8,15 +8,16 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#27ae60"
+
         android:orientation="vertical"
         tools:context=".MainActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/topBar"
-            android:paddingTop="5dp"
-       android:layout_width="match_parent"
-       android:layout_height="150dp">
+            android:background="#27ae60"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:paddingTop="5dp">
 
             <TextView
                 android:id="@+id/tvText"
@@ -68,6 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/topBar"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/home_fragment_layout_rounded_corners"
             android:elevation="0dp"
             android:orientation="vertical">
@@ -84,6 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

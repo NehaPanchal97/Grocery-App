@@ -39,10 +39,10 @@ class HomeFragment : BaseFragment() {
 
         setupView()
         observe()
-        viewModel.fetchHomePageData(3)
+        viewModel.fetchHomePageData(6)
 
         binder.searchContainer.setOnClickListener {
-            val intent = Intent(activity,SearchActivity::class.java)
+            val intent = Intent(activity, SearchActivity::class.java)
             startActivity(intent)
         }
     }
@@ -68,8 +68,8 @@ class HomeFragment : BaseFragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binder = HomeFragmentBinding.inflate(inflater, container, false)
@@ -77,11 +77,11 @@ class HomeFragment : BaseFragment() {
     }
 
     private val _updateProfileCallback =
-        registerForActivityResult(UpdateProfileContract()) { result ->
-            if (result) {
-                //show Toast like profile updated or something like that
+            registerForActivityResult(UpdateProfileContract()) { result ->
+                if (result) {
+                    //show Toast like profile updated or something like that
+                }
             }
-        }
 
     private fun setupView() {
         binder.ivAccountDetails.setOnClickListener {
@@ -96,7 +96,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private val _itemClickListener = object : OnCategoryClickListener {
-        override fun onItemClick(itemId: Int, category:Category) {
+        override fun onItemClick(itemId: Int, category: Category) {
 
             val bundle = Bundle()
             bundle.putParcelable(CATEGORY, category)
