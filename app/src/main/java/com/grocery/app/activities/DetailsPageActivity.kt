@@ -138,7 +138,7 @@ class DetailsPageActivity : AppCompatActivity() {
         val product = viewModel.cartMap[_product.id]
         val count = product?.count ?: 0
 //        binder.cvAddToCart.visible(count > 0)
-        val totalCost = product?.total ?: 0
+        val totalCost = product?.total?.toInt() ?: 0
         binder.tvProductCount.text = count.toString()
         binder.tvProductPrice.visible(totalCost != 0)
         binder.tvProductPrice.text =

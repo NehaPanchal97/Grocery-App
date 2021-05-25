@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -16,120 +16,111 @@
         app:fabCradleMargin="25dp"
         app:fabAlignmentMode="center"
         android:gravity="center"
-        android:background="@android:color/transparent"
+        android:background="@color/home_background_light_grey"
         app:fabCradleRoundedCornerRadius="25dp"
         android:backgroundTint="#27ae60"
         android:layout_gravity="bottom">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-
-        <LinearLayout
-
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
-            <ImageButton
-                android:id="@+id/ll_home"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+            android:background="@android:color/transparent">
+
+            <ImageView
+                android:id="@+id/nav_home"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@color/colorPrimary"
+                android:contentDescription="@string/todo"
                 android:src="@drawable/home_svg_downlaod"
                 app:itemIconTint="#C1E8D2"
-                android:background="@color/colorPrimary"
-                android:contentDescription="@string/todo" />
+                android:layout_marginStart="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
+                android:id="@+id/tv_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home_text"
-                android:textColor="#C1E8D2"/>
-        </LinearLayout>
-            <LinearLayout
+                android:text="@string/home"
+                android:textColor="#C1E8D2"
+                app:layout_constraintTop_toBottomOf="@id/nav_home"
+                app:layout_constraintStart_toStartOf="@id/nav_home"
+                app:layout_constraintEnd_toEndOf="@id/nav_home"/>
 
-              android:layout_marginStart="25dp"
-                android:layout_marginTop="10dp"
+
+            <ImageView
+                android:id="@+id/nav_order"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@color/colorPrimary"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/vector_order"
+                app:itemIconTint="#C1E8D2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/nav_home"
+                android:layout_marginStart="50dp"/>
+
+            <TextView
+                android:id="@+id/tv_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="@string/order"
+                android:textColor="#C1E8D2"
+                app:layout_constraintTop_toBottomOf="@id/nav_order"
+                app:layout_constraintStart_toStartOf="@id/nav_order"
+                app:layout_constraintEnd_toEndOf="@id/nav_order"/>
+            <ImageView
+                android:id="@+id/nav_offer"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@color/colorPrimary"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/vector_offer"
+                app:itemIconTint="#C1E8D2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/nav_order"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="100dp"/>
 
-                <ImageButton
-                    android:id="@+id/ll_order"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/vector_order"
-                    android:background="@color/colorPrimary"
-                    android:contentDescription="@string/todo" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/order_text"
-                    android:textColor="#C1E8D2"/>
-            </LinearLayout>
-            <LinearLayout
-
-                android:layout_marginStart="150dp"
-                android:layout_marginTop="10dp"
+            <TextView
+                android:id="@+id/tv_offer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <ImageButton
-                    android:id="@+id/ll_offer"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/vector_offer"
-                    app:itemIconTint="#C1E8D2"
-                    android:background="@color/colorPrimary"
-                    android:contentDescription="@string/todo" />
+                android:text="@string/offer"
+                android:textColor="#C1E8D2"
+                app:layout_constraintTop_toBottomOf="@id/nav_offer"
+                app:layout_constraintStart_toStartOf="@id/nav_offer"
+                app:layout_constraintEnd_toEndOf="@id/nav_offer"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/offer_text"
-                    android:textColor="#C1E8D2"/>
-            </LinearLayout>
-            <LinearLayout
+            <ImageView
+                android:id="@+id/nav_more"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@color/colorPrimary"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/more_option_svg"
+                app:itemIconTint="#C1E8D2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/nav_offer"
+                android:layout_marginStart="60dp"/>
 
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="10dp"
+            <TextView
+                android:id="@+id/tv_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <ImageButton
-                    android:id="@+id/ll_more"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/more_option_svg"
-                    app:itemIconTint="#C1E8D2"
-                    android:background="@color/colorPrimary"
-                    android:contentDescription="@string/todo" />
+                android:text="@string/more"
+                android:textColor="#C1E8D2"
+                app:layout_constraintTop_toBottomOf="@id/nav_more"
+                app:layout_constraintStart_toStartOf="@id/nav_more"
+                app:layout_constraintEnd_toEndOf="@id/nav_more"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/more_text"
-                    android:textColor="#C1E8D2"/>
-            </LinearLayout>
-        </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--        android:id="@+id/bottomNavigationBar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="64dp"-->
-<!--        android:backgroundTint="@drawable/bottom_nav_icon_selector"-->
-<!--        app:itemIconTint="#C1E8D2"-->
-<!--        app:itemTextColor="#C1E8D2"-->
-<!--        app:labelVisibilityMode="labeled"-->
-<!--        android:layout_gravity="bottom"-->
-<!--        android:background="@android:color/transparent"-->
-<!--        app:menu="@menu/bottom_nav_menu"/>-->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
@@ -161,9 +152,10 @@
         android:layout_marginBottom="78dp"
         android:visibility="visible"
         android:padding="3dp"
-        android:text="0"
+        android:text="@string/zero_count"
         android:textColor="@android:color/white"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        tools:ignore="SmallSp" />
 
 
 

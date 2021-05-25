@@ -116,6 +116,11 @@ class ProductListAdapter(
                     .inflate(LayoutInflater.from(parent.context), parent, false)
                 LoadMoreVH(binder)
             }
+            DISCOUNT_ITEM -> {
+                val binder =
+                    DiscountItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                DiscountPageVH(binder)
+            }
 
             else -> {
                 val binder = ProductItemWithPriceBinding

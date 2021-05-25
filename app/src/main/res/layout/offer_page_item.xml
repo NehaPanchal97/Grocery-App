@@ -7,20 +7,21 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/discount_container"
-        android:layout_width="280dp"
-        android:layout_height="120dp"
+        android:id="@+id/item_discount_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/without_header_image_background"
         android:elevation="2dp"
         android:padding="5dp"
-        android:layout_margin="10dp"
+        android:layout_margin="12dp"
         app:layout_constraintLeft_toLeftOf="parent"
         tools:ignore="MissingConstraints">
 
         <ImageView
-            android:id="@+id/cardview_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:id="@+id/item_image"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:padding="10dp"
             android:background="@drawable/discount_image_background"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +30,7 @@
             android:src="@drawable/vegetables_discount"/>
 
         <TextView
-            android:id="@+id/discount"
+            android:id="@+id/offer_discount_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -43,11 +44,11 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cardview_image"
+            app:layout_constraintStart_toEndOf="@id/item_image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/offer_text"
+            android:id="@+id/offer_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -56,8 +57,8 @@
             android:maxWidth="160dp"
             android:maxLines="3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cardview_image"
-            app:layout_constraintTop_toBottomOf="@id/discount" />
+            app:layout_constraintStart_toEndOf="@id/item_image"
+            app:layout_constraintTop_toBottomOf="@id/offer_discount_title" />
 
         <TextView
             android:id="@+id/order"
@@ -68,11 +69,11 @@
             android:text="Order Now"
             android:textColor="#27ae60"
             android:gravity="center_horizontal"
-            app:layout_constraintStart_toEndOf="@id/cardview_image"
+            app:layout_constraintStart_toEndOf="@id/item_image"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/offer_text"
-            app:layout_constraintStart_toStartOf="@id/offer_text"
-            app:layout_constraintTop_toBottomOf="@id/offer_text" />
+            app:layout_constraintEnd_toEndOf="@id/offer_description"
+            app:layout_constraintStart_toStartOf="@id/offer_description"
+            app:layout_constraintTop_toBottomOf="@id/offer_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
