@@ -55,7 +55,7 @@ object NotificationUtils {
 //        intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
         val pendingIntent = PendingIntent.getActivity(
             context, 0 /* Request code */, intent,
-            PendingIntent.FLAG_ONE_SHOT
+            PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         val channelId = context.getString(com.grocery.app.R.string.grocery_notification_id)
