@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.grocery.app.R
 import com.grocery.app.activities.AdminHomePageActivity
-import com.grocery.app.activities.DiscountPageActivity
 import com.grocery.app.activities.UpdateProfileActivity
 import com.grocery.app.constant.*
 import com.grocery.app.databinding.ActivityHomeBinding
@@ -114,7 +113,7 @@ class HomePageActivity : AppCompatActivity() {
         val filter = IntentFilter()
         filter.addAction(CART_CHANGE)
         LocalBroadcastManager.getInstance(applicationContext)
-                .registerReceiver(receiver,filter)
+                .registerReceiver(receiver, filter)
 
         viewModel.fetchUserLiveData.observe(this, Observer { it ->
             when (it.type) {

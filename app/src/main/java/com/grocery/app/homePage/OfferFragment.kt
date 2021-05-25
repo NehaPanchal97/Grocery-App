@@ -24,6 +24,7 @@ import com.grocery.app.homePage.adapters.WithoutHeaderAdapter
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.viewModels.ProductViewModel
+import kotlinx.android.synthetic.main.offer_page_item.*
 
 class OfferFragment: BaseFragment(), OnItemClickListener {
 
@@ -45,7 +46,7 @@ class OfferFragment: BaseFragment(), OnItemClickListener {
 
     private fun listener(){
         binder.offerBackBtn.setOnClickListener {
-
+        activity?.onBackPressed()
         }
     }
 
@@ -90,8 +91,9 @@ class OfferFragment: BaseFragment(), OnItemClickListener {
     }
 
     override fun onItemClick(itemId: Int, position: Int) {
-        val discount = productViewModel.discount
-        val intent = DiscountPageActivity.newIntent(requireContext(),10.0,"30% Discount")
+        val discount = listAdapter.items[position]
+        val title = listAdapter.items[position].offerTitle
+        val intent = DiscountPageActivity.newIntent(requireContext(),discount.discount?:0.0,title?:"")
         startActivity(intent)
 
 
