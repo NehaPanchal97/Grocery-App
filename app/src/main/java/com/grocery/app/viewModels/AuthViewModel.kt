@@ -143,10 +143,4 @@ class AuthViewModel : ViewModel() {
             .update(Store.FCM_TOKEN, fcmToken)
             .addOnCompleteListener { }
     }
-
-    fun syncCart() {
-        Firebase.firestore
-    }
-
-
 }
