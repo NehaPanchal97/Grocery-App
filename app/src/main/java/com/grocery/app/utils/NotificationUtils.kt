@@ -51,7 +51,7 @@ object NotificationUtils {
         body: String?
     ) {
         val intent = Intent(context, SplashActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
 //        intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
         val pendingIntent = PendingIntent.getActivity(
             context, 0 /* Request code */, intent,
@@ -62,7 +62,7 @@ object NotificationUtils {
         val bigTextStyle = NotificationCompat.BigTextStyle().bigText(body)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.mipmap.ic_launcher_round)
+            .setSmallIcon(R.drawable.ic_shop)
             .setContentTitle(title)
             .setStyle(bigTextStyle)
             .setAutoCancel(true)
