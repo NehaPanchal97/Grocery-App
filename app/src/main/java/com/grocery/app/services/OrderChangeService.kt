@@ -38,7 +38,17 @@ class OrderChangeService : Service() {
         val order = intent?.getParcelableExtra<Order>(ORDER)
         return when (OrderStatus.fromString(order?.currentStatus)) {
             OrderStatus.PLACED -> {
-                sendOrderPlacedNotification(intent?.getParcelableExtra(ORDER))
+                sendOrderPlacedNotification(order)
+                START_NOT_STICKY
+            }
+            OrderStatus.CONFIRMED,
+            OrderStatus.PROCESSING,
+            OrderStatus.DELIVERED -> {
+                sendOrderChangeNotification(order)
+                START_NOT_STICKY
+            }
+            OrderStatus.CANCELLED -> {
+                sendOrderCancelNotification(order)
                 START_NOT_STICKY
             }
             else -> {
@@ -46,6 +56,63 @@ class OrderChangeService : Service() {
                 START_NOT_STICKY
             }
         }
+    }
+
+    private fun sendOrderCancelNotification(order: Order?) {
+        Firebase.firestore.collection(Store.USERS)
+            .whereEqualTo(Store.ROLE, Store.ADMIN_ROLE)
+            .get()
+            .addOnSuccessListener { snapShot ->
+                if (!snapShot.isEmpty) {
+                    val tokens = snapShot.documents.map { it.getString(Store.FCM_TOKEN) }
+                        .filter { it?.isNotEmpty() == true }
+                    if (tokens.isNotEmpty()) {
+                        val data = hashMapOf<String, String?>(
+                            TITLE to getString(R.string.order_cancelled_title),
+                            BODY to getString(R.string._order_cancelled, order?.name, order?.id)
+                        )
+                        val payload = NotificationPayload(
+                            data = data,
+                            registrationIds = ArrayList(tokens)
+                        )
+                        sendNotification(payload)
+                        return@addOnSuccessListener
+                    }
+                }
+                stopSelf()
+            }
+            .addOnFailureListener {
+                stopSelf()
+            }
+    }
+
+    private fun sendOrderChangeNotification(order: Order?) {
+        Firebase.firestore.document(Store.USERS + "/" + order?.createdBy)
+            .get()
+            .addOnSuccessListener { snapShot ->
+                if (snapShot.exists()) {
+                    val fcmToken = snapShot.getString(Store.FCM_TOKEN)
+                    val orderStatus = order?.allStatus
+                        ?.firstOrNull { it.status == order.currentStatus }
+
+                    if (fcmToken?.isNotEmpty() == true && orderStatus != null) {
+                        val data = hashMapOf(
+                            TITLE to orderStatus.title,
+                            BODY to orderStatus.description
+                        )
+                        val payload = NotificationPayload(
+                            registrationIds = arrayListOf(fcmToken),
+                            data = data
+                        )
+                        sendNotification(payload)
+                        return@addOnSuccessListener
+                    }
+                }
+                stopSelf()
+            }
+            .addOnFailureListener {
+                stopSelf()
+            }
     }
 
     private fun sendOrderPlacedNotification(order: Order?) {
@@ -87,14 +154,18 @@ class OrderChangeService : Service() {
             registrationIds = ArrayList(fcmTokens),
             data = data
         )
+        sendNotification(payload)
+    }
+
+    private fun sendNotification(payload: NotificationPayload) {
         NotificationUtils.sendMessageOnFcm(payload, object : SendNotificationListener {
             override fun onSent() {
-                TAG.logD("Order Notification Sent")
+                TAG.logD("Notification Sent Successfully")
                 stopSelf()
             }
 
             override fun onError() {
-                TAG.logD("Error sending Order notification")
+                TAG.logD("Error Sending Notification")
                 stopSelf()
             }
 
