@@ -34,6 +34,9 @@ class DiscountPageActivity : AppCompatActivity() {
         setUpView()
         observe()
         viewModel.fetchProductList()
+        binder.backBtn.setOnClickListener {
+            onBackPressed()
+        }
 
     }
 
