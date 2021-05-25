@@ -109,13 +109,14 @@ class AuthViewModel : ViewModel() {
             }
     }
 
-    fun syncUser() {
+    fun syncUser(fcmToken: String?) {
         val db = Firebase.firestore
 
         db.document(Store.USERS + "/" + authUser?.uid)
             .get()
             .onSuccessTask {
                 if (it?.exists() == true) {
+                    updateFcmToken(fcmToken)
                     _syncLiveData.value = Result.success(Pair(USER, it.toObject(User::class.java)))
                 }
                 db.collection("${Store.USERS}/${authUser?.uid}/${Store.CART}")
@@ -131,6 +132,16 @@ class AuthViewModel : ViewModel() {
                     _syncLiveData.value = Result.error()
                 }
             }
+    }
+
+    private fun updateFcmToken(fcmToken: String?) {
+        if (fcmToken == null) {
+            return
+        }
+        Firebase.firestore
+            .document(Store.USERS + "/" + authUser?.uid)
+            .update(Store.FCM_TOKEN, fcmToken)
+            .addOnCompleteListener { }
     }
 
     fun syncCart() {

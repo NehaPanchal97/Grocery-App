@@ -28,6 +28,13 @@ class PrefManager private constructor(context: Context) {
         }
     }
 
+    fun putString(key: String, value: String?) {
+        _pref.edit {
+            putString(key, value)
+            apply()
+        }
+    }
+
     fun getString(key: String, default: String? = null): String? {
         return _pref.getString(key, default)
     }
@@ -60,7 +67,7 @@ class PrefManager private constructor(context: Context) {
         }
     }
 
-    fun contains(key: String): Boolean{
+    fun contains(key: String): Boolean {
         return _pref.contains(key)
     }
 

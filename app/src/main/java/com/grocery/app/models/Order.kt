@@ -30,5 +30,6 @@ data class OrderStatus(
     var createdAt: Timestamp? = null,
     var description: String? = null,
     var status: String? = null,
-    var updatedAt: Timestamp? = null
+    var updatedAt: Timestamp? = null,
+    var title: String? = null
 ) : Parcelable

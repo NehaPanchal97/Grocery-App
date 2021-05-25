@@ -21,6 +21,13 @@ const val CART_CHANGE = "cart_change"
 const val ORDER_DESCRIPTION_ITEM_TYPE = 243
 const val DEFAULT_PAGE_SIZE: Long = 20
 const val CURRENT_STATUS = "currentStatus"
+const val WITHOUT_HEADER_HOME_PAGE = 245
+const val OFFER_PAGE =246
 const val DISCOUNT_ITEM = 250
 const val DISCOUNT = "discount"
 const val TITLE = "title"
+const val FCM_TOKEN = "fcm_token"
+const val FCM_SERVER_KEY = "AAAAtznjYzM:APA91bG8zem6wBioNgf0beRb9zrGzgYRUJLQ77upQI_2r1Itfbul" +
+        "MkO_1SdDiEih3cn3L8fhxRSHosZWJpc-D7FwoiE6kQDa41kdSs0upY3u5GQFLQe2oFS-AwKsjy7hUsmb6LHEKM5Q"
+
+const val BODY = "body"

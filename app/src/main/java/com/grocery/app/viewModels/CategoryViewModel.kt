@@ -25,6 +25,7 @@ class CategoryViewModel : ViewModel() {
     private val _addCatLiveData by lazy { MutableLiveData<Result<Void>>() }
     private val _catListLiveData by lazy { MutableLiveData<Result<ArrayList<Category>>>() }
     private val _homePageLiveData by lazy { MutableLiveData<Result<ArrayList<ItemGroup>>>() }
+    private val _offerPageLiveData by lazy { MutableLiveData<Result<ArrayList<Category>>>() }
 
     val catName = MutableLiveData<String>()
 
@@ -41,6 +42,9 @@ class CategoryViewModel : ViewModel() {
     val homePageLiveData: LiveData<Result<ArrayList<ItemGroup>>>
         get() = _homePageLiveData
 
+    val offerPageLiveData:LiveData<Result<ArrayList<Category>>>
+        get() = _offerPageLiveData
+
     private var homeCategorySnap: QuerySnapshot? = null
     private var homeDealsSnap: QuerySnapshot? = null
     private var homeDiscountSnap: QuerySnapshot? = null
@@ -55,6 +59,20 @@ class CategoryViewModel : ViewModel() {
         } else {
             uploadImage()
         }
+    }
+
+    fun fetchOfferDetail(){
+        _offerPageLiveData.value = Result.loading()
+
+        Firebase.firestore.collection(Store.DISCOUNTS)
+                .get()
+                .addOnSuccessListener {
+                    val discounts = it.toObjects(Category::class.java)
+                    _offerPageLiveData.value = Result.success(ArrayList(discounts))
+                }
+                .addOnFailureListener {
+                    _offerPageLiveData.value = Result.error()
+                }
     }
 
     fun fetchCategoryList(limit: Long? = null) {
