@@ -27,4 +27,5 @@
     <color name="lightGrey">#EE424345</color>
     <color name="home_background_light_grey">#F4F5F7</color>
     <color name="searchHeaderTextColor">#C1E8D2</color>
+    <color name="discount_bg_red">#EC5756</color>
 </resources>

@@ -55,6 +55,7 @@ class ProductViewModel : ViewModel() {
     var hasMoreProduct = true
     var lastProductSnap: DocumentSnapshot? = null
     var discount: Double? = null
+    var orderBy = Query.Direction.DESCENDING
 
     val loadMore
         get() = lastProductSnap != null
@@ -69,7 +70,7 @@ class ProductViewModel : ViewModel() {
         _productListLiveData.value = Result.loading()
         var query = Firebase.firestore.collection(Store.PRODUCTS)
             .whereGreaterThanOrEqualTo(DISCOUNT,discount?:0.0)
-            .orderBy(Store.DISCOUNT, Query.Direction.DESCENDING)
+            .orderBy(Store.DISCOUNT, orderBy)
         limit?.let {
             query = query.limit(it)
         }

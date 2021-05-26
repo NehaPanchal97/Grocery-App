@@ -59,8 +59,14 @@ class DetailsPageActivity : AppCompatActivity() {
                 Result.Status.LOADING -> {
                 }
                 Result.Status.SUCCESS -> {
-                    val products = it.data ?: arrayListOf()
-                    listAdapter.update(false,products)
+                    val products = it.data
+                    if (!products.isNullOrEmpty()) {
+                        listAdapter.update(false, products)
+                        binder.rvCardView.visible(true)
+                    }
+                    else{
+                        binder.rvCardView.visible(false)
+                    }
                 }
 
                 Result.Status.ERROR -> {
@@ -100,12 +106,14 @@ class DetailsPageActivity : AppCompatActivity() {
         prefManager = PrefManager.getInstance(this)
         initCart()
         _product = intent.getParcelableExtra(PRODUCT) ?: Product()
-        binder.rvSimilarProduct.apply {
-            listAdapter =
-                ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE, viewModel.cartMap)
-            listAdapter.onClickListener = _itemClickListener
-            binder.rvSimilarProduct.adapter = listAdapter
-        }
+
+            binder.rvSimilarProduct.apply {
+                listAdapter =
+                    ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE, viewModel.cartMap)
+                listAdapter.onClickListener = _itemClickListener
+                binder.rvSimilarProduct.adapter = listAdapter
+            }
+
         onQuantityChange()
         binder.detailsAddBtn.setOnClickListener {
             viewModel.updateCart(_product, true)
