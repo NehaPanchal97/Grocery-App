@@ -19,7 +19,8 @@ class WithoutHeaderAdapter( var itemList: ArrayList<Category>, private val itemT
     RecyclerView.Adapter<BaseVH<*,Category>>() {
 
     var itemClickListener : OnItemClickListener?=null
-
+        val items
+        get() = itemList
 
     override fun onBindViewHolder(holder:BaseVH<*,Category> , position: Int) {
         holder.bind(itemList[position])
