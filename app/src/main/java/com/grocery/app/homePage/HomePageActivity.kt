@@ -55,7 +55,7 @@ class HomePageActivity : AppCompatActivity() {
             }
         } ?: kotlin.run { viewModel.fetchUserInfo() }
 
-        bottomMenuAction()
+//        bottomMenuAction()
         fabAction()
         initCart()
         fabCount()
@@ -179,29 +179,29 @@ class HomePageActivity : AppCompatActivity() {
         }
     }
 
-    private fun bottomMenuAction(){
-
-        binder.navBar.navHome.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, HomeFragment())
-                    .addToBackStack(null)
-                    .commit()
-        }
-
-       binder.navBar.navOrder.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, OrderFragment())
-                .addToBackStack(null)
-                .commit()
-        }
-
-        binder.navBar.navOffer.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, OfferFragment())
-                    .addToBackStack(null)
-                    .commit()
-        }
-    }
+//    private fun bottomMenuAction(){
+//
+//        binder.navBar.navHome.setOnClickListener {
+//            supportFragmentManager.beginTransaction()
+//                    .add(R.id.fragment_container, HomeFragment())
+//                    .addToBackStack(null)
+//                    .commit()
+//        }
+//
+//       binder.navBar.navOrder.setOnClickListener {
+//            supportFragmentManager.beginTransaction()
+//                .add(R.id.fragment_container, OrderFragment())
+//                .addToBackStack(null)
+//                .commit()
+//        }
+//
+//        binder.navBar.navOffer.setOnClickListener {
+//            supportFragmentManager.beginTransaction()
+//                    .add(R.id.fragment_container, OfferFragment())
+//                    .addToBackStack(null)
+//                    .commit()
+//        }
+//    }
 
     private fun fabCount(){
         val cartCount =productViewModel.cart.items?.size?:0
