@@ -10,15 +10,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
+import com.grocery.app.activities.DiscountPageActivity
 import com.grocery.app.activities.SearchActivity
 import com.grocery.app.constant.CATEGORY
+import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
+import com.grocery.app.constant.WITHOUT_HEADER_HOME_PAGE
 import com.grocery.app.contracts.UpdateProfileContract
 import com.grocery.app.databinding.HomeFragmentBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.homePage.adapters.HomePageCategoryAdapter
+import com.grocery.app.homePage.adapters.WithoutHeaderAdapter
 import com.grocery.app.listeners.OnCategoryClickListener
+import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Category
 import com.grocery.app.viewModels.CategoryViewModel
 import kotlinx.android.synthetic.main.home_fragment.*
@@ -29,6 +34,7 @@ class HomeFragment : BaseFragment() {
     private lateinit var binder: HomeFragmentBinding
     lateinit var listAdapter: HomePageCategoryAdapter
     private lateinit var viewModel: CategoryViewModel
+    lateinit var withoutHeaderAdapter:WithoutHeaderAdapter
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,10 +93,25 @@ class HomeFragment : BaseFragment() {
         binder.ivAccountDetails.setOnClickListener {
             _updateProfileCallback.launch(null)
         }
+
         catRecyclerView.apply {
+
             listAdapter = HomePageCategoryAdapter(arrayListOf())
-                    .apply { itemClickListener = _itemClickListener }
+                    .apply { itemClickListener = _itemClickListener; onCardClickListener = _cardClickListener }
             binder.catRecyclerView.adapter = listAdapter
+            withoutHeaderAdapter= WithoutHeaderAdapter(arrayListOf(), WITHOUT_HEADER_HOME_PAGE)
+        }
+
+    }
+
+
+    private val _cardClickListener = object : OnItemClickListener {
+        override fun onItemClick(itemId: Int, position: Int) {
+            
+            val discount = withoutHeaderAdapter.items[position]
+            val title = withoutHeaderAdapter.items[position].offerTitle
+            val intent = DiscountPageActivity.newIntent(requireContext(),discount.discount?:0.0,title?:"")
+            startActivity(intent)
         }
 
     }

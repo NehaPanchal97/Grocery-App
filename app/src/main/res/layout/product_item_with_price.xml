@@ -3,13 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 <data>
-<variable
-    name="count"
-    type="String" />
+
+    <variable
+        name="count"
+        type="String" />
+    <variable
+        name="product"
+        type="com.grocery.app.models.Product" />
 
 
-    <import type="android.view.View"/>
-    <import type="android.text.TextUtils"/>
+    <import type="android.view.View" />
+
+    <import type="android.text.TextUtils" />
 </data>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,8 +48,41 @@
                 android:textColor="#191818"
                 android:textSize="18sp"/>
 
+
+
             <TextView
                 android:id="@+id/tv_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/price_of_item"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="1"
+                android:textColor="@color/enter_no."
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/specificItemTitle"
+                />
+
+            <TextView
+                android:id="@+id/tv_discount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/error_color"
+                android:textSize="18sp"
+                android:layout_marginStart="12dp"
+                app:layout_constraintLeft_toRightOf="@id/tv_price"
+                app:layout_constraintRight_toLeftOf="@id/addRemove_container"
+                app:layout_constraintTop_toBottomOf="@id/specificItemTitle"
+                tools:text="@string/per_symbol" />
+
+            <TextView
+                android:id="@+id/tv_discounted_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
@@ -56,8 +94,7 @@
                 app:layout_constraintVertical_bias="1"
                 android:textColor="#27ae60"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/specificItemTitle"
+                app:layout_constraintTop_toBottomOf="@id/tv_price"
                 />
 
             <androidx.constraintlayout.widget.ConstraintLayout

@@ -31,7 +31,7 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
     RecyclerView.Adapter<BaseVH<*, ItemGroup>>() {
 
     var itemClickListener: OnCategoryClickListener? = null
-
+    var onCardClickListener:OnItemClickListener?=null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseVH<*, ItemGroup> {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
@@ -41,7 +41,7 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
             }
             VIEW_WITHOUT_HEADER -> {
                 val binding = WithoutHeaderRvGroupBinding.inflate(inflater, parent, false)
-                WithoutHeaderGroupVH(binding)
+                WithoutHeaderGroupVH(binding,onCardClickListener)
             }
 
             else -> {
