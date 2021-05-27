@@ -41,7 +41,7 @@ class HomePageCategoryAdapter(private var dataList: ArrayList<ItemGroup>?) :
             }
             VIEW_WITHOUT_HEADER -> {
                 val binding = WithoutHeaderRvGroupBinding.inflate(inflater, parent, false)
-                WithoutHeaderGroupVH(binding,onCardClickListener)
+                WithoutHeaderGroupVH(binding,itemClickListener)
             }
 
             else -> {

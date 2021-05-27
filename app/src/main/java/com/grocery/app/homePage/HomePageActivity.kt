@@ -207,11 +207,9 @@ class HomePageActivity : AppCompatActivity() {
             }
             true
         }
-        binder.navBar.navMore.setOnClickListener {
-            val intent = Intent(this, AboutPageActivity::class.java)
-            startActivity(intent)
-        }
+
     }
+
 
     private fun fabCount(){
         val cartCount =productViewModel.cart.items?.size?:0
