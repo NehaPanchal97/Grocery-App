@@ -57,12 +57,14 @@ class DetailsPageActivity : AppCompatActivity() {
         viewModel.similarListLiveData.observe(this, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
+                    binder.detailsPageProgressBar.show()
                 }
                 Result.Status.SUCCESS -> {
                     val products = it.data
                     if (!products.isNullOrEmpty()) {
                         listAdapter.update(false, products)
                         binder.rvCardView.visible(true)
+                        binder.detailsPageProgressBar.hide()
                     }
                     else{
                         binder.rvCardView.visible(false)
@@ -132,7 +134,6 @@ class DetailsPageActivity : AppCompatActivity() {
         }
         binder.tvProductName.text = _product.name
         binder.tvPriceWithUnit.text = _product.price?.toInt().toString()
-        val price = _product.price?.toInt().toString()
         binder.tvDescription.text = _product.description.toString()
         binder.ivItem.loadImage(_product.url)
     }
@@ -145,7 +146,6 @@ class DetailsPageActivity : AppCompatActivity() {
     private fun onQuantityChange() {
         val product = viewModel.cartMap[_product.id]
         val count = product?.count ?: 0
-//        binder.cvAddToCart.visible(count > 0)
         val totalCost = product?.total?.toInt() ?: 0
         binder.tvProductCount.text = count.toString()
         binder.tvProductPrice.visible(totalCost != 0)
