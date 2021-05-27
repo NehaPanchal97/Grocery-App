@@ -54,8 +54,7 @@ class HomePageActivity : AppCompatActivity() {
                 switchFragment()
             }
         } ?: kotlin.run { viewModel.fetchUserInfo() }
-
-//        bottomMenuAction()
+        bottomNavAction()
         fabAction()
         initCart()
         fabCount()
@@ -179,29 +178,34 @@ class HomePageActivity : AppCompatActivity() {
         }
     }
 
-//    private fun bottomMenuAction(){
-//
-//        binder.navBar.navHome.setOnClickListener {
-//            supportFragmentManager.beginTransaction()
-//                    .add(R.id.fragment_container, HomeFragment())
-//                    .addToBackStack(null)
-//                    .commit()
-//        }
-//
-//       binder.navBar.navOrder.setOnClickListener {
-//            supportFragmentManager.beginTransaction()
-//                .add(R.id.fragment_container, OrderFragment())
-//                .addToBackStack(null)
-//                .commit()
-//        }
-//
-//        binder.navBar.navOffer.setOnClickListener {
-//            supportFragmentManager.beginTransaction()
-//                    .add(R.id.fragment_container, OfferFragment())
-//                    .addToBackStack(null)
-//                    .commit()
-//        }
-//    }
+
+    private fun bottomNavAction(){
+        binder.navBar.bottomNavigationView.background = null
+        binder.navBar.bottomNavigationView.menu.getItem(2).isEnabled = false
+        binder.navBar.bottomNavigationView.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.home->{
+                    supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, HomeFragment())
+                    .addToBackStack(null)
+                    .commit()
+                }
+                R.id.order->{
+                    supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, OrderFragment())
+                .addToBackStack(null)
+                .commit()
+                }
+                R.id.offer->{
+                    supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, OfferFragment())
+                    .addToBackStack(null)
+                    .commit()
+                }
+            }
+            true
+        }
+    }
 
     private fun fabCount(){
         val cartCount =productViewModel.cart.items?.size?:0

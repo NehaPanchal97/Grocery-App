@@ -10,37 +10,61 @@
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         app:fabCradleMargin="25dp"
+        android:layout_gravity="bottom"
+        app:fabAlignmentMode="center"
+        android:gravity="center"
         app:fabCradleRoundedCornerRadius="25dp"
-        app:fabCradleVerticalOffset="0dp"
-        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
-        app:menu="@menu/bottom_nav_menu"
-        />
+        style="@style/Widget.MaterialComponents.BottomAppBar.Colored">
+
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation_view"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_gravity="bottom"
+            app:itemTextColor="#EAE7E7"
+            app:labelVisibilityMode="labeled"
+            android:background="@android:color/transparent"
+            app:menu="@menu/bottom_nav_menu"
+            app:itemIconTint="#EAE7E7"/>
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="64dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/cart_svg_download"
+        android:id="@+id/fab"
+        android:scaleType="centerCrop"
+        app:tint="@color/colorPrimary"
+        android:backgroundTint="@android:color/white"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_marginBottom="25dp"
+        android:layout_gravity="center"
+        app:borderWidth="6dp"
+        app:fabCustomSize="50dp"
+        android:src="@drawable/cart_svg_download"
         app:layout_anchor="@id/bottomAppBar"
+        android:contentDescription="@string/todo"
         />
 
 
         <TextView
             android:id="@+id/cart_badge"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center"
             android:background="@drawable/badge_background"
             android:gravity="center"
             android:elevation="10dp"
             android:text="@string/zero_count"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="78dp"
             android:textColor="@android:color/white"
             android:textSize="10sp"
             android:visibility="visible"
-            app:layout_anchor="@+id/fab"
-            app:layout_anchorGravity="end|top"
             tools:ignore="SmallSp" />
 
 
