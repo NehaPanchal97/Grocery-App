@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.grocery.app.R
+import com.grocery.app.activities.AboutPageActivity
 import com.grocery.app.activities.AdminHomePageActivity
 import com.grocery.app.activities.UpdateProfileActivity
 import com.grocery.app.constant.*
@@ -63,14 +64,14 @@ class HomePageActivity : AppCompatActivity() {
     }
 
 
-    private val receiver = object :BroadcastReceiver(){
+    private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val action = intent?.action ?: ""
             if (action == CART_CHANGE) {
                 if (lifecycle.currentState == Lifecycle.State.RESUMED) {
                     resetCart()
 
-                } else{
+                } else {
                     productViewModel.cartUpdated = true
                 }
 
@@ -81,28 +82,29 @@ class HomePageActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (productViewModel.cartUpdated){
+        if (productViewModel.cartUpdated) {
             productViewModel.cartUpdated = false
             resetCart()
         }
     }
 
-    private fun resetCart(){
-        val cart = prefManager.get(CART)?:Cart()
+    private fun resetCart() {
+        val cart = prefManager.get(CART) ?: Cart()
         productViewModel.initCartWith(cart)
         fabCount()
     }
 
-    private fun initCart(){
-       productViewModel.cart = prefManager.get(CART) ?: Cart()
+    private fun initCart() {
+        productViewModel.cart = prefManager.get(CART) ?: Cart()
         productViewModel.initCart()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         LocalBroadcastManager.getInstance(applicationContext)
-                .unregisterReceiver(receiver)
+            .unregisterReceiver(receiver)
     }
+
     private fun switchFragment(fragment: Fragment = HomeFragment()) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
@@ -113,7 +115,7 @@ class HomePageActivity : AppCompatActivity() {
         val filter = IntentFilter()
         filter.addAction(CART_CHANGE)
         LocalBroadcastManager.getInstance(applicationContext)
-                .registerReceiver(receiver, filter)
+            .registerReceiver(receiver, filter)
 
         viewModel.fetchUserLiveData.observe(this, Observer { it ->
             when (it.type) {
@@ -199,6 +201,10 @@ class HomePageActivity : AppCompatActivity() {
                     .add(R.id.fragment_container, OfferFragment())
                     .addToBackStack(null)
                     .commit()
+        }
+        binder.navBar.navMore.setOnClickListener {
+            val intent = Intent(this, AboutPageActivity::class.java)
+            startActivity(intent)
         }
     }
 
