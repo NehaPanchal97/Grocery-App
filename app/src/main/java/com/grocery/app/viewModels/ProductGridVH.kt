@@ -22,7 +22,11 @@ class ProductGridVH(private val binder: ProductItemWithPriceBinding) :
     }
 
     override fun bind(data: Product) {
-
+        if(absoluteAdapterPosition%2==0){
+            binder.verticalLine.visible(true)
+        }else{
+            binder.verticalLine.visible(false)
+        }
 
         val context = itemView.context
         val price = data.price

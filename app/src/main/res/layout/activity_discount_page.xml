@@ -5,29 +5,30 @@
 
     </data>
 
-    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/colorPrimary"
         tools:context=".activities.DiscountPageActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/discountHeader"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@color/colorPrimary">
+           >
 
             <ImageView
                 android:id="@+id/backBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
+                android:contentDescription="@string/todo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_back"
-                android:contentDescription="@string/todo" />
+                app:srcCompat="@drawable/ic_back" />
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -46,14 +47,19 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardCornerRadius="25dp">
+        <LinearLayout
+            android:id="@+id/offer_container_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/home_fragment_layout_rounded_corners"
+            android:elevation="0dp"
+            android:layout_below="@id/discountHeader"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:id="@+id/filterContainer"
@@ -61,41 +67,41 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingVertical="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/filter_by_text"
-                        android:textColor="#C5C6D4"
                         android:layout_marginStart="15dp"
-                        android:textSize="18sp"/>
+                        android:text="@string/filter_by_text"
+                        android:fontFamily="@font/ptsans_bold"
+                        android:textColor="#C5C6D4"
+                        android:textSize="16sp" />
 
 
                     <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/spinnerView"
-                        android:layout_marginStart="10dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp" />
 
 
                 </LinearLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/discountPage_rv"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        tools:listitem="@layout/discount_item"
-                        tools:itemCount="10"
-                        app:layout_constraintTop_toBottomOf="@id/filterContainer"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/discountPage_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filterContainer"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/discount_item" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-    </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </RelativeLayout>
 </layout>

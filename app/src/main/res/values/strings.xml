@@ -77,7 +77,7 @@
     <string name="settings">Settings</string>
     <string name="product">Product</string>
     <string name="profile">Profile</string>
-    <string name="rs_symbol">₹ %s</string>
+    <string name="rs_symbol">Rs. %s</string>
     <string name="per_symbol">-%s%% </string>
     <string name="order_placed_msg">Your order #%1$s was placed for delivery.</string>
     <string name="order_confirmed_msg">Your order is confirmed. Will deliver soon.</string>

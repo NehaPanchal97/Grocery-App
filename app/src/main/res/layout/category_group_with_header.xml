@@ -13,13 +13,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:padding="12dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentPadding="12dp"
-        android:elevation="0dp"
+        android:elevation="1dp"
+        android:layout_margin="4dp"
         app:cardCornerRadius="8dp">
 
     <RelativeLayout

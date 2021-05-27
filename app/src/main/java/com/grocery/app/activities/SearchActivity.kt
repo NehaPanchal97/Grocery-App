@@ -44,18 +44,18 @@ class SearchActivity : AppCompatActivity() {
         binder.editTextSearch.requestFocus()
         pref = PrefManager.getInstance(applicationContext)
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
-        binder.productItemRV.addItemDecoration(
-            DividerItemDecoration(
-                applicationContext,
-                DividerItemDecoration.VERTICAL
-            )
-        )
-        binder.productItemRV.addItemDecoration(
-            DividerItemDecoration(
-                applicationContext,
-                DividerItemDecoration.HORIZONTAL
-            )
-        )
+//        binder.productItemRV.addItemDecoration(
+//            DividerItemDecoration(
+//                applicationContext,
+//                DividerItemDecoration.VERTICAL
+//            )
+//        )
+//        binder.productItemRV.addItemDecoration(
+//            DividerItemDecoration(
+//                applicationContext,
+//                DividerItemDecoration.HORIZONTAL
+//            )
+//        )
         binder.productItemRV.layoutManager =
             GridLayoutManager(applicationContext, 2, RecyclerView.VERTICAL, false)
 

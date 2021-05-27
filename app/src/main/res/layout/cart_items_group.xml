@@ -11,7 +11,10 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/home_background_light_grey"
+        android:clickable="true"
+        android:focusable="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cartTopBar"
@@ -62,11 +65,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp"
-                app:cardCornerRadius="20dp"
-                app:contentPadding="16dp">
+                android:layout_margin="6dp"
+                app:cardCornerRadius="12dp"
+                app:contentPadding="16dp"
+                app:cardElevation="1dp">
 
                 <ImageView
                     android:id="@+id/iv_emptyImage"
@@ -110,9 +112,8 @@
             android:id="@+id/checkout_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:background="@drawable/cart_checkout_container_background"
-            android:paddingBottom="40dp">
+            android:paddingBottom="50dp">
 
             <TextView
                 android:id="@+id/cart_amount"
