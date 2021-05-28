@@ -43,7 +43,8 @@ class OrderChangeService : Service() {
             }
             OrderStatus.CONFIRMED,
             OrderStatus.PROCESSING,
-            OrderStatus.DELIVERED-> {
+            OrderStatus.DELIVERED,
+            OrderStatus.DECLINED -> {
                 sendOrderChangeNotification(order)
                 START_NOT_STICKY
             }

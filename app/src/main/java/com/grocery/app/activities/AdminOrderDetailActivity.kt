@@ -131,12 +131,13 @@ class AdminOrderDetailActivity : BaseActivity() {
     @SuppressLint("DefaultLocale")
     private fun onActionChange(initialCall: Boolean = false) {
         val nextStatus = _order.allStatus?.firstOrNull { it.completed == false }
-        val hideActionBtn = _order.currentStatus in
-                setOf(OrderStatus.CANCELLED.title, OrderStatus.DELIVERED.title)
+        val currStatus = OrderStatus.fromString(_order.currentStatus)
+        val hideActionBtn = currStatus in
+                setOf(OrderStatus.CANCELLED, OrderStatus.DELIVERED, OrderStatus.DECLINED)
 
-        val orderBgColor =
-            if (_order.currentStatus == OrderStatus.CANCELLED.title) R.color.error_color
-            else R.color.success_color
+        val orderBgColor = if (currStatus in setOf(OrderStatus.CANCELLED, OrderStatus.DECLINED))
+            R.color.error_color
+        else R.color.success_color
         binder.orderStatusTv.visible(hideActionBtn)
         binder.orderStatusTv.text = _order.currentStatus?.capitalize()
         binder.orderStatusTv.setBackgroundColor(ContextCompat.getColor(this, orderBgColor))

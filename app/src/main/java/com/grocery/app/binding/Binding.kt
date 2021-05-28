@@ -26,16 +26,17 @@ fun TextView.setOrderStatus(order: Order?) {
     val status = order?.currentStatus ?: ""
     val bg: Int
     val textColor: Int
-    when (status) {
-        OrderStatus.PLACED.title -> {
+    when (OrderStatus.fromString(status)) {
+        OrderStatus.PLACED -> {
             bg = R.drawable.order_status_placed_bg
             textColor = R.color.placed_state_color
         }
-        OrderStatus.DELIVERED.title -> {
+        OrderStatus.DELIVERED -> {
             bg = R.drawable.order_status_bg
             textColor = R.color.success_color
         }
-        OrderStatus.CANCELLED.title -> {
+        OrderStatus.CANCELLED,
+        OrderStatus.DECLINED -> {
             bg = R.drawable.order_status_cancel_bg
             textColor = R.color.error_color
         }
