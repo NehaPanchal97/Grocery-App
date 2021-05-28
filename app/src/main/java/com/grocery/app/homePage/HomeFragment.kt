@@ -34,7 +34,6 @@ class HomeFragment : BaseFragment() {
     private lateinit var binder: HomeFragmentBinding
     lateinit var listAdapter: HomePageCategoryAdapter
     private lateinit var viewModel: CategoryViewModel
-    lateinit var withoutHeaderAdapter:WithoutHeaderAdapter
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,6 +61,7 @@ class HomeFragment : BaseFragment() {
                 Result.Status.SUCCESS -> {
                     binder.homeProgressBar.hide()
                     listAdapter.update(it.data )
+
                 }
                 else -> {
                     home_progress_bar.hide()
@@ -97,36 +97,38 @@ class HomeFragment : BaseFragment() {
         catRecyclerView.apply {
 
             listAdapter = HomePageCategoryAdapter(arrayListOf())
-                    .apply { itemClickListener = _itemClickListener; onCardClickListener = _cardClickListener }
+                    .apply { itemClickListener = _itemClickListener}
             binder.catRecyclerView.adapter = listAdapter
-            withoutHeaderAdapter= WithoutHeaderAdapter(arrayListOf(), WITHOUT_HEADER_HOME_PAGE)
+
         }
 
     }
 
 
-    private val _cardClickListener = object : OnItemClickListener {
-        override fun onItemClick(itemId: Int, position: Int) {
-            
-            val discount = withoutHeaderAdapter.items[position]
-            val title = withoutHeaderAdapter.items[position].offerTitle
-            val intent = DiscountPageActivity.newIntent(requireContext(),discount.discount?:0.0,title?:"")
-            startActivity(intent)
-        }
-
-    }
 
     private val _itemClickListener = object : OnCategoryClickListener {
         override fun onItemClick(itemId: Int, category: Category) {
+            if (category.offerTitle.isNullOrEmpty()){
+                val bundle = Bundle()
+                bundle.putParcelable(CATEGORY, category)
+                val fragment = ProductListFragment()
+                fragment.arguments = bundle
+                activity?.supportFragmentManager?.beginTransaction()
+                        ?.add(R.id.fragment_container, fragment)
+                        ?.addToBackStack(null)
+                        ?.commit()
+            }else {
 
-            val bundle = Bundle()
-            bundle.putParcelable(CATEGORY, category)
-            val fragment = ProductListFragment()
-            fragment.arguments = bundle
-            activity?.supportFragmentManager?.beginTransaction()
-                    ?.add(R.id.fragment_container, fragment)
-                    ?.addToBackStack(null)
-                    ?.commit()
+                val discount = category.discount
+                val title = category.offerTitle
+                val intent = DiscountPageActivity.newIntent(requireContext(), discount
+                        ?: 0.0, title ?: "")
+                startActivity(intent)
+
+            }
+
+
+
         }
 
     }

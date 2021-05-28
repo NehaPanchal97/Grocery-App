@@ -7,6 +7,7 @@ import com.grocery.app.constant.OFFER_PAGE
 import com.grocery.app.constant.WITHOUT_HEADER_HOME_PAGE
 import com.grocery.app.databinding.CardviewWithoutHeaderBinding
 import com.grocery.app.databinding.OfferPageItemBinding
+import com.grocery.app.listeners.OnCategoryClickListener
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Category
 import com.grocery.app.viewHolders.BaseVH
@@ -18,7 +19,7 @@ import com.grocery.app.viewHolders.WithoutHeaderItemVH
 class WithoutHeaderAdapter( var itemList: ArrayList<Category>, private val itemType: Int) :
     RecyclerView.Adapter<BaseVH<*,Category>>() {
 
-    var itemClickListener : OnItemClickListener?=null
+    var itemClickListener :OnCategoryClickListener?=null
         val items
         get() = itemList
 
@@ -40,19 +41,19 @@ class WithoutHeaderAdapter( var itemList: ArrayList<Category>, private val itemT
             WITHOUT_HEADER_HOME_PAGE ->{
                 val binder = CardviewWithoutHeaderBinding.inflate(LayoutInflater.from(parent.context),parent,false)
                 val holder = WithoutHeaderItemVH(binder)
-                holder.itemClickListener=itemClickListener
+                holder.categoryClickListener=itemClickListener
                 return holder
             }
             OFFER_PAGE->{
                 val binder = OfferPageItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
                 val holder=OfferPageVH(binder)
-                holder.itemClickListener = itemClickListener
+                holder.categoryClickListener= itemClickListener
                 return holder
             }
             else->{
                 val binder = CardviewWithoutHeaderBinding.inflate(LayoutInflater.from(parent.context),parent,false)
                 val holder = WithoutHeaderItemVH(binder)
-                holder.itemClickListener=itemClickListener
+                holder.categoryClickListener=itemClickListener
                 return holder
             }
         }

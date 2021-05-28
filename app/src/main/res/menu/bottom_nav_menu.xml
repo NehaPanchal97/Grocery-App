@@ -4,25 +4,33 @@
 
     <item android:id="@+id/home"
         android:title="@string/home"
-        app:showAsAction="always"
-        android:icon="@drawable/home_svg_downlaod"/>
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/home_svg_downlaod"
+        />
+
     <item android:id="@+id/order"
         android:title="@string/order"
-        app:showAsAction="always"
-        android:icon="@drawable/order"/>
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/vector_order"
+      />
+
     <item
         android:id="@+id/placeholder"
         android:title=""
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"
+       />
 
     <item android:id="@+id/offer"
         android:title="@string/offer"
-        app:showAsAction="always"
-        android:icon="@drawable/offers"/>
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/vector_offer"
+        />
+
     <item android:id="@+id/more"
         android:title="@string/more"
-        app:showAsAction="always"
-        android:icon="@drawable/more_option_svg"/>
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/more_option_svg"
+        />
 
 
 </menu>
