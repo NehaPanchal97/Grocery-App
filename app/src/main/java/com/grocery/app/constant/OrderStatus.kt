@@ -10,6 +10,7 @@ enum class OrderStatus(val title: String) : Parcelable {
     PROCESSING("processing"),
     DELIVERED("delivered"),
     CANCELLED("cancelled"),
+    DECLINED("declined"),
     OTHER("other");
 
     companion object {
@@ -23,6 +24,7 @@ enum class OrderStatus(val title: String) : Parcelable {
                 PROCESSING.title -> PROCESSING
                 DELIVERED.title -> DELIVERED
                 CANCELLED.title -> CANCELLED
+                DECLINED.title -> DECLINED
                 else -> OTHER
             }
         }

@@ -1,6 +1,6 @@
 package com.grocery.app.activities
 
-import android.content.DialogInterface
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.ContextCompat
@@ -19,7 +19,6 @@ import com.grocery.app.extensions.showSuccess
 import com.grocery.app.extensions.trim
 import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
-import com.grocery.app.models.Cart
 import com.grocery.app.models.Order
 import com.grocery.app.services.OrderChangeService
 import com.grocery.app.viewModels.OrderViewModel
@@ -99,6 +98,10 @@ class AdminOrderDetailActivity : BaseActivity() {
     }
 
     private fun showConfirmationAlert() {
+        if (_order.currentStatus == OrderStatus.PLACED.title) {
+            showOrderConfirmAlert()
+            return
+        }
         val nextStatus = _order.allStatus?.firstOrNull { it.completed == false }
         MaterialAlertDialogBuilder(this, R.style.AppDialogTheme)
             .setTitle(R.string.are_you_sure)
@@ -110,21 +113,42 @@ class AdminOrderDetailActivity : BaseActivity() {
             .show()
     }
 
+    private fun showOrderConfirmAlert() {
+        var clickIdx = 0
+        MaterialAlertDialogBuilder(this, R.style.AppDialogTheme)
+            .setTitle(R.string.move_order_to)
+            .setSingleChoiceItems(R.array.order_placed_next_options, 0) { _, which ->
+                clickIdx = which
+                return@setSingleChoiceItems
+            }
+            .setPositiveButton(R.string.continue_text) { _, _ ->
+                viewModel.updateOrder(clickIdx == 1)
+            }
+            .setNegativeButton(R.string.cancel) { _, _ -> }
+            .show()
+    }
+
+    @SuppressLint("DefaultLocale")
     private fun onActionChange(initialCall: Boolean = false) {
         val nextStatus = _order.allStatus?.firstOrNull { it.completed == false }
-        val hideActionBtn = _order.currentStatus in
-                setOf(OrderStatus.CANCELLED.title, OrderStatus.DELIVERED.title)
+        val currStatus = OrderStatus.fromString(_order.currentStatus)
+        val hideActionBtn = currStatus in
+                setOf(OrderStatus.CANCELLED, OrderStatus.DELIVERED, OrderStatus.DECLINED)
 
-        val orderBgColor =
-            if (_order.currentStatus == OrderStatus.CANCELLED.title) R.color.error_color
-            else R.color.success_color
+        val orderBgColor = if (currStatus in setOf(OrderStatus.CANCELLED, OrderStatus.DECLINED))
+            R.color.error_color
+        else R.color.success_color
         binder.orderStatusTv.visible(hideActionBtn)
         binder.orderStatusTv.text = _order.currentStatus?.capitalize()
         binder.orderStatusTv.setBackgroundColor(ContextCompat.getColor(this, orderBgColor))
 
         binder.actionBtn.visible(!hideActionBtn)
-        binder.actionBtn.text =
+        binder.actionBtn.text = if (_order.currentStatus == OrderStatus.PLACED.title) {
+            getString(R.string.move_order_to_next_msg)
+        } else {
             getString(R.string.move_order_msg, nextStatus?.status?.capitalize())
+        }
+
         if (!initialCall) {
             fireOrderChangeEvent()
         }

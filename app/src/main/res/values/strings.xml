@@ -92,6 +92,7 @@
     <string name="rs">\u20B9 %1$s</string>
     <string name="total">Total</string>
     <string name="move_order_msg">Move Order to %1$s</string>
+    <string name="move_order_to_next_msg">Move order to next state</string>
     <string name="order_status_changed_msg">Order status changed successfully.</string>
     <string name="unable_to_change_status_error">Unable to change status.</string>
     <string name="are_you_sure">Are you sure?</string>
@@ -142,5 +143,12 @@
     <string-array name="discountDropDown">
         <item>Lowest Price</item>
         <item>Highest Price</item>
+    </string-array>
+    <string name="move_order_to">Move order to</string>
+    <string name="order_declined_title">Order Declined</string>
+    <string name="order_declined_description">Seller has Declined your order.</string>
+    <string-array name="order_placed_next_options">
+        <item>Confirm</item>
+        <item>Decline</item>
     </string-array>
 </resources>
