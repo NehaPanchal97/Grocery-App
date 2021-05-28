@@ -255,7 +255,7 @@ class ProductViewModel : ViewModel() {
             map[Store.SEARCH_KEYS] = createSearchKeys(product.name ?: "")
         }
 
-        ref.document(product.id ?: "")
+        ref.document(productId)
             .set(map, SetOptions.merge())
             .addOnSuccessListener {
                 _addOrUpdateProductLiveData.value = Result.success()
