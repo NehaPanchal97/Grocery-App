@@ -61,6 +61,10 @@ fun View.visible(show: Boolean = true) {
     this.visibility = if (show) View.VISIBLE else View.GONE
 }
 
+fun View.inVisible(show: Boolean = true) {
+    this.visibility = if (show) View.VISIBLE else View.INVISIBLE
+}
+
 fun View.disable(duration: Long = 200) = GlobalScope.launch(Dispatchers.Main) {
     this@disable.isEnabled = false
     delay(duration)

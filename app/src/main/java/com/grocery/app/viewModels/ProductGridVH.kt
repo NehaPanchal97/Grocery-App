@@ -22,11 +22,23 @@ class ProductGridVH(private val binder: ProductItemWithPriceBinding) :
     }
 
     override fun bind(data: Product) {
+        if(absoluteAdapterPosition%2==0){
+            binder.verticalLine.visible(true)
+        }else{
+            binder.verticalLine.visible(false)
+        }
 
+        val context = itemView.context
+        val price = data.price
+        val discount = data.discount
         val count = cartMap[data.id]?.count ?: 0
         binder.specificItemTitle.text = data.name
+        binder.tvDiscount.text = context.getString(R.string.per_symbol, discount?.toInt().toString())
+        binder.tvPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+        val discountedPrice =price?.minus(price.percentage(discount?:0.0))
+        binder.tvDiscountedPrice.text = context.getString(R.string.rs_symbol, discountedPrice?.toInt().toString())
+        binder.tvPrice.text =context.getString(R.string.rs_symbol, price?.toInt().toString())
         binder.itemImage.loadImage(url = data.url)
-
         if (count>0){
             binder.tvCount.text = "$count"
             binder.ivRemove.visible(true)
@@ -35,7 +47,11 @@ class ProductGridVH(private val binder: ProductItemWithPriceBinding) :
             binder.ivRemove.visible(false)
             binder.tvCount.visible(false)
         }
-        binder.executePendingBindings()
+
+        if (discount==0.0){
+            binder.tvDiscount.visible(false)
+            binder.tvPrice.visible(false)
+        }
 
     }
 

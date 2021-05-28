@@ -5,7 +5,9 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="80dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#00000000">
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -42,7 +44,7 @@
         app:tint="@color/colorPrimary"
         android:backgroundTint="@android:color/white"
         app:backgroundTint="@color/colorPrimary"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="20dp"
         android:layout_gravity="center"
         app:borderWidth="6dp"
         app:fabCustomSize="50dp"
@@ -52,21 +54,22 @@
         />
 
 
-        <TextView
-            android:id="@+id/cart_badge"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:background="@drawable/badge_background"
-            android:gravity="center"
-            android:elevation="10dp"
-            android:text="@string/zero_count"
-            android:layout_marginStart="40dp"
-            android:layout_marginBottom="78dp"
-            android:textColor="@android:color/white"
-            android:textSize="10sp"
-            android:visibility="visible"
-            tools:ignore="SmallSp" />
+    <TextView
+        android:id="@+id/cart_badge"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/badge_background"
+        android:gravity="center"
+        android:elevation="8dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="78dp"
+        android:visibility="invisible"
+        android:padding="3dp"
+        android:text="@string/zero_count"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        tools:ignore="SmallSp" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

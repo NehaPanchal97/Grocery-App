@@ -20,10 +20,7 @@ import com.grocery.app.activities.AdminHomePageActivity
 import com.grocery.app.activities.UpdateProfileActivity
 import com.grocery.app.constant.*
 import com.grocery.app.databinding.ActivityHomeBinding
-import com.grocery.app.extensions.cast
-import com.grocery.app.extensions.showError
-import com.grocery.app.extensions.showSuccess
-import com.grocery.app.extensions.visible
+import com.grocery.app.extensions.*
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.OrderFragment
 import com.grocery.app.models.Cart
@@ -216,9 +213,9 @@ class HomePageActivity : AppCompatActivity() {
         val count = binder.navBar.cartBadge
         count.text = cartCount.toString()
         if (cartCount == 0) {
-           binder.navBar.cartBadge.visible(false)
+           binder.navBar.cartBadge.inVisible(false)
         } else {
-            binder.navBar.cartBadge.visible(true)
+            binder.navBar.cartBadge.inVisible(true)
         }
 
     }
