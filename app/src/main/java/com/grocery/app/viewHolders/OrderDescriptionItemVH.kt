@@ -19,7 +19,7 @@ class OrderDescriptionItemVH (private val binder: OrderDescriptionItemBinding):
 
         val price = data.price
         binder.orderDesItemTitle.text = data.name
-        binder.orderDesItemPrice.text =  context.getString(R.string.rs_symbol, price.toString())
+        binder.orderDesItemPrice.text =  context.getString(R.string.rs_symbol, price?.toInt().toString())
         binder.orderDesItemImage.loadImage(url = data.url)
     }
 

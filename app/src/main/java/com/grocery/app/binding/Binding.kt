@@ -72,7 +72,7 @@ fun TextView.setItemsInOrder(order: Order?) {
 @BindingAdapter("productPrice")
 fun TextView.setProductPrice(product: Product?) {
     this.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-    this.text = product?.price?.trim
+    this.text =this.context.getString(R.string.rs, product?.price?.trim)
     val discount = product?.discount ?: 0.0
     this.visible(discount > 0)
 }

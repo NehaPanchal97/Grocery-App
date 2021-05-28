@@ -10,7 +10,7 @@
     <string name="continue_text">Continue</string>
     <string name="verify_phone">Verify Phone</string>
     <string name="code_sent">Code is sent to %s </string>
-    <string name="cart_total">Total : \u20B9 %1$s </string>
+    <string name="cart_total">Total : Rs %1$s </string>
     <string name="create_account">Verify and Create Account</string>
     <string name="did_not_receive">Didn\'t receive code?</string>
     <string name="request_again"><b>Request again </b></string>
@@ -89,7 +89,7 @@
     <string name="orderCreated">Ordered on: %1$s</string>
     <string name="order_delivered_at">Delivered on: %1$s</string>
     <string name="order_detail">Order Detail</string>
-    <string name="rs">\u20B9 %1$s</string>
+    <string name="rs">Rs. %1$s</string>
     <string name="total">Total</string>
     <string name="move_order_msg">Move Order to %1$s</string>
     <string name="move_order_to_next_msg">Move order to next state</string>
