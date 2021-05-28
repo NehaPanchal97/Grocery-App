@@ -1,5 +1,7 @@
 package com.grocery.app.viewModels
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Timestamp
@@ -15,11 +17,14 @@ import com.grocery.app.exceptions.OrderStatusChangeException
 import com.grocery.app.extensions.authUser
 import com.grocery.app.extensions.clone
 import com.grocery.app.extensions.currentDate
+import com.grocery.app.utils.OrderUtils
 
 private typealias Result<T> = com.grocery.app.extras.Result<T>
 private typealias Order = com.grocery.app.models.Order
+private typealias OrderStatus = com.grocery.app.models.OrderStatus
+private typealias StatusEnum = com.grocery.app.constant.OrderStatus
 
-class OrderViewModel : ViewModel() {
+class OrderViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _orderListLiveData by lazy { MutableLiveData<Result<ArrayList<Order>>>() }
     private val _updateOrderLiveData by lazy { MutableLiveData<Result<Void>>() }
@@ -122,7 +127,7 @@ class OrderViewModel : ViewModel() {
             }
     }
 
-    fun updateOrder() {
+    fun updateOrder(declineOrder: Boolean = false) {
         _updateOrderLiveData.value = Result.loading()
         val db = Firebase.firestore
         val orderRef = db.document(ORDERS + "/" + order.id)
@@ -133,7 +138,7 @@ class OrderViewModel : ViewModel() {
                 order = newOrder
                 throw OrderStatusChangeException("Order status is changed")
             }
-            newOrder = getUpdatedOrder()
+            newOrder = getUpdatedOrder(declineOrder)
             transaction.set(orderRef, newOrder, SetOptions.merge())
             newOrder
         }
@@ -147,14 +152,28 @@ class OrderViewModel : ViewModel() {
             }
     }
 
-    private fun getUpdatedOrder(): Order {
+    private fun getUpdatedOrder(declineOrder: Boolean): Order {
         val newOrder = order.clone() ?: Order()
         val time = Timestamp(currentDate)
-        val unCompleted = newOrder.allStatus?.firstOrNull { it.completed != true }
-        unCompleted?.completed = true
-        unCompleted?.updatedAt = time
 
-        newOrder.currentStatus = unCompleted?.status
+        if (declineOrder) {
+            val placed = newOrder.allStatus?.firstOrNull { it.status == StatusEnum.PLACED.title }
+            val newStatus = arrayListOf<OrderStatus>().apply {
+                placed?.let {
+                    add(it)
+                }
+            }
+            val declinedStatus = OrderUtils.createDeclinedStatus(getApplication(), time)
+            newStatus.add(declinedStatus)
+            newOrder.currentStatus = declinedStatus.status
+            newOrder.allStatus = newStatus
+        } else {
+            val unCompleted = newOrder.allStatus?.firstOrNull { it.completed != true }
+            unCompleted?.completed = true
+            unCompleted?.updatedAt = time
+            newOrder.currentStatus = unCompleted?.status
+        }
+
         newOrder.updatedAt = time
         return newOrder
     }

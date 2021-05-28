@@ -87,4 +87,18 @@ object OrderUtils {
         )
         return status
     }
+
+    public fun createDeclinedStatus(
+        context: Context,
+        timestamp: Timestamp = Timestamp.now()
+    ): OrderStatus {
+        return OrderStatus(
+            completed = true,
+            title = context.getString(R.string.order_declined_title),
+            updatedAt = timestamp,
+            createdAt = timestamp,
+            description = context.getString(R.string.order_declined_description),
+            status = com.grocery.app.constant.OrderStatus.DECLINED.title
+        )
+    }
 }
