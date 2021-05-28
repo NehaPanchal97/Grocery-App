@@ -40,11 +40,6 @@ class OrderStatusPageActivity : AppCompatActivity(), OnItemClickListener {
     lateinit var productViewModel: ProductViewModel
     lateinit var pref: PrefManager
 
-    private var _product
-        get() = productViewModel.product
-        set(value) {
-            productViewModel.product = value
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
