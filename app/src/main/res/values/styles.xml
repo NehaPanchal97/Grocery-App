@@ -37,4 +37,38 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="placed_text" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black_color</item>
+        <item name="android:text">Order Placed</item>
+        <item name="fontFamily">@font/ptsans_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="confirmed_text" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black_color</item>
+        <item name="android:text">Confirmed</item>
+        <item name="fontFamily">@font/ptsans_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="processing_text" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black_color</item>
+        <item name="android:text">Processing</item>
+        <item name="fontFamily">@font/ptsans_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="delivered_text" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black_color</item>
+        <item name="android:text">Delivered</item>
+        <item name="fontFamily">@font/ptsans_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="error_color_text" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/error_color</item>
+        <item name="android:text">Declined</item>
+        <item name="fontFamily">@font/ptsans_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+
+
 </resources>

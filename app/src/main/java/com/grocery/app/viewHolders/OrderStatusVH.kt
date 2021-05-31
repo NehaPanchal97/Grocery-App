@@ -1,11 +1,14 @@
 package com.grocery.app.viewHolders
 
+import android.annotation.SuppressLint
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import com.grocery.app.R
 import com.grocery.app.databinding.OrderStatusItemBinding
 import com.grocery.app.extensions.formatDate
 import com.grocery.app.extensions.visible
 import com.grocery.app.models.OrderStatus
+import com.grocery.app.models.Product
 
 class OrderStatusVH(private val binder: OrderStatusItemBinding) :
         BaseVH<OrderStatusItemBinding, OrderStatus>(binder) {
@@ -13,15 +16,22 @@ class OrderStatusVH(private val binder: OrderStatusItemBinding) :
 
     override fun bind(data: OrderStatus) {
 
-        val statusBg = if (data.completed == true)
-            R.drawable.circle_check
-        else R.drawable.cart_uncheck_circle
+        val statusBg = when {
+            data.status == com.grocery.app.constant.OrderStatus.DECLINED.title -> R.drawable.close_icon_dark
+            data.completed == true -> R.drawable.circle_check
+            else -> R.drawable.cart_uncheck_circle
+        }
+
+//        val textBg = if (data.status ==com.grocery.app.constant.OrderStatus.DECLINED.title )
+//            R.color.error_color
+//        else R.color.black_color
+
+
 
 
         if (data.status == com.grocery.app.constant.OrderStatus.DELIVERED.title || data.status == com.grocery.app.constant.OrderStatus.DECLINED.title)
             binder.connectingLine.visible(false)
         else binder.connectingLine.visible(true)
-
 
         binder.statusText.text = data.title
         binder.description.text = data.description
