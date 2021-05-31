@@ -17,17 +17,10 @@ class OrderStatusVH(private val binder: OrderStatusItemBinding) :
     override fun bind(data: OrderStatus) {
 
         val statusBg = when {
-            data.status == com.grocery.app.constant.OrderStatus.DECLINED.title -> R.drawable.close_icon_dark
+            data.status == com.grocery.app.constant.OrderStatus.DECLINED.title -> R.drawable.close_google
             data.completed == true -> R.drawable.circle_check
             else -> R.drawable.cart_uncheck_circle
         }
-
-//        val textBg = if (data.status ==com.grocery.app.constant.OrderStatus.DECLINED.title )
-//            R.color.error_color
-//        else R.color.black_color
-
-
-
 
         if (data.status == com.grocery.app.constant.OrderStatus.DELIVERED.title || data.status == com.grocery.app.constant.OrderStatus.DECLINED.title)
             binder.connectingLine.visible(false)
@@ -37,7 +30,6 @@ class OrderStatusVH(private val binder: OrderStatusItemBinding) :
         binder.description.text = data.description
         binder.time.text = data.updatedAt?.toDate()?.formatDate("hh:mm a dd-MM-yyyy")
         binder.check.background = ContextCompat.getDrawable(itemView.context, statusBg)
-
         binder.executePendingBindings()
     }
 
