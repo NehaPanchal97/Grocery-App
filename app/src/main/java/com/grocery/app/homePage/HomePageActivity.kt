@@ -201,6 +201,10 @@ class HomePageActivity : AppCompatActivity() {
                     .addToBackStack(null)
                     .commit()
                 }
+                R.id.more->{
+                    val intent = Intent(this,AboutPageActivity::class.java)
+                    startActivity(intent)
+                }
             }
             true
         }

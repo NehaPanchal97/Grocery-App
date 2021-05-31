@@ -1,5 +1,6 @@
 package com.grocery.app.homePage
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +40,7 @@ class OrderStatusPageActivity : AppCompatActivity(), OnItemClickListener {
     lateinit var productViewModel: ProductViewModel
     lateinit var pref: PrefManager
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
        binder = DataBindingUtil.setContentView(this, R.layout.order_status_page)
@@ -61,11 +63,13 @@ class OrderStatusPageActivity : AppCompatActivity(), OnItemClickListener {
 
                 }
                 Result.Status.SUCCESS->{
+                    total()
                     viewModel.order.allStatus?.let { it1 -> orderAdapter.update(it1) }
                     val items = viewModel.order.items
                     if (items != null) {
                         listAdapter.update(false,items)
                     }
+
                 }
                 Result.Status.ERROR->{
                     binder.root.showError("Unable to fetch Status")
@@ -112,5 +116,11 @@ class OrderStatusPageActivity : AppCompatActivity(), OnItemClickListener {
         val intent = Intent(this,DetailsPageActivity::class.java)
         intent.putExtra(PRODUCT,product)
         startActivity(intent)
+    }
+
+    @SuppressLint("StringFormatMatches")
+    private fun total(){
+        val total = viewModel.order.payableAmount
+        binder.tvTotal.text = getString(R.string.cart_total, total?.toInt().toString())
     }
 }
