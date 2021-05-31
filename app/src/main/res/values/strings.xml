@@ -90,6 +90,7 @@
     <string name="order_delivered_at">Delivered on: %1$s</string>
     <string name="order_detail">Order Detail</string>
     <string name="rs">Rs. %1$s</string>
+    <string name="neg_rs">- Rs. %1$s</string>
     <string name="total">Total</string>
     <string name="move_order_msg">Move Order to %1$s</string>
     <string name="move_order_to_next_msg">Move order to next state</string>
@@ -151,4 +152,8 @@
         <item>Confirm</item>
         <item>Decline</item>
     </string-array>
+    <string name="product_cart_details">Rs.%1$s (%2$s x %3$s)</string>
+    <string name="total_bill_amount">Total Bill Amount</string>
+    <string name="total_discount">Total Discount</string>
+    <string name="payable_amount">Payable Amount</string>
 </resources>
