@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@android:color/transparent">
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_appBar"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            app:fabCradleMargin="25dp"
+            app:fabAlignmentMode="center"
+            android:gravity="center"
+            android:background="@color/home_background_light_grey"
+            app:fabCradleRoundedCornerRadius="25dp"
+            android:backgroundTint="#27ae60"
+            android:layout_gravity="bottom">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent">
+
+
+
+                <TextView
+                    android:id="@+id/tv_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home"
+                    android:textColor="#C1E8D2"
+                    app:drawableTopCompat="@drawable/home_svg_downlaod"
+                    tools:ignore="MissingConstraints" />
+
+
+
+
+                <TextView
+                    android:id="@+id/tv_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/order"
+                    android:textColor="#C1E8D2"
+                    android:layout_marginStart="50dp"
+                    app:layout_constraintLeft_toRightOf="@id/tv_home"
+                    app:drawableTopCompat="@drawable/vector_order"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/tv_offer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/offer"
+                    android:textColor="#C1E8D2"
+                    app:layout_constraintLeft_toRightOf="@id/tv_order"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="100dp"
+                    app:drawableTopCompat="@drawable/vector_offer"
+                    tools:ignore="MissingConstraints" />
+
+
+                <TextView
+                    android:id="@+id/tv_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/more"
+                    android:textColor="#C1E8D2"
+                    app:layout_constraintLeft_toRightOf="@id/tv_offer"
+                    android:layout_marginStart="50dp"
+                    app:drawableTopCompat="@drawable/more_option_svg"
+                    tools:ignore="MissingConstraints" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fab"
+            android:scaleType="centerCrop"
+            app:tint="@color/colorPrimary"
+            android:backgroundTint="@android:color/white"
+            app:backgroundTint="@color/colorPrimary"
+            android:layout_marginBottom="25dp"
+            android:layout_gravity="center"
+            app:borderWidth="6dp"
+            android:clickable="true"
+            app:fabCustomSize="50dp"
+            android:src="@drawable/cart_svg_download"
+            app:layout_anchor="@id/bottom_appBar"
+            android:focusable="true"
+            android:contentDescription="@string/todo" />
+
+        <TextView
+            android:id="@+id/cart_badge"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/badge_background"
+            android:gravity="center"
+            android:elevation="8dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="78dp"
+            android:visibility="visible"
+            android:padding="3dp"
+            android:text="@string/zero_count"
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
