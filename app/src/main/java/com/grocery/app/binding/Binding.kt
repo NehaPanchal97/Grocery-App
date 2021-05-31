@@ -58,6 +58,11 @@ fun TextView.setOrderCreatedDate(order: Order?) {
     this.visible(createdAt?.isNotEmpty() == true)
 }
 
+@BindingAdapter("productUrl")
+fun ImageView.setProductUrl(product: Product?) {
+    this.loadUrl(product?.url)
+}
+
 @BindingAdapter("orderUrl")
 fun ImageView.setOrderUrl(order: Order?) {
     this.loadUrl(order?.items?.firstOrNull()?.url)
@@ -72,9 +77,24 @@ fun TextView.setItemsInOrder(order: Order?) {
 @BindingAdapter("productPrice")
 fun TextView.setProductPrice(product: Product?) {
     this.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-    this.text =this.context.getString(R.string.rs, product?.price?.trim)
+    this.text = this.context.getString(R.string.rs, product?.price?.trim)
     val discount = product?.discount ?: 0.0
     this.visible(discount > 0)
+}
+
+@BindingAdapter("productCartConfig")
+fun TextView.setCartConfig(product: Product?) {
+    val context = this.context
+    val actualPrice = product?.price ?: 0.0
+    val discount = product?.discount ?: 0.0
+    val count = product?.count ?: 0
+    val discountedPrice = actualPrice - actualPrice.percentage(discount)
+    this.text = context.getString(
+        R.string.product_cart_details,
+        (discountedPrice * count).trim,
+        count.toString(),
+        discountedPrice.trim
+    )
 }
 
 @BindingAdapter("productDiscountedPrice")

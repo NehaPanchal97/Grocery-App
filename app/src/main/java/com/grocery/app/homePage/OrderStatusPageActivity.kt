@@ -18,6 +18,7 @@ import com.grocery.app.databinding.ActivityDetailsPageBinding
 import com.grocery.app.databinding.OrderStatusPageBinding
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.showSuccess
+import com.grocery.app.extensions.trim
 import com.grocery.app.extras.Result
 import com.grocery.app.homePage.adapters.OrderStatusAdapter
 import com.grocery.app.listeners.OnCategoryClickListener
@@ -33,19 +34,21 @@ import com.grocery.app.viewModels.ProductViewModel
 class OrderStatusPageActivity : AppCompatActivity(), OnItemClickListener {
 
 
-    lateinit var  binder:OrderStatusPageBinding
-    lateinit var viewModel:OrderViewModel
+    lateinit var binder: OrderStatusPageBinding
+    lateinit var viewModel: OrderViewModel
     private lateinit var listAdapter: ProductListAdapter
-    private lateinit var orderAdapter:OrderStatusAdapter
+    private lateinit var orderAdapter: OrderStatusAdapter
     lateinit var productViewModel: ProductViewModel
     lateinit var pref: PrefManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       binder = DataBindingUtil.setContentView(this, R.layout.order_status_page)
-        binder.rvOrderStatus.layoutManager = LinearLayoutManager(applicationContext,RecyclerView.VERTICAL,false)
-        binder.rvOrderDescription.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
+        binder = DataBindingUtil.setContentView(this, R.layout.order_status_page)
+        binder.rvOrderStatus.layoutManager =
+            LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
+        binder.rvOrderDescription.layoutManager =
+            LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
         viewModel = ViewModelProvider(this).get(OrderViewModel::class.java)
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         listener()
@@ -55,23 +58,22 @@ class OrderStatusPageActivity : AppCompatActivity(), OnItemClickListener {
     }
 
 
-
-    private fun observe(){
+    private fun observe() {
         viewModel.fetchOrderDetailLiveData.observe(this, Observer {
-            when(it.type){
-                Result.Status.LOADING->{
+            when (it.type) {
+                Result.Status.LOADING -> {
 
                 }
-                Result.Status.SUCCESS->{
+                Result.Status.SUCCESS -> {
                     total()
                     viewModel.order.allStatus?.let { it1 -> orderAdapter.update(it1) }
                     val items = viewModel.order.items
                     if (items != null) {
-                        listAdapter.update(false,items)
+                        listAdapter.update(false, items)
                     }
 
                 }
-                Result.Status.ERROR->{
+                Result.Status.ERROR -> {
                     binder.root.showError("Unable to fetch Status")
                 }
             }
@@ -80,14 +82,14 @@ class OrderStatusPageActivity : AppCompatActivity(), OnItemClickListener {
 
 
     private fun listener() {
-        val closeBtn =binder.orderBackBtn
+        val closeBtn = binder.orderBackBtn
         closeBtn.setOnClickListener {
             onBackPressed()
         }
     }
 
-    private fun setUpView(){
-    pref = PrefManager.getInstance(applicationContext)
+    private fun setUpView() {
+        pref = PrefManager.getInstance(applicationContext)
         initCart()
         viewModel.orderId = intent.getStringExtra(ORDER_ID)
 
@@ -98,29 +100,33 @@ class OrderStatusPageActivity : AppCompatActivity(), OnItemClickListener {
 
         binder.rvOrderDescription.apply {
 
-            listAdapter = ProductListAdapter( arrayListOf(),
-                    ORDER_DESCRIPTION_ITEM_TYPE)
-            binder.rvOrderDescription.adapter=listAdapter
+            listAdapter = ProductListAdapter(
+                arrayListOf(),
+                ORDER_DESCRIPTION_ITEM_TYPE
+            )
+            binder.rvOrderDescription.adapter = listAdapter
         }
-        listAdapter.onClickListener=this
+        listAdapter.onClickListener = this
 
     }
 
     private fun initCart() {
-        productViewModel.cart = pref.get(CART)?: Cart()
+        productViewModel.cart = pref.get(CART) ?: Cart()
         productViewModel.initCart()
     }
 
     override fun onItemClick(itemId: Int, position: Int) {
         val product = listAdapter.items.getOrNull(position)
-        val intent = Intent(this,DetailsPageActivity::class.java)
-        intent.putExtra(PRODUCT,product)
+        val intent = Intent(this, DetailsPageActivity::class.java)
+        intent.putExtra(PRODUCT, product)
         startActivity(intent)
     }
 
     @SuppressLint("StringFormatMatches")
-    private fun total(){
-        val total = viewModel.order.payableAmount
-        binder.tvTotal.text = getString(R.string.cart_total, total?.toInt().toString())
+    private fun total() {
+        val order = viewModel.order
+        binder.billAmount.text = getString(R.string.rs, order.total?.trim)
+        binder.discountAmount.text = getString(R.string.neg_rs, order.totalDiscount?.trim)
+        binder.payableAmount.text = getString(R.string.rs, order.payableAmount?.trim)
     }
 }
