@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="product"
+            type="com.grocery.app.models.Product" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -28,7 +30,7 @@
                 tools:ignore="MissingConstraints"
                 tools:src="@tools:sample/avatars" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="60dp"
@@ -55,15 +57,49 @@
                     android:layout_marginStart="5dp"
                     android:maxWidth="200dp"
                     android:padding="5dp"
+                    productPrice="@{product}"
                     android:text="@string/rs_symbol"
-                    android:textColor="#27ae60"
+                    android:textColor="@color/enter_no."
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="@id/cartItemTitle"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="@id/cartItemTitle"
                     app:layout_constraintTop_toBottomOf="@id/cartItemTitle" />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/cart_item_discount"
+                    productDiscount="@{product}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:maxWidth="200dp"
+                    android:padding="5dp"
+                    android:textColor="@color/error_color"
+                    android:text="@string/rs_symbol"
+                    android:textSize="18sp"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintLeft_toRightOf="@id/cart_item_price"
+                    app:layout_constraintTop_toBottomOf="@id/cartItemTitle" />
+
+                <TextView
+                    android:id="@+id/cart_item_discounted_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="200dp"
+                    android:padding="5dp"
+                    productDiscountedPrice="@{product}"
+                    android:text="@string/rs_symbol"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintTop_toBottomOf="@id/cart_item_price"
+                    app:layout_constraintStart_toStartOf="@id/cart_item_price"
+                    app:layout_constraintEnd_toEndOf="@id/cart_item_price"
+                    tools:ignore="MissingConstraints" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
 

@@ -4,9 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.grocery.app.R
 import com.grocery.app.activities.AboutPageActivity
 import com.grocery.app.activities.AdminHomePageActivity
@@ -29,14 +30,19 @@ import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.AuthViewModel
 import com.grocery.app.viewModels.ProductViewModel
 import kotlinx.android.synthetic.main.bottom_navigation_bar.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class HomePageActivity : AppCompatActivity() {
 
     private val prefManager by lazy { PrefManager.getInstance(this) }
     private lateinit var viewModel: AuthViewModel
-    private lateinit var productViewModel :ProductViewModel
-    lateinit var binder :ActivityHomeBinding
+    private lateinit var productViewModel: ProductViewModel
+    lateinit var binder: ActivityHomeBinding
+    private var askToExit = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,10 +108,29 @@ class HomePageActivity : AppCompatActivity() {
             .unregisterReceiver(receiver)
     }
 
-    private fun switchFragment(fragment: Fragment = HomeFragment()) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
-        transaction.commit()
+    private fun clearBackStack() {
+        var count = supportFragmentManager.backStackEntryCount
+        while (count-- > 0) {
+            supportFragmentManager.popBackStack()
+        }
+    }
+
+    fun switchFragment(
+        fragment: Fragment = HomeFragment(),
+        addToBackstack: Boolean = false,
+        addFragment: Boolean = false
+    ) {
+        val trans = supportFragmentManager.beginTransaction()
+        if (addFragment) {
+            trans.add(R.id.fragment_container, fragment)
+        } else {
+            clearBackStack()
+            trans.replace(R.id.fragment_container, fragment)
+        }
+        if (addToBackstack) {
+            trans.addToBackStack(null)
+        }
+        trans.commit()
     }
 
     private fun observeData() {
@@ -168,41 +193,56 @@ class HomePageActivity : AppCompatActivity() {
         onBackPressed()
     }
 
-    private fun fabAction(){
-        fab.setOnClickListener{
-            supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, CartPageFragment())
-                    .addToBackStack(null)
-                    .commit()
+    override fun onBackPressed() {
+
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        } else {
+            GlobalScope.launch(Dispatchers.Main) {
+                if (askToExit) {
+                    askToExit = false
+                    this@HomePageActivity.showToast(getString(R.string.press_again_to_exit), 2000)
+                    delay(2000)
+                    askToExit = true
+                } else {
+                    finish()
+                }
+            }
         }
     }
 
+    private fun fabAction() {
+        fab.setOnClickListener {
+            switchFragment(CartPageFragment(), addToBackstack = true, addFragment = true)
+        }
+    }
 
-    private fun bottomNavAction(){
+    private val currentFragment: Fragment?
+        get() = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+
+    private fun bottomNavAction() {
         binder.navBar.bottomNavigationView.background = null
         binder.navBar.bottomNavigationView.menu.getItem(2).isEnabled = false
         binder.navBar.bottomNavigationView.setOnNavigationItemSelectedListener {
-            when(it.itemId){
-                R.id.home->{
-                    supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, HomeFragment())
-                    .addToBackStack(null)
-                    .commit()
+            when (it.itemId) {
+                R.id.home -> {
+                    if (currentFragment !is HomeFragment) {
+                        switchFragment()
+                    }
                 }
-                R.id.order->{
-                    supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, OrderFragment())
-                .addToBackStack(null)
-                .commit()
+                R.id.order -> {
+                    if (currentFragment !is OrderFragment) {
+                        switchFragment(OrderFragment())
+                    }
                 }
-                R.id.offer->{
-                    supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, OfferFragment())
-                    .addToBackStack(null)
-                    .commit()
+                R.id.offer -> {
+                    if (currentFragment !is OfferFragment) {
+                        switchFragment(OfferFragment())
+                    }
                 }
-                R.id.more->{
-                    val intent = Intent(this,AboutPageActivity::class.java)
+                R.id.more -> {
+                    val intent = Intent(this, AboutPageActivity::class.java)
                     startActivity(intent)
                 }
             }
@@ -212,15 +252,12 @@ class HomePageActivity : AppCompatActivity() {
     }
 
 
-    private fun fabCount(){
-        val cartCount =productViewModel.cart.items?.size?:0
+    private fun fabCount() {
+        val cartCount = productViewModel.cart.items?.size ?: 0
         val count = binder.navBar.cartBadge
         count.text = cartCount.toString()
-        if (cartCount == 0) {
-           binder.navBar.cartBadge.inVisible(false)
-        } else {
-            binder.navBar.cartBadge.inVisible(true)
-        }
+        binder.navBar.cartBadge.visible(cartCount > 0)
+
 
     }
 

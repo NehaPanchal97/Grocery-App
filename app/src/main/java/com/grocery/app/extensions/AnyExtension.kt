@@ -35,3 +35,6 @@ fun String.logD(message: String) {
         Log.d(this, message)
     }
 }
+
+val String.isRemoteUrl
+    get() = this.startsWith("https://") || this.startsWith("http://")

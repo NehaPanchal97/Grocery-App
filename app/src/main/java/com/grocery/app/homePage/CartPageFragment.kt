@@ -16,10 +16,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
+import com.grocery.app.activities.BaseActivity
 import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.*
 import com.grocery.app.databinding.CartItemsGroupBinding
+import com.grocery.app.extensions.cast
 import com.grocery.app.extensions.showError
+import com.grocery.app.extensions.trim
 import com.grocery.app.extensions.visible
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.listeners.OnItemClickListener
@@ -113,20 +116,20 @@ class CartPageFragment : BaseFragment() {
 
                 }
                 Status.SUCCESS -> {
-                    pref.remove(CART)
-                    viewModel.resetCart()
-                    listAdapter.clearAdapter()
-                    onTotalChange()
                     val orderId = orderViewModel.order.id
                     fireOrderCreatedEvent()
                     val intent = Intent(activity, OrderStatusPageActivity::class.java)
                     intent.putExtra(ORDER_ID, orderId)
                     startActivity(intent)
+                    pref.remove(CART)
+                    viewModel.resetCart()
+                    onTotalChange()
                     fireCartChangeEvent()
                     if (orderViewModel.orderCreated) {
                         orderViewModel.orderCreated = false
                         onOrderCreated()
                     }
+                    activity?.cast<HomePageActivity>()?.switchFragment()
 
                 }
                 Status.ERROR -> {
@@ -227,7 +230,7 @@ class CartPageFragment : BaseFragment() {
 
     @SuppressLint("SetTextI18n", "StringFormatMatches")
     private fun onTotalChange() {
-        val cartTotal = viewModel.cart.payableAmount?.toInt().toString()
+        val cartTotal = viewModel.cart.payableAmount?.trim
         binder.cartAmount.text = getString(R.string.cart_total, cartTotal)
         if (viewModel.cart.items?.isEmpty() != false) {
             binder.tvEmptyCart.visible(true)

@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.grocery.app.constant.HomeCarousel
 import com.grocery.app.constant.Store
+import com.grocery.app.extensions.isRemoteUrl
 import com.grocery.app.extras.Result
 import com.grocery.app.homePage.dataModel.ItemGroup
 import com.grocery.app.models.Category
@@ -42,7 +43,7 @@ class CategoryViewModel : ViewModel() {
     val homePageLiveData: LiveData<Result<ArrayList<ItemGroup>>>
         get() = _homePageLiveData
 
-    val offerPageLiveData:LiveData<Result<ArrayList<Category>>>
+    val offerPageLiveData: LiveData<Result<ArrayList<Category>>>
         get() = _offerPageLiveData
 
     private var homeCategorySnap: QuerySnapshot? = null
@@ -54,25 +55,25 @@ class CategoryViewModel : ViewModel() {
 
     fun addCategory() {
         _addCatLiveData.value = Result.loading()
-        if (category.url.isBlank() || category.url?.startsWith("https://") == true) {
+        if (category.url.isBlank() || category.url?.isRemoteUrl == true) {
             addCategoryOnStore()
         } else {
             uploadImage()
         }
     }
 
-    fun fetchOfferDetail(){
+    fun fetchOfferDetail() {
         _offerPageLiveData.value = Result.loading()
 
         Firebase.firestore.collection(Store.DISCOUNTS)
-                .get()
-                .addOnSuccessListener {
-                    val discounts = it.toObjects(Category::class.java)
-                    _offerPageLiveData.value = Result.success(ArrayList(discounts))
-                }
-                .addOnFailureListener {
-                    _offerPageLiveData.value = Result.error()
-                }
+            .get()
+            .addOnSuccessListener {
+                val discounts = it.toObjects(Category::class.java)
+                _offerPageLiveData.value = Result.success(ArrayList(discounts))
+            }
+            .addOnFailureListener {
+                _offerPageLiveData.value = Result.error()
+            }
     }
 
     fun fetchCategoryList(limit: Long? = null) {

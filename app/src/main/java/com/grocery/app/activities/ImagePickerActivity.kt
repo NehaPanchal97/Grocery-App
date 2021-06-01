@@ -16,6 +16,7 @@ abstract class ImagePickerActivity : BaseActivity(), ImagePickerListener {
         lastRequestCode=requestCode
         CropImage.activity()
             .setGuidelines(CropImageView.Guidelines.ON)
+            .setOutputCompressQuality(45)
             .start(this)
     }
 
