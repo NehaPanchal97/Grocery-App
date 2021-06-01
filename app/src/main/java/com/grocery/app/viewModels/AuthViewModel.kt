@@ -14,6 +14,7 @@ import com.grocery.app.constant.CART
 import com.grocery.app.constant.Store
 import com.grocery.app.constant.USER
 import com.grocery.app.extensions.authUser
+import com.grocery.app.extensions.isRemoteUrl
 import com.grocery.app.extensions.logD
 import com.grocery.app.extensions.toObj
 import com.grocery.app.models.User
@@ -46,7 +47,7 @@ class AuthViewModel : ViewModel() {
 
     fun updateUser() {
         _updateUserLiveData.value = Result.loading()
-        if (user?.url.isBlank() || user?.url?.startsWith("https://") == true) {
+        if (user?.url.isBlank() || user?.url?.isRemoteUrl == true) {
             updateUserOnStore()
         } else {
             uploadImage()

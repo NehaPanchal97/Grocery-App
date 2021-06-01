@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.grocery.app.R
+import com.grocery.app.extensions.loadImage
 import com.grocery.app.listeners.OnCategoryClickListener
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Category
@@ -22,7 +23,8 @@ class CategoryTypesAdapter(private val itemList: ArrayList<Category>) :
 
     var itemClickListener: OnCategoryClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.category_item, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.category_item, parent, false)
         return GridViewHolder(view)
     }
 
@@ -30,7 +32,8 @@ class CategoryTypesAdapter(private val itemList: ArrayList<Category>) :
         val items = itemList.get(position)
 
         holder.txt_title.text = items.name
-        Glide.with(holder.itemView.context).load(itemList[position].url).into(holder.img_item)
+
+        holder.img_item.loadImage(itemList[position].url)
 
         holder.img_item.setOnClickListener {
             itemClickListener?.onItemClick(it.id, items)

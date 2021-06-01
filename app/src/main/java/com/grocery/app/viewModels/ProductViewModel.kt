@@ -200,7 +200,7 @@ class ProductViewModel : ViewModel() {
     fun addOrUpdateProduct() {
 
         _addOrUpdateProductLiveData.value = Result.loading()
-        if (product.url.isBlank() || product.url?.startsWith("https://") == true) {
+        if (product.url.isBlank() || product.url?.isRemoteUrl == true) {
             addOrUpdateProductOnStore()
         } else {
             uploadProductImage()

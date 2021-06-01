@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.MenuRes
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
@@ -39,11 +40,14 @@ fun Context.showToast(message: String?, duration: Int = Toast.LENGTH_SHORT) {
 fun ImageView.loadImage(
     url: String?,
     placeholder: Int = R.drawable.ic_shop,
-    circular: Boolean = false
+    circular: Boolean = false,
+    cache: Boolean = true
 ) {
     val builder = Glide.with(this)
         .load(url)
         .placeholder(placeholder)
+        .diskCacheStrategy(if (cache) DiskCacheStrategy.ALL else DiskCacheStrategy.NONE)
+        .skipMemoryCache(!cache)
     if (circular)
         builder.transform(CircleCrop())
     builder.into(this)
