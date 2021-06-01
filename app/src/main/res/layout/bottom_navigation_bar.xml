@@ -30,8 +30,8 @@
             app:labelVisibilityMode="labeled"
             android:background="@android:color/transparent"
             app:menu="@menu/bottom_nav_menu"
-            app:itemIconTint="@drawable/bottom_nav_icon_selector"
-            app:itemTextColor="@drawable/bottom_nav_icon_selector"/>
+            app:itemIconTint="@color/admin_nav_item_color"
+            app:itemTextColor="@color/admin_nav_item_color" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 

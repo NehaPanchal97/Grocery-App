@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
 <RelativeLayout
@@ -30,7 +28,8 @@
             app:layout_constraintLeft_toRightOf="@+id/all_categories"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/todo" />
 
         <TextView
             android:id="@+id/all_categories"
@@ -41,7 +40,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:textColor="#FFFFFF"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text="Categories "
+            android:text="@string/categories_text"
             android:textSize="25sp"
             android:fontFamily="@font/ptsans_bold"
             android:gravity="center_horizontal"/>

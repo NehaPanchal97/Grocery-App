@@ -26,7 +26,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/vegetables_discount"/>
+            android:src="@drawable/vegetables_discount"
+            android:contentDescription="@string/todo" />
 
         <TextView
             android:id="@+id/discount"
@@ -38,7 +39,7 @@
             android:layout_marginBottom="80dp"
             android:fontFamily="@font/ptsans_bold"
             android:gravity="center_horizontal"
-            android:text="30 % Discount"
+            android:text="@string/_30_discount_text"
             android:textColor="#27ae60"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -51,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Order any food from the app \n and get the discount"
+            android:text="@string/offer_description_text_WH"
             android:textColor="#3C3E3D"
             android:maxWidth="160dp"
             android:maxLines="3"
@@ -65,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/ptsans_bold"
-            android:text="Order Now"
+            android:text="@string/order_now_text"
             android:textColor="#27ae60"
             android:gravity="center_horizontal"
             app:layout_constraintStart_toEndOf="@id/cardview_image"
