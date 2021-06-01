@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
+import com.grocery.app.activities.BaseActivity
 import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.*
 import com.grocery.app.databinding.CartItemsGroupBinding
+import com.grocery.app.extensions.cast
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.trim
 import com.grocery.app.extensions.visible
@@ -114,20 +116,20 @@ class CartPageFragment : BaseFragment() {
 
                 }
                 Status.SUCCESS -> {
-                    pref.remove(CART)
-                    viewModel.resetCart()
-                    listAdapter.clearAdapter()
-                    onTotalChange()
                     val orderId = orderViewModel.order.id
                     fireOrderCreatedEvent()
                     val intent = Intent(activity, OrderStatusPageActivity::class.java)
                     intent.putExtra(ORDER_ID, orderId)
                     startActivity(intent)
+                    pref.remove(CART)
+                    viewModel.resetCart()
+                    onTotalChange()
                     fireCartChangeEvent()
                     if (orderViewModel.orderCreated) {
                         orderViewModel.orderCreated = false
                         onOrderCreated()
                     }
+                    activity?.cast<HomePageActivity>()?.switchFragment()
 
                 }
                 Status.ERROR -> {
