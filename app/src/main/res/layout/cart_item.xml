@@ -118,7 +118,6 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:contentDescription="@string/todo"
-                android:onClick="remove"
                 android:padding="3dp"
                 android:tint="#000000"
                 app:srcCompat="@drawable/remove" />
@@ -140,7 +139,6 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:contentDescription="@string/todo"
-                android:onClick="add"
                 android:padding="3dp"
                 android:tint="#000000"
                 app:srcCompat="@drawable/ic_add" />
