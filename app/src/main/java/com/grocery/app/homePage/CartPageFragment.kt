@@ -20,6 +20,7 @@ import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.*
 import com.grocery.app.databinding.CartItemsGroupBinding
 import com.grocery.app.extensions.showError
+import com.grocery.app.extensions.trim
 import com.grocery.app.extensions.visible
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.listeners.OnItemClickListener
@@ -227,7 +228,7 @@ class CartPageFragment : BaseFragment() {
 
     @SuppressLint("SetTextI18n", "StringFormatMatches")
     private fun onTotalChange() {
-        val cartTotal = viewModel.cart.payableAmount?.toInt().toString()
+        val cartTotal = viewModel.cart.payableAmount?.trim
         binder.cartAmount.text = getString(R.string.cart_total, cartTotal)
         if (viewModel.cart.items?.isEmpty() != false) {
             binder.tvEmptyCart.visible(true)
