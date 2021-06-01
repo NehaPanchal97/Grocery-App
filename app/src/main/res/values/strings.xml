@@ -156,5 +156,6 @@
     <string name="total_bill_amount">Total Bill Amount</string>
     <string name="total_discount">Total Discount</string>
     <string name="payable_amount">Payable Amount</string>
+    <string name="go_to_cart">Go to Cart</string>
     <string name="press_again_to_exit">Press again to exit</string>
 </resources>

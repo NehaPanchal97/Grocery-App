@@ -30,3 +30,4 @@ const val FCM_SERVER_KEY = "AAAAtznjYzM:APA91bG8zem6wBioNgf0beRb9zrGzgYRUJLQ77up
         "MkO_1SdDiEih3cn3L8fhxRSHosZWJpc-D7FwoiE6kQDa41kdSs0upY3u5GQFLQe2oFS-AwKsjy7hUsmb6LHEKM5Q"
 
 const val BODY = "body"
+const val UPDATE_PROFILE = "update_profile"

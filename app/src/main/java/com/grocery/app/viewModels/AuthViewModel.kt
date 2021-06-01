@@ -44,6 +44,7 @@ class AuthViewModel : ViewModel() {
         get() = _syncLiveData
 
     var user: User? = null
+    var profileUpdated = false
 
     fun updateUser() {
         _updateUserLiveData.value = Result.loading()
