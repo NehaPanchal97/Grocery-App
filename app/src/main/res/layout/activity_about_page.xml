@@ -22,6 +22,18 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat = "@drawable/grocerystore"
+                android:scaleType="centerCrop"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#65000000"/>
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -48,7 +60,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Grocery Store"
                 android:textColor="@android:color/white"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivAboutImage" />
 
@@ -59,7 +71,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Open 10AM - 9PM"
                 android:textColor="@android:color/white"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/tvStoreName"
                 app:layout_constraintTop_toBottomOf="@id/tvStoreName" />
 

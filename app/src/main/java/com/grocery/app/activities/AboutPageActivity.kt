@@ -2,13 +2,9 @@ package com.grocery.app.activities
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.grocery.app.R
 import com.grocery.app.databinding.ActivityAboutPageBinding
 
@@ -25,31 +21,24 @@ class AboutPageActivity : AppCompatActivity() {
     private fun onCallPressed() {
         binder.ivCallBtn.setOnClickListener {
             val callIntent = Intent(Intent.ACTION_DIAL)
-            callIntent.data = Uri.parse("tel:+919987384423")
+            callIntent.data = Uri.parse("tel:+919876543210")
             startActivity(callIntent)
         }
     }
 
     private fun loadLocation() {
         binder.ivLocation.setOnClickListener {
-            val gmmIntentUri = Uri.parse("geo:37.7749,-122.4194")
-            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-            mapIntent.setPackage("com.google.android.apps.maps")
-            mapIntent.resolveActivity(packageManager)?.let {
-                startActivity(mapIntent)
+            val uri =
+                "http://maps.google.com/maps?q=Nature Basket, Century Bazaar, Prabhadevi, Mumbai, Maharashtra"
+            val intent: Intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(uri)
+            )
+            intent .setPackage("com.google.android.apps.maps")
+            intent.resolveActivity(packageManager)?.let {
+                startActivity (intent)
             }
         }
-    }
-
-    fun onMapReady(googleMap: GoogleMap) {
-        // Add a marker in Sydney, Australia,
-        // and move the map's camera to the same location.
-        val sydney = LatLng(37.7749, -122.4194)
-        googleMap.addMarker(
-            MarkerOptions()
-                .title("Grocery shop")
-        )
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 }
 

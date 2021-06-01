@@ -28,7 +28,7 @@
 
         <activity
             android:name=".activities.SearchActivity"
-            android:windowSoftInputMode="adjustNothing" />
+            android:windowSoftInputMode="adjustNothing|stateVisible" />
         <activity android:name=".activities.DiscountPageActivity" />
         <activity android:name=".auth.SsoLoginActivity" />
         <activity android:name=".auth.OtpScreenActivity" />
