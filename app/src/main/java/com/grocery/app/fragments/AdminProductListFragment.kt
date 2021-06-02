@@ -12,6 +12,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.grocery.app.R
 import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.ADMIN_PRODUCT_TYPE
+import com.grocery.app.constant.Store
 import com.grocery.app.contracts.AddProductContract
 import com.grocery.app.contracts.UpdateProductContract
 import com.grocery.app.customs.OnLoadMoreListener
@@ -47,8 +48,12 @@ class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener
         catViewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
         setupView()
         observe()
-        viewModel.fetchProductList()
+        fetchProducts()
         catViewModel.fetchCategoryList()
+    }
+
+    private fun fetchProducts(initialFetch: Boolean = true) {
+        viewModel.fetchProductList(initialFetch, Store.CREATED_AT)
     }
 
     private val _menuItemClick = Toolbar.OnMenuItemClickListener {
@@ -136,7 +141,7 @@ class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener
 
     private fun refreshList() {
         listAdapter.clearAdapter()
-        viewModel.fetchProductList()
+        fetchProducts()
     }
 
     private val _onLoadMoreListener = object : OnLoadMoreListener() {
@@ -148,7 +153,7 @@ class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener
             get() = viewModel.productListLiveData.value?.type == Result.Status.LOADING
 
         override fun onLoadMore() {
-            viewModel.fetchProductList(initialFetch = false)
+            fetchProducts(initialFetch = false)
         }
 
     }
