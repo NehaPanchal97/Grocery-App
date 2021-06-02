@@ -21,18 +21,26 @@ class AboutPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binder = DataBindingUtil.setContentView(this, R.layout.activity_about_page)
         viewModel = ViewModelProvider(this).get(AboutPageViewModel::class.java)
-        onCallPressed()
-        loadLocation()
         observe()
-        setUpView()
+        onCallPressed()
+        onMessageBtnPressed()
+        loadLocation()
         viewModel.fetchStoreInfo()
     }
 
     private fun onCallPressed() {
         binder.ivCallBtn.setOnClickListener {
             val callIntent = Intent(Intent.ACTION_DIAL)
-            callIntent.data = Uri.parse("tel:"+viewModel.contact)
+            callIntent.data = Uri.parse("tel:"+viewModel.store?.contact)
             startActivity(callIntent)
+        }
+    }
+
+    private fun onMessageBtnPressed(){
+        binder.ivMessage.setOnClickListener {
+            val sendIntent = Intent(Intent.ACTION_VIEW)
+            sendIntent.data = Uri.parse("sms:"+viewModel.store?.contact)
+            startActivity(sendIntent)
         }
     }
 
@@ -42,12 +50,11 @@ class AboutPageActivity : AppCompatActivity() {
                 "http://maps.google.com/maps?q=Nature Basket, Century Bazaar, Prabhadevi, Mumbai, Maharashtra"
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse(viewModel.uri)
+                Uri.parse(viewModel.store?.locationUri)
             )
-            intent .setPackage("com.google.android.apps.maps")
-            intent.resolveActivity(packageManager)?.let {
-                startActivity (intent)
-            }
+            intent.setPackage("com.google.android.apps.maps")
+                startActivity(intent)
+
         }
     }
 
@@ -58,6 +65,7 @@ class AboutPageActivity : AppCompatActivity() {
                 }
                 Result.Status.SUCCESS ->{
                     it.data
+                   setData()
                 }
                 Result.Status.ERROR -> {
                     binder.root.showError("Cannot fetch data")
@@ -66,9 +74,11 @@ class AboutPageActivity : AppCompatActivity() {
         })
     }
 
-    private fun setUpView(){
-        binder.tvStoreName.text = viewModel.storeName
-
+    private fun setData(){
+        binder.tvStoreName.text = viewModel.store?.storeName
+        binder.tvStoreTime.text = viewModel.store?.timing
+        binder.tvCallDescription.text = String.format(getString(R.string.callText),viewModel.store?.callDescription)
+        binder.tvLocationDescription.text = viewModel.store?.locationDescription
     }
 }
 

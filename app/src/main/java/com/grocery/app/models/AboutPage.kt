@@ -1,7 +1,10 @@
 package com.grocery.app.models
 
 data class AboutPage(
-    var location: String? = null,
+    var locationUri: String? = null,
     var storeName:String? = null,
-    var storeContact: String? = null
+    var contact: String? = null,
+    var timing:String? = null,
+    var callDescription:String? = null,
+    var locationDescription:String? = null
 )

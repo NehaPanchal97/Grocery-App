@@ -18,17 +18,15 @@ class AboutPageViewModel : ViewModel() {
     get() = _fetchStoreLiveData
 
     var store:AboutPage? = null
-    var uri: String? = null
-    var contact:String? = null
-    var storeName:String? = null
 
     fun fetchStoreInfo(){
         _fetchStoreLiveData.value = Result.loading()
         val db = Firebase.firestore
         val docRef = db.document(Store.OTHERS + "/" + Store.ABOUT_PAGE)
             docRef.get()
-                .addOnSuccessListener { document ->
-                   _fetchStoreLiveData.value = Result.success(store)
+                .addOnSuccessListener {
+                   store = it.toObject(AboutPage::class.java)
+                    _fetchStoreLiveData.value = Result.success(store)
                 }
                 .addOnFailureListener {
                     _fetchStoreLiveData.value = Result.error()
