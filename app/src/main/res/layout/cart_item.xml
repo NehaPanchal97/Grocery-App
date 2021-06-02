@@ -55,11 +55,11 @@
                     productPrice="@{product}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="6dp"
                     android:includeFontPadding="false"
                     android:text="@string/rs_symbol"
                     android:textColor="@color/enter_no."
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/cart_item_discounted_price"
                     app:layout_constraintTop_toTopOf="@id/cart_item_discounted_price" />
@@ -73,7 +73,7 @@
                     android:includeFontPadding="false"
                     android:text="@string/rs_symbol"
                     android:textColor="@color/error_color"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="@id/cart_item_discounted_price"
                     app:layout_constraintTop_toBottomOf="@id/cart_item_discounted_price" />
 
@@ -86,7 +86,7 @@
                     android:includeFontPadding="false"
                     android:text="@string/rs_symbol"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cartItemTitle"
                     tools:ignore="MissingConstraints" />
