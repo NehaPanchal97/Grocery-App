@@ -158,4 +158,14 @@
     <string name="payable_amount">Payable Amount</string>
     <string name="go_to_cart">Go to Cart</string>
     <string name="press_again_to_exit">Press again to exit</string>
+    <string name="cart_text_header">Cart</string>
+    <string name="cart_text_when_empty">Your Cart is Empty</string>
+    <string name="checkout_btn">Checkout</string>
+    <string name="_30_discount_text">30 % Discount</string>
+    <string name="offer_description_text_WH">Order any food from the app \n and get the discount</string>
+    <string name="order_now_text">Order Now</string>
+    <string name="categories_text">Categories</string>
+    <string name="search_text_header">Hey ,\nLet\'s search your grocery food</string>
+    <string name="description_text">Description</string>
+    <string name="fruits_text">Fruits</string>
 </resources>
