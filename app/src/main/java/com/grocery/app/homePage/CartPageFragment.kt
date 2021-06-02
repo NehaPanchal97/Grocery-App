@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
-import com.grocery.app.activities.BaseActivity
 import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.*
 import com.grocery.app.databinding.CartItemsGroupBinding
