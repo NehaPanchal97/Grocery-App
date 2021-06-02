@@ -58,7 +58,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="10dp"
-                android:text="Grocery Store"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
