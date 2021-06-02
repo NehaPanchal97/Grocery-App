@@ -61,7 +61,11 @@ class ProductViewModel : ViewModel() {
         get() = lastProductSnap != null
 
 
-    fun fetchProductList(initialFetch: Boolean = true, limit: Long? = DEFAULT_PAGE_SIZE) {
+    fun fetchProductList(
+        initialFetch: Boolean = true,
+        orderByKey: String = Store.DISCOUNT,
+        limit: Long? = DEFAULT_PAGE_SIZE
+    ) {
         if (initialFetch) {
             hasMoreProduct = true
             lastProductSnap = null
@@ -69,11 +73,11 @@ class ProductViewModel : ViewModel() {
         }
         _productListLiveData.value = Result.loading()
         var query = Firebase.firestore.collection(Store.PRODUCTS)
-            .whereGreaterThanOrEqualTo(DISCOUNT,discount?:0.0)
-            .orderBy(Store.DISCOUNT, orderBy)
-        limit?.let {
-            query = query.limit(it)
+            .limit(limit ?: DEFAULT_PAGE_SIZE)
+        if (orderByKey == Store.DISCOUNT) {
+            query = query.whereGreaterThanOrEqualTo(Store.DISCOUNT, discount ?: 0.0)
         }
+        query = query.orderBy(orderByKey, orderBy)
         filterByCat?.let {
             query = query.whereEqualTo(Store.CATEGORY_ID, filterByCat?.id)
         }
@@ -92,6 +96,7 @@ class ProductViewModel : ViewModel() {
                 _productListLiveData.value = Result.error()
             }
     }
+
 
     private fun batchUpdate() {
         //To update batch
