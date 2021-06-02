@@ -23,6 +23,8 @@ class OrderItemVH(
         } else {
             binder.orderCreatedAt = context.getString(R.string.order_delivered_at, deliveredAt)
         }
+        val products = data.items?.map { it.name }?.joinToString(", ")
+        binder.tvProductDetails.text = products
         binder.order = data
         binder.executePendingBindings()
     }

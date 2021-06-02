@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.grocery.app.constant.UPDATE_PROFILE
 import com.grocery.app.homePage.HomePageActivity
 import com.grocery.app.constant.USER
 import com.grocery.app.databinding.FragmentAuthenticationBinding
@@ -111,7 +113,10 @@ class UpdateProfileFragment : ImagePickerFragment() {
         loadProfile()
         binder.nameEt.doAfterTextChanged { _user?.name = it.toString() }
         binder.addressEt.doAfterTextChanged { _user?.address = it.toString() }
-        binder.btnSave.setOnClickListener { viewModel.updateUser() }
+        binder.btnSave.setOnClickListener {
+            viewModel.updateUser()
+            fireUpdateProfileEvent()
+        }
         binder.uploadImage.setOnClickListener { startPickerActivity(PROFILE_PICK_REQUEST_CODE) }
     }
 
@@ -124,5 +129,9 @@ class UpdateProfileFragment : ImagePickerFragment() {
         )
     }
 
+    private fun fireUpdateProfileEvent() {
+        LocalBroadcastManager.getInstance(requireContext())
+            .sendBroadcast(Intent(UPDATE_PROFILE))
+    }
 
 }
