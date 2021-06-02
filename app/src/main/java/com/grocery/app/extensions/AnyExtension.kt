@@ -38,3 +38,26 @@ fun String.logD(message: String) {
 
 val String.isRemoteUrl
     get() = this.startsWith("https://") || this.startsWith("http://")
+
+val String.searchKeys: ArrayList<String>
+    get() {
+        val keys = arrayListOf<String>()
+        val words = this.trim().split(" ")
+        words.forEach { word ->
+            if (word.length > 2) {
+                for (i in 3..word.length) {
+                    keys.add(word.substring(0, i).toLowerCase())
+                }
+            }
+        }
+        if (words.size > 1) {
+            for (i in 1 until words.size) {
+                val wordGroup = arrayListOf<String>()
+                for (j in 0..i) {
+                    wordGroup.add(words[j])
+                }
+                keys.add(wordGroup.joinToString(" ").toLowerCase())
+            }
+        }
+        return keys
+    }

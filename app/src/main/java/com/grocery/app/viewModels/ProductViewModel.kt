@@ -1,12 +1,14 @@
 package com.grocery.app.viewModels
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.grocery.app.constant.DEFAULT_PAGE_SIZE
@@ -257,7 +259,7 @@ class ProductViewModel : ViewModel() {
         }
 
         if ((product.name?.length ?: 0) > 2) {
-            map[Store.SEARCH_KEYS] = createSearchKeys(product.name ?: "")
+            map[Store.SEARCH_KEYS] = product.name?.searchKeys
         }
 
         ref.document(productId)
@@ -268,19 +270,6 @@ class ProductViewModel : ViewModel() {
             .addOnFailureListener {
                 _addOrUpdateProductLiveData.value = Result.error()
             }
-    }
-
-    private fun createSearchKeys(key: String): ArrayList<String> {
-        val keys = arrayListOf<String>()
-        val words = key.trim().split(" ")
-        words.forEach { word ->
-            if (word.length > 2) {
-                for (i in 3..word.length) {
-                    keys.add(word.substring(0, i).toLowerCase())
-                }
-            }
-        }
-        return keys
     }
 
     fun shouldAddTag(text: String): Boolean {
