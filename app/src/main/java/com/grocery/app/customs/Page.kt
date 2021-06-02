@@ -14,5 +14,6 @@ abstract class Page {
         menu.findItem(R.id.cart).isVisible = false
         menu.findItem(R.id.add).isVisible = false
         menu.findItem(R.id.filter).isVisible = false
+        menu.findItem(R.id.app_bar_search).isVisible = false
     }
 }

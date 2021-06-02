@@ -168,4 +168,5 @@
     <string name="search_text_header">Hey ,\nLet\'s search your grocery food</string>
     <string name="description_text">Description</string>
     <string name="fruits_text">Fruits</string>
+    <string name="search_product">Search Product</string>
 </resources>

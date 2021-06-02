@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -26,7 +27,8 @@ import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.viewModels.ProductViewModel
 
-class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener {
+class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener,
+    SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: ProductViewModel
     private lateinit var catViewModel: CategoryViewModel
@@ -185,6 +187,14 @@ class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener
         if (item?.itemId == R.id.add) {
             addProduct.launch(null)
         }
+        return true
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
         return true
     }
 }
