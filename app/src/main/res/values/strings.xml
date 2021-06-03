@@ -139,8 +139,7 @@
     <string name="discount_text">Discount</string>
     <string name="to_do">TODO</string>
     <string name="discount_percent"> - %1$s %%</string>
-    <string name="callText">Call for free \n9876543210</string>
-    <string name="storeAddress"><b>291 30th St.</b>San Fransisco, CA94131 \nUnited States \n Work</string>
+    <string name="callText">Call for free\n%s</string>
     <string-array name="discountDropDown">
         <item>Lowest Price</item>
         <item>Highest Price</item>
