@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,16 +18,14 @@ import com.grocery.app.contracts.AddProductContract
 import com.grocery.app.contracts.UpdateProductContract
 import com.grocery.app.customs.OnLoadMoreListener
 import com.grocery.app.databinding.FragmentProductListBinding
-import com.grocery.app.extensions.hide
-import com.grocery.app.extensions.showError
-import com.grocery.app.extensions.showSuccess
-import com.grocery.app.extensions.visible
+import com.grocery.app.extensions.*
 import com.grocery.app.extras.Result
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.CategoryViewModel
 import com.grocery.app.viewModels.ProductViewModel
 
-class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener {
+class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener,
+    SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: ProductViewModel
     private lateinit var catViewModel: CategoryViewModel
@@ -37,7 +36,7 @@ class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binder = FragmentProductListBinding.inflate(inflater, container, false)
         return binder.root
     }
@@ -184,6 +183,23 @@ class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.add) {
             addProduct.launch(null)
+        }
+        return true
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        activity?.hideKeyboard()
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        val textLength = newText?.trim()?.length ?: 0
+        if (textLength > 2) {
+            viewModel.searchKey = newText?.toLowerCase()
+            fetchProducts()
+        } else if (textLength == 0) {
+            viewModel.searchKey = null
+            fetchProducts()
         }
         return true
     }
