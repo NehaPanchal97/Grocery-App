@@ -58,6 +58,7 @@ class ProductViewModel : ViewModel() {
     var lastProductSnap: DocumentSnapshot? = null
     var discount: Double? = null
     var orderBy = Query.Direction.DESCENDING
+    var searchKey: String? = null
 
     val loadMore
         get() = lastProductSnap != null
@@ -85,6 +86,9 @@ class ProductViewModel : ViewModel() {
         }
         if (!initialFetch) {
             query = query.startAfter(lastProductSnap?.get(Store.CREATED_AT))
+        }
+        if (searchKey?.isNotEmpty() == true) {
+            query = query.whereArrayContains("search_keys", searchKey ?: "")
         }
         query.get().addOnSuccessListener { snapShot ->
             val size = snapShot?.size() ?: 0

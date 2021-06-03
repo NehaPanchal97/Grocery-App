@@ -10,11 +10,7 @@ class AdminProductItemVH(private val binder: ProductListItemBinding) :
 
 
     override fun bind(data: Product) {
-        binder.name = data.name
-        binder.url = data.url
-        binder.description = data.description
-        binder.placeholder = R.drawable.category_placeholder
-        binder.price = "Price: ${data.price}"
+        binder.product = data
         binder.editIv.setOnClickListener(this)
         binder.executePendingBindings()
 

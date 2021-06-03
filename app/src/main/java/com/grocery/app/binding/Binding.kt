@@ -113,3 +113,4 @@ fun TextView.setProductDiscount(product: Product?) {
     this.text = "${discount.trim}% off"
     this.visible(discount > 0)
 }
+

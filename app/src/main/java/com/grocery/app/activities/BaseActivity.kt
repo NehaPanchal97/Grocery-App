@@ -1,15 +1,19 @@
 package com.grocery.app.activities
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
 import com.grocery.app.R
 
+
 open class BaseActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
-     fun setupToolbar(
+    fun setupToolbar(
         toolBar: MaterialToolbar,
         enableBack: Boolean = true,
         @MenuRes menuId: Int = -1
@@ -26,4 +30,6 @@ open class BaseActivity : AppCompatActivity() {
     open fun loading(show: Boolean) {
 
     }
+
+
 }

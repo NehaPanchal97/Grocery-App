@@ -34,6 +34,23 @@
 
     </style>
 
+    <style name="AdminToolbarStyle" parent="@style/Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="colorControlNormal">#ffffff</item>
+    </style>
+
+    <style name="ProductPriceStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
+
+    <style name="ProductDiscountedPriceStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/success_color</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
 
 
 </resources>

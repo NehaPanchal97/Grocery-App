@@ -6,24 +6,8 @@
     <data>
 
         <variable
-            name="url"
-            type="String" />
-
-        <variable
-            name="name"
-            type="String" />
-
-        <variable
-            name="description"
-            type="String" />
-
-        <variable
-            name="placeholder"
-            type="Integer" />
-
-        <variable
-            name="price"
-            type="String" />
+            name="product"
+            type="com.grocery.app.models.Product" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -39,9 +23,7 @@
 
             <ImageView
                 android:id="@+id/product_iv"
-                circular="@{true}"
-                loadUrl="@{url}"
-                placeholder="@{placeholder}"
+                productUrl="@{product}"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginVertical="16dp"
@@ -58,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="12dp"
-                android:text="@{name}"
+                android:text="@{product.name}"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/desc_tv"
@@ -73,41 +55,55 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@{description}"
+                android:maxLines="2"
+                android:text="@{product.description}"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@id/price_tv"
                 app:layout_constraintEnd_toEndOf="@id/tvName"
                 app:layout_constraintStart_toStartOf="@id/tvName"
                 app:layout_constraintTop_toBottomOf="@id/tvName"
-                tools:text="@tools:sample/lorem/random" />
+                tools:text="Product Description" />
 
             <TextView
-                android:id="@+id/price_tv"
-                android:layout_width="0dp"
+                android:id="@+id/discounted_price_tv"
+                style="@style/ProductDiscountedPriceStyle"
+                productDiscountedPrice="@{product}"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="12dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{price}"
-                android:textColor="#000000"
-                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/tvName"
                 app:layout_constraintStart_toStartOf="@id/tvName"
                 app:layout_constraintTop_toBottomOf="@id/desc_tv"
-                tools:text="@tools:sample/lorem/random" />
+                tools:text="Rs. 110" />
+
+            <TextView
+                android:id="@+id/price_tv"
+                style="@style/ProductPriceStyle"
+                productPrice="@{product}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="12dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tvName"
+                app:layout_constraintStart_toEndOf="@id/discounted_price_tv"
+                tools:text="Rs. 320" />
+
             <ImageView
-                android:background="?selectableItemBackgroundBorderless"
                 android:id="@+id/edit_iv"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
-                app:srcCompat="@drawable/ic_edit"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/edit"
+                android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvName"
-                android:contentDescription="@string/edit"
-                android:padding="8dp"/>
+                app:srcCompat="@drawable/ic_edit" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>
