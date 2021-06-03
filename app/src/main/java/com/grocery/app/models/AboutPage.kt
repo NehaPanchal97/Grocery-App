@@ -1,5 +1,8 @@
 package com.grocery.app.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class AboutPage(
     var locationUri: String? = null,
     var storeName:String? = null,
