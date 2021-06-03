@@ -2,7 +2,18 @@
 <layout>
 
     <data>
+         <variable
+             name="store"
+             type="com.grocery.app.models.AboutPage" />
+        <import type="android.view.View"/>
 
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="error"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,7 +29,7 @@
             android:layout_height="250dp"
             android:background="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent" binder.executePendingBindings()
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -58,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="10dp"
-                android:text="Grocery Store"
+                android:text="@{store.storeName}"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +80,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Open 10AM - 9PM"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/tvStoreName"
@@ -78,6 +88,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/detailsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
@@ -101,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
-                android:text="@string/callText"
+                tools:text="@string/callText"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@id/ivCallBtn"
@@ -109,12 +120,11 @@
 
             <ImageView
                 android:id="@+id/ivMessage"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="30dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginTop="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvCallDescription"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_message" />
 
@@ -135,7 +145,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:maxLines="3"
-                android:text="@string/storeAddress"
+                tools:text = "Nature Basket, Century Bazaar, Prabhadevi, Mumbai, Maharashtra"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@id/ivLocation"
@@ -143,6 +153,31 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:indeterminate="true"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/detailsContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="@{loading ? View.VISIBLE : View.GONE}"
+            />
+
+        <TextView
+            android:id="@+id/blankScreenText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Cannot Fetch Data"
+            android:gravity="center"
+            android:textColor="@color/error_color"
+            android:textSize="16sp"
+            android:visibility="invisible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

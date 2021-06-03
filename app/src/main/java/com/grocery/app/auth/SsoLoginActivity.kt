@@ -14,15 +14,15 @@ class SsoLoginActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sso_login)
-        listener()
+//        listener()
     }
 
-    fun listener() {
-        val closeBtn = findViewById<ImageView>(R.id.close)
-        closeBtn.setOnClickListener {
-            onBackPressed()
-        }
-    }
+//    fun listener() {
+//        val closeBtn = findViewById<ImageView>(R.id.close)
+//        closeBtn.setOnClickListener {
+//            onBackPressed()
+//        }
+//    }
 
     override fun onClick(v: View?) {
         setListener()

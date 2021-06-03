@@ -114,6 +114,7 @@ class DetailsPageActivity : AppCompatActivity() {
                     ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE, viewModel.cartMap)
                 listAdapter.onClickListener = _itemClickListener
                 binder.rvSimilarProduct.adapter = listAdapter
+                fireCartChangeEvent()
             }
 
         onQuantityChange()
@@ -151,7 +152,6 @@ class DetailsPageActivity : AppCompatActivity() {
         binder.tvProductPrice.visible(totalCost != 0)
         binder.tvProductPrice.text =
             String.format(getString(R.string.rs_symbol), totalCost.toString())
-
 
     }
 }

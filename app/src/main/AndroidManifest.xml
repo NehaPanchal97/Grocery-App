@@ -64,7 +64,8 @@
         </activity>
         <activity
             android:name=".activities.AdminHomePageActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing|stateVisible"/>
         <activity
             android:name=".activities.AdminOrderDetailActivity"
             android:screenOrientation="portrait" />

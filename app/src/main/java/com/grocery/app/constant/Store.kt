@@ -25,4 +25,6 @@ object Store {
     const val DISCOUNT = "discount"
     const val FCM_TOKEN = "fcmToken"
     const val ROLE = "role"
+    const val OTHERS = "others"
+    const val ABOUT_PAGE = "aboutpage"
 }
