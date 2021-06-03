@@ -75,6 +75,10 @@ class ProductListAdapter(
         notifyDataSetChanged()
     }
 
+    fun deleteItem(index:Int){
+        products.removeAt(index)
+        notifyDataSetChanged()
+    }
 
     override fun onBindViewHolder(holder: BaseVH<*, Product>, position: Int) {
         if (holder !is LoadMoreVH) {
