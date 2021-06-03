@@ -168,4 +168,6 @@
     <string name="description_text">Description</string>
     <string name="fruits_text">Fruits</string>
     <string name="search_product">Search Product</string>
+    <string name="try_again">Try Again</string>
+    <string name="something_went_wrong">Something went Wrong</string>
 </resources>
