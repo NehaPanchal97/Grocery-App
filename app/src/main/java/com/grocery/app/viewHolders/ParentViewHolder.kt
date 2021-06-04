@@ -26,8 +26,6 @@ class ParentViewHolder(private val binder: CategoryGroupWithHeaderBinding, priva
         } }
 
         binder.recyclerViewHorizontal.setHasFixedSize(true)
-//        binder.recyclerViewHorizontal.layoutManager =
-//                LinearLayoutManager(binder.root.context, LinearLayoutManager.HORIZONTAL, false)
         binder.recyclerViewHorizontal.layoutManager=
                 GridLayoutManager(binder.root.context,3,RecyclerView.VERTICAL,false)
         binder.recyclerViewHorizontal.adapter = itemListAdapter
