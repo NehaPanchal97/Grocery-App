@@ -56,7 +56,7 @@ val String.searchKeys: ArrayList<String>
                 for (j in 0..i) {
                     wordGroup.add(words[j])
                 }
-                keys.add(wordGroup.joinToString(" ").toLowerCase())
+                keys.add(wordGroup.joinToString(" "))
             }
         }
         return keys
