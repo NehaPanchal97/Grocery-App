@@ -54,7 +54,9 @@
         android:orientation="vertical"
         android:layout_below="@id/topBar"
         android:background="@drawable/home_fragment_layout_rounded_corners"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
