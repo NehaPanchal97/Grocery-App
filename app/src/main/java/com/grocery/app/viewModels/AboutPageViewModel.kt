@@ -14,23 +14,23 @@ class AboutPageViewModel : ViewModel() {
 
     private val _fetchStoreLiveData by lazy { MutableLiveData<Result<AboutPage?>>() }
 
-    val fetchStoreLiveData : LiveData<Result<AboutPage?>>
-    get() = _fetchStoreLiveData
+    val fetchStoreLiveData: LiveData<Result<AboutPage?>>
+        get() = _fetchStoreLiveData
 
-    var store:AboutPage? = null
+    var store: AboutPage? = null
 
-    fun fetchStoreInfo(){
+    fun fetchStoreInfo() {
         _fetchStoreLiveData.value = Result.loading()
         val db = Firebase.firestore
         val docRef = db.document(Store.OTHERS + "/" + Store.ABOUT_PAGE)
-            docRef.get()
-                .addOnSuccessListener {
-                   store = it.toObject(AboutPage::class.java)
-                    _fetchStoreLiveData.value = Result.success(store)
-                }
-                .addOnFailureListener {
-                    _fetchStoreLiveData.value = Result.error()
-                    Log.d("error", "Exception: ", it)
-                }
+        docRef.get()
+            .addOnSuccessListener {
+                store = it.toObject(AboutPage::class.java)
+                _fetchStoreLiveData.value = Result.success(store)
+            }
+            .addOnFailureListener {
+                _fetchStoreLiveData.value = Result.error()
+                Log.d("error", "Exception: ", it)
+            }
     }
 }

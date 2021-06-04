@@ -109,13 +109,14 @@ class ProductViewModel : ViewModel() {
     }
 
     fun fetchProductWithTag() {
-        _similarProductListLiveData.value = Result.loading()
         val tags = product.tags ?: arrayListOf()
+        if (tags.isEmpty()){
+            return
+        }
+        _similarProductListLiveData.value = Result.loading()
         val ref = Firebase.firestore.collection(Store.PRODUCTS)
         var query = ref.whereNotEqualTo("id", product.id)
-        if (tags.isNotEmpty()) {
             query = query.whereArrayContainsAny("tags", tags)
-        }
         query.get()
             .addOnSuccessListener { snapShot ->
                 val products = snapShot.toObjects(Product::class.java)

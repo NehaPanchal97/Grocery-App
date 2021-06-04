@@ -10,12 +10,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.grocery.app.R
 import com.grocery.app.databinding.ActivityAboutPageBinding
-import com.grocery.app.extensions.showError
-import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
 import com.grocery.app.viewModels.AboutPageViewModel
 
-class AboutPageActivity : AppCompatActivity() {
+class AboutPageActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var binder: ActivityAboutPageBinding
     lateinit var viewModel: AboutPageViewModel
@@ -24,13 +22,17 @@ class AboutPageActivity : AppCompatActivity() {
         binder = DataBindingUtil.setContentView(this, R.layout.activity_about_page)
         viewModel = ViewModelProvider(this).get(AboutPageViewModel::class.java)
         observe()
-        onCallPressed()
+        onCallBtnPressed()
         onMessageBtnPressed()
         loadLocation()
+        setUpView()
         viewModel.fetchStoreInfo()
+        binder.ivBackArrow.setOnClickListener {
+            onBackPressed()
+        }
     }
 
-    private fun onCallPressed() {
+    private fun onCallBtnPressed() {
         binder.ivCallBtn.setOnClickListener {
             val callIntent = Intent(Intent.ACTION_DIAL)
             callIntent.data = Uri.parse("tel:" + viewModel.store?.contact)
@@ -48,8 +50,6 @@ class AboutPageActivity : AppCompatActivity() {
 
     private fun loadLocation() {
         binder.ivLocation.setOnClickListener {
-//            val uri =
-            "http://maps.google.com/maps?q=Nature Basket, Century Bazaar, Prabhadevi, Mumbai, Maharashtra"
             val intent = Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse(viewModel.store?.locationUri)
@@ -65,30 +65,29 @@ class AboutPageActivity : AppCompatActivity() {
             when (it.type) {
                 Result.Status.LOADING -> {
                     binder.loading = true
+                    binder.error = null
                 }
                 Result.Status.SUCCESS -> {
-                    binder.store = viewModel.store
+                    binder.store =
+                        viewModel.store  //setting store can also be done through (it.data)
                     binder.loading = false
-//                    it.data
-//                   setData()
                 }
                 Result.Status.ERROR -> {
-                    binder.storeContainer.visible(false)
-                    binder.detailsContainer.visible(false)
                     binder.loading = false
-                    binder.blankScreenText.visible(true)
+                    binder.error = "Error occurred!"
                 }
             }
             binder.executePendingBindings()
         })
     }
 
-    private fun setData() {
-//        binder.tvStoreName.text = viewModel.store?.storeName
-//        binder.tvStoreTime.text = viewModel.store?.timing
-        binder.tvCallDescription.text =
-            getString(R.string.callText, viewModel.store?.callDescription)
-        binder.tvLocationDescription.text = viewModel.store?.locationDescription
+    private fun setUpView() {
+        binder.clickListener = this
+        binder.executePendingBindings()
+    }
+
+    override fun onClick(v: View?) {
+        viewModel.fetchStoreInfo()
     }
 }
 
