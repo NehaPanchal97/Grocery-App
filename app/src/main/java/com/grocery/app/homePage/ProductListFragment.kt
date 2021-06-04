@@ -23,6 +23,7 @@ import com.grocery.app.constant.*
 import com.grocery.app.customs.OnLoadMoreListener
 import com.grocery.app.databinding.ProductItemgroupLayoutBinding
 import com.grocery.app.extensions.showError
+import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.listeners.OnItemClickListener
@@ -109,7 +110,13 @@ class ProductListFragment : BaseFragment() {
                 Result.Status.SUCCESS -> {
                     binder.progressBar.hide()
                     val products = it.data ?: arrayListOf()
-                    itemRecyclerViewAdapter.update(false, products)
+                    if (products.isNotEmpty()) {
+                        itemRecyclerViewAdapter.update(false, products)
+                    } else{
+                        binder.emptyText.visible(true)
+                        binder.emptyImage.visible(true)
+                    }
+
                 }
 
                 Result.Status.ERROR -> {
