@@ -42,7 +42,7 @@ val String.isRemoteUrl
 val String.searchKeys: ArrayList<String>
     get() {
         val keys = arrayListOf<String>()
-        val words = this.trim()split(" ")
+        val words = this.trim().split(" ")
         words.forEach { word ->
             if (word.length > 2) {
                 for (i in 3..word.length) {
