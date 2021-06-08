@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
@@ -26,12 +27,14 @@ import com.grocery.app.extensions.visible
 import com.grocery.app.fragments.BaseFragment
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
+import com.grocery.app.models.Product
 import com.grocery.app.models.User
 import com.grocery.app.services.OrderChangeService
 import com.grocery.app.utils.OrderUtils
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.OrderViewModel
 import com.grocery.app.viewModels.ProductViewModel
+import okhttp3.internal.notify
 
 private typealias Status = com.grocery.app.extras.Result.Status
 
@@ -199,6 +202,19 @@ class CartPageFragment : BaseFragment() {
             binder.cartRecyclerView.itemAnimator = null
             listAdapter.onClickListener = _itemClickListener
             binder.cartRecyclerView.adapter = listAdapter
+            val swipeDelete = object :SwipeToDeleteCallback(){
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val product = listAdapter.items[viewHolder.bindingAdapterPosition]
+                    listAdapter.deleteItem(viewHolder.bindingAdapterPosition)
+                    viewModel.updateCart(product,false)
+                    listAdapter.update(false,viewModel.cart.items?: arrayListOf())
+                    onTotalChange()
+                    pref.put(CART, viewModel.cart)
+                    fireCartChangeEvent()
+                }
+            }
+            val touchHelper =ItemTouchHelper(swipeDelete)
+            touchHelper.attachToRecyclerView(this)
         }
     }
 
