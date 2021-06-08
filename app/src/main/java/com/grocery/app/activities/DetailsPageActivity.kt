@@ -50,6 +50,8 @@ class DetailsPageActivity : AppCompatActivity() {
         binder.imBackBtn.setOnClickListener {
             onBackPressed()
         }
+        binder.product = _product
+        binder.executePendingBindings()
     }
 
 
@@ -116,8 +118,14 @@ class DetailsPageActivity : AppCompatActivity() {
                 binder.rvSimilarProduct.adapter = listAdapter
                 fireCartChangeEvent()
             }
-
         onQuantityChange()
+
+        binder.btnAddToCart.setOnClickListener {
+            viewModel.updateCart(_product, true)
+            prefManager.put(CART, viewModel.cart)
+            onQuantityChange()
+            fireCartChangeEvent()
+        }
         binder.detailsAddBtn.setOnClickListener {
             viewModel.updateCart(_product, true)
             prefManager.put(CART, viewModel.cart)
@@ -134,7 +142,6 @@ class DetailsPageActivity : AppCompatActivity() {
             }
         }
         binder.tvProductName.text = _product.name
-        binder.tvPriceWithUnit.text = _product.price?.toInt().toString()
         binder.tvDescription.text = _product.description.toString()
         binder.ivItem.loadImage(_product.url)
     }
@@ -147,6 +154,14 @@ class DetailsPageActivity : AppCompatActivity() {
     private fun onQuantityChange() {
         val product = viewModel.cartMap[_product.id]
         val count = product?.count ?: 0
+        if (count == 0){
+            binder.btnAddToCart.visible(true)
+            binder.containerWithCount.visible(false)
+        }
+        else{
+            binder.btnAddToCart.visible(false)
+            binder.containerWithCount.visible(true)
+        }
         val totalCost = product?.total?.toInt() ?: 0
         binder.tvProductCount.text = count.toString()
         binder.tvProductPrice.visible(totalCost != 0)
