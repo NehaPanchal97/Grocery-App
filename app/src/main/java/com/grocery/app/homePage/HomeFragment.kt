@@ -62,6 +62,8 @@ class HomeFragment : BaseFragment() {
 
     private fun loadProfile() {
     val user = prefManager.get<User>(USER)
+        val userName = user?.name?.capitalize()
+        binder.tvText.text = "Hey $userName ,\nLet's search grocery food"
         binder.ivAccountDetails.loadImage(user?.url,R.drawable.ic_circle_account,true)
     }
 

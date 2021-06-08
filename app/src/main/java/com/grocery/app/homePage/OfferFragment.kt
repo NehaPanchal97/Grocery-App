@@ -39,18 +39,12 @@ class OfferFragment: BaseFragment(), OnCategoryClickListener {
         viewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
         productViewModel=ViewModelProvider(this).get(ProductViewModel::class.java)
         binder.offerRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        listener()
         setUpView()
         observe()
         viewModel.fetchOfferDetail()
 
     }
 
-    private fun listener(){
-        binder.offerBackBtn.setOnClickListener {
-        activity?.onBackPressed()
-        }
-    }
 
     private fun observe(){
         viewModel.offerPageLiveData.observe(viewLifecycleOwner, Observer {
