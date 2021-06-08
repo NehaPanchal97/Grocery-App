@@ -58,7 +58,7 @@
     <string name="cancel">Cancel</string>
     <string name="tags">Tags</string>
     <string name="todo">TODO</string>
-    <string name="vegetables">vegetables , fruits apple mango</string>
+    <string name="vegetables">vegetables , fruits apple mango,drinks,biscuits</string>
     <string name="amount_with_quantity">$17.00/kg</string>
     <string name="price_of_item">$17.20</string>
     <string name="count">0</string>

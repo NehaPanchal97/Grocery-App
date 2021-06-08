@@ -21,11 +21,10 @@
             name="clickListener"
             type="android.view.View.OnClickListener" />
 
-        <import type="android.text.TextUtils"/>
+        <import type="android.text.TextUtils" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -38,152 +37,153 @@
             android:layout_height="match_parent"
             android:visibility="@{store != null ? View.VISIBLE : View.GONE}">
 
-        <ImageView
-            android:id="@+id/iv_storeImage"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="16:9"
+            <ImageView
+                android:id="@+id/iv_storeImage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/grocerystore" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#65000000"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivBackArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_arrow_back_white" />
+
+
+            <TextView
+                android:id="@+id/tvStoreName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:text="@{store.storeName}"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                app:layout_constraintStart_toEndOf="@id/ivBackArrow"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Grocery Shop" />
+
+            <ImageView
+                android:id="@+id/iv_open"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_storeImage"
+                app:srcCompat="@drawable/open" />
+
+            <TextView
+                android:id="@+id/tvStoreTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:text="@{store.timing}"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@id/iv_open"
+                app:layout_constraintTop_toBottomOf="@id/iv_storeImage"
+                tools:text="10AM - 9PM" />
+
+
+            <ImageView
+                android:id="@+id/ivCallBtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_open"
+                app:srcCompat="@drawable/ic_call_btn" />
+
+            <TextView
+                android:id="@+id/tvCallDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="@{String.format(@string/callText,store.callDescription)}"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@id/ivCallBtn"
+                app:layout_constraintTop_toTopOf="@id/ivCallBtn"
+                tools:text="@string/callText" />
+
+            <ImageView
+                android:id="@+id/ivMessage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvStoreTime"
+                app:srcCompat="@drawable/ic_message" />
+
+            <ImageView
+                android:id="@+id/ivLocation"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivCallBtn"
+                app:srcCompat="@drawable/ic_location" />
+
+            <TextView
+                android:id="@+id/tvLocationDescription"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:maxLines="3"
+                android:text="@{store.locationDescription}"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@id/ivLocation"
+                app:layout_constraintTop_toBottomOf="@id/tvCallDescription"
+                tools:text="Nature Basket, Century Bazaar, Prabhadevi, Mumbai, Maharashtra" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{loading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/grocerystore"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="#65000000"
-            app:layout_constraintDimensionRatio="16:9"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <ImageView
-            android:id="@+id/ivBackArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_arrow_back_white" />
-
-        <ImageView
-            android:id="@+id/ivAboutImage"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/ic_circle_account"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvStoreName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="10dp"
-            android:text="@{store.storeName}"
-            tools:text="Grocery Shop"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivAboutImage" />
-
-        <TextView
-            android:id="@+id/tvStoreTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@{store.timing}"
-            tools:text="10AM - 9PM"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/tvStoreName"
-            app:layout_constraintTop_toBottomOf="@id/tvStoreName" />
-
-
-        <ImageView
-            android:id="@+id/ivCallBtn"
-            android:layout_height="30dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_width="30dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_storeImage"
-            app:srcCompat="@drawable/ic_call_btn" />
-
-        <TextView
-            android:id="@+id/tvCallDescription"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@id/ivCallBtn"
-            app:layout_constraintTop_toBottomOf="@+id/iv_storeImage"
-            android:text="@{String.format(@string/callText,store.callDescription)}"
-            tools:text="@string/callText" />
-
-        <ImageView
-            android:id="@+id/ivMessage"
-            android:layout_height="30dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="30dp"
-            android:layout_width="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_storeImage"
-            app:srcCompat="@drawable/ic_message" />
-
-        <ImageView
-            android:id="@+id/ivLocation"
-            android:layout_height="30dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
-            android:layout_width="30dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivCallBtn"
-            app:srcCompat="@drawable/ic_location" />
-
-        <TextView
-            android:id="@+id/tvLocationDescription"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_width="250dp"
-            android:maxLines="3"
-            android:text="@{store.locationDescription}"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@id/ivLocation"
-            app:layout_constraintTop_toBottomOf="@id/tvCallDescription"
-            tools:text="Nature Basket, Century Bazaar, Prabhadevi, Mumbai, Maharashtra" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:indeterminate="true"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:visibility="@{loading ? View.VISIBLE : View.GONE}"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:visibility="gone"/>
+            tools:visibility="gone" />
 
 
         <include
             layout="@layout/error_layout"
-            app:clickListener = "@{clickListener}"
-            app:message = "@{error}"
             android:visibility="@{TextUtils.isEmpty(error)? View.GONE : View.VISIBLE}"
-            tools:visibility="gone"/>
-         </androidx.constraintlayout.widget.ConstraintLayout>
+            app:clickListener="@{clickListener}"
+            app:message="@{error}"
+            tools:visibility="gone" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </layout>
+</layout>

@@ -6,6 +6,7 @@ import com.grocery.app.R
 import com.grocery.app.constant.OrderStatus
 import com.grocery.app.databinding.OrderItemBinding
 import com.grocery.app.extensions.formatDate
+import com.grocery.app.extensions.visible
 import com.grocery.app.models.Order
 
 class OrderItemVH(
@@ -18,10 +19,10 @@ class OrderItemVH(
         val deliveredAt = data.allStatus?.firstOrNull {
             it.completed == true && it.status == OrderStatus.DELIVERED.title
         }?.updatedAt?.toDate()?.formatDate("dd MMM, YYYY")
-        if (data.currentStatus == OrderStatus.PLACED.title) {
-            binder.orderCreatedAt = context.getString(R.string.orderCreated, createdAt)
-        } else {
+        if (data.currentStatus == OrderStatus.DELIVERED.title) {
             binder.orderCreatedAt = context.getString(R.string.order_delivered_at, deliveredAt)
+        } else {
+            binder.orderCreatedAt = context.getString(R.string.order_created_at, createdAt)
         }
         val products = data.items?.map { it.name }?.joinToString(", ")
         binder.tvProductDetails.text = products
