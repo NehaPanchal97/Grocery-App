@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="product"
+            type="com.grocery.app.models.Product" />
 
     </data>
 
@@ -79,14 +84,40 @@
                                 android:textColor="@android:color/black"
                                 android:textSize="28sp" />
 
-                            <TextView
-                                android:id="@+id/tvPriceWithUnit"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="10dp"
-                                android:text="$17.00/kg"
-                                android:textSize="16sp" />
+                                android:orientation="horizontal"
+                                android:layout_gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tvDiscountedPrice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Rs 180"
+                                    productDiscountedPrice="@{product}"
+                                    style="@style/ProductDiscountedPriceStyle"/>
+
+                                <TextView
+                                    android:id="@+id/tvActualRate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:text=" Rs 200"
+                                    productPrice="@{product}"
+                                    style="@style/ProductPriceStyle"/>
+
+                                <TextView
+                                    android:id="@+id/tvDiscountPercent"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/error_color"
+                                    android:textSize="14sp"
+                                    productDiscount="@{product}"
+                                    android:layout_marginStart="20dp"
+                                    tools:text="@string/per_symbol"/>
+
+                            </LinearLayout>
 
                             <TextView
                                 android:id="@+id/tvProductPrice"
@@ -98,8 +129,16 @@
                                 android:textColor="@android:color/black"
                                 android:textSize="24sp" />
 
+                            <Button
+                                android:id="@+id/btn_addToCart"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="Add to Cart"/>
+
 
                             <LinearLayout
+                                android:id="@+id/containerWithCount"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"

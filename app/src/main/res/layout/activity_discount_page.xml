@@ -78,7 +78,7 @@
                         android:text="@string/filter_by_text"
                         android:fontFamily="@font/ptsans_bold"
                         android:textColor="#C5C6D4"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
 
                     <androidx.appcompat.widget.AppCompatSpinner
