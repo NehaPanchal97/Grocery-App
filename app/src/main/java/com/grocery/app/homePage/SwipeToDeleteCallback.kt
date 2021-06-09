@@ -1,16 +1,41 @@
 package com.grocery.app.homePage
 
+import android.content.Context
 import android.graphics.Canvas
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.grocery.app.R
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
-abstract class SwipeToDeleteCallback :ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
 
+abstract class SwipeToDeleteCallback(context: Context) :ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+
+
+    val background = ContextCompat.getColor(context, R.color.error_color)
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
         return false
     }
 
-    override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+    override fun onChildDraw(c: Canvas, recyclerView: RecyclerView,
+                             viewHolder: RecyclerView.ViewHolder,
+                             dX: Float, dY: Float, actionState: Int,
+                             isCurrentlyActive: Boolean) {
+
+        RecyclerViewSwipeDecorator.Builder(
+            c,
+            recyclerView,
+            viewHolder,
+            dX,
+            dY,
+            actionState,
+            isCurrentlyActive
+        )
+//            .addBackgroundColor(background)
+            .addActionIcon(R.drawable.ic_delete_icon)
+            .create()
+            .decorate()
+
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 }
