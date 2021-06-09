@@ -206,7 +206,7 @@ class CartPageFragment : BaseFragment() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val product = listAdapter.items[viewHolder.bindingAdapterPosition]
                     listAdapter.deleteItem(viewHolder.bindingAdapterPosition)
-                    viewModel.updateCart(product,CartAction.QUANTITY_DECREASED)
+                    viewModel.updateCart(product,CartAction.ITEM_REMOVED)
                     listAdapter.update(false,viewModel.cart.items?: arrayListOf())
                     onTotalChange()
                     pref.put(CART, viewModel.cart)

@@ -164,11 +164,12 @@
     <string name="offer_description_text_WH">Order any food from the app \n and get the discount</string>
     <string name="order_now_text">Order Now</string>
     <string name="categories_text">Categories</string>
-    <string name="search_text_header">Hey ,\nLet\'s search your grocery food</string>
+    <string name="search_text_header">Hey %s,\nLet\'s search your grocery</string>
     <string name="description_text">Description</string>
     <string name="fruits_text">Fruits</string>
     <string name="products_unavailable">Products are currently unavailable</string>
     <string name="search_product">Search Product</string>
     <string name="try_again">Try Again</string>
     <string name="something_went_wrong">Something went Wrong</string>
+    <string name="offers_text_header">Offers</string>
 </resources>
