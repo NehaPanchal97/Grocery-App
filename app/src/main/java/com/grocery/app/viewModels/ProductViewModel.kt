@@ -11,6 +11,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.grocery.app.constant.CartAction
 import com.grocery.app.constant.DEFAULT_PAGE_SIZE
 import com.grocery.app.constant.DISCOUNT
 import com.grocery.app.constant.Store
@@ -110,13 +111,13 @@ class ProductViewModel : ViewModel() {
 
     fun fetchProductWithTag() {
         val tags = product.tags ?: arrayListOf()
-        if (tags.isEmpty()){
+        if (tags.isEmpty()) {
             return
         }
         _similarProductListLiveData.value = Result.loading()
         val ref = Firebase.firestore.collection(Store.PRODUCTS)
         var query = ref.whereNotEqualTo("id", product.id)
-            query = query.whereArrayContainsAny("tags", tags)
+        query = query.whereArrayContainsAny("tags", tags)
         query.get()
             .addOnSuccessListener { snapShot ->
                 val products = snapShot.toObjects(Product::class.java)
@@ -142,10 +143,10 @@ class ProductViewModel : ViewModel() {
 
     fun updateCart(
         product: Product?,
-        isAddition: Boolean = true
+        cartAction: CartAction = CartAction.QUANTITY_INCREASED
     ) {
         _updateCartLiveData.value = Result.loading()
-        evaluateCartUpdate(product, isAddition)
+        evaluateCartUpdate(product, cartAction)
         val ref = Firebase.firestore
             .collection("${Store.USERS}/${authUser?.uid}/${Store.CART}")
         if (cart.id?.isEmpty() != false) {
@@ -162,11 +163,19 @@ class ProductViewModel : ViewModel() {
             }
     }
 
-    private fun evaluateCartUpdate(product: Product?, isAddition: Boolean = true) {
+    private fun evaluateCartItemCount(cartAction: CartAction, oldCount: Int): Int {
+        return when (cartAction) {
+            CartAction.QUANTITY_INCREASED -> oldCount + 1
+            CartAction.QUANTITY_DECREASED -> oldCount - 1
+            else -> 0
+        }
+    }
+
+    private fun evaluateCartUpdate(product: Product?, cartAction: CartAction) {
 
         val item = product?.clone()
         val itemCount = cartMap[product?.id]?.count ?: 0
-        item?.count = itemCount + if (isAddition) 1 else -1
+        item?.count = evaluateCartItemCount(cartAction, itemCount)
         item?.total = item?.count?.times(item.price ?: 0.0)?.round(2)
         item?.totalDiscount = item?.total?.percentage(item.discount ?: 0.0)?.round(2)
 

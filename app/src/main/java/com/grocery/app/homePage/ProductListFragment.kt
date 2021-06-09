@@ -152,13 +152,13 @@ class ProductListFragment : BaseFragment() {
         override fun onItemClick(itemId: Int, position: Int) {
             val product = itemRecyclerViewAdapter.items.getOrNull(position)
             if (itemId == R.id.iv_add) {
-                viewModel.updateCart(product, isAddition = true)
+                viewModel.updateCart(product)
                 itemRecyclerViewAdapter.notifyItemChanged(position)
                 pref.put(CART, viewModel.cart)
                 fireCartChangeEvent()
 
             } else if (itemId == R.id.iv_remove) {
-                viewModel.updateCart(product, isAddition = false)
+                viewModel.updateCart(product,CartAction.QUANTITY_DECREASED)
                 itemRecyclerViewAdapter.notifyItemChanged(position)
                 pref.put(CART, viewModel.cart)
                 fireCartChangeEvent()

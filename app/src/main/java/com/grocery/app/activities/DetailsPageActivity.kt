@@ -11,10 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.R
 import com.grocery.app.adapters.ProductListAdapter
-import com.grocery.app.constant.CART
-import com.grocery.app.constant.CART_CHANGE
-import com.grocery.app.constant.HOMEPAGE_PRODUCT_TYPE
-import com.grocery.app.constant.PRODUCT
+import com.grocery.app.constant.*
 import com.grocery.app.databinding.ActivityDetailsPageBinding
 import com.grocery.app.extensions.loadImage
 import com.grocery.app.extensions.showError
@@ -67,8 +64,7 @@ class DetailsPageActivity : AppCompatActivity() {
                         listAdapter.update(false, products)
                         binder.rvCardView.visible(true)
                         binder.detailsPageProgressBar.hide()
-                    }
-                    else{
+                    } else {
                         binder.rvCardView.visible(false)
                     }
                 }
@@ -100,7 +96,7 @@ class DetailsPageActivity : AppCompatActivity() {
 
     private fun onCartUpdated(isAdded: Boolean, position: Int) {
         val product = listAdapter.items.getOrNull(position)
-        viewModel.updateCart(product, isAddition = isAdded)
+        viewModel.updateCart(product)
         listAdapter.notifyItemChanged(position)
         fireCartChangeEvent()
     }
@@ -111,23 +107,23 @@ class DetailsPageActivity : AppCompatActivity() {
         initCart()
         _product = intent.getParcelableExtra(PRODUCT) ?: Product()
 
-            binder.rvSimilarProduct.apply {
-                listAdapter =
-                    ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE, viewModel.cartMap)
-                listAdapter.onClickListener = _itemClickListener
-                binder.rvSimilarProduct.adapter = listAdapter
-                fireCartChangeEvent()
-            }
+        binder.rvSimilarProduct.apply {
+            listAdapter =
+                ProductListAdapter(arrayListOf(), HOMEPAGE_PRODUCT_TYPE, viewModel.cartMap)
+            listAdapter.onClickListener = _itemClickListener
+            binder.rvSimilarProduct.adapter = listAdapter
+            fireCartChangeEvent()
+        }
         onQuantityChange()
 
         binder.btnAddToCart.setOnClickListener {
-            viewModel.updateCart(_product, true)
+            viewModel.updateCart(_product)
             prefManager.put(CART, viewModel.cart)
             onQuantityChange()
             fireCartChangeEvent()
         }
         binder.detailsAddBtn.setOnClickListener {
-            viewModel.updateCart(_product, true)
+            viewModel.updateCart(_product)
             prefManager.put(CART, viewModel.cart)
             onQuantityChange()
             fireCartChangeEvent()
@@ -135,7 +131,7 @@ class DetailsPageActivity : AppCompatActivity() {
         binder.detailsRemoveBtn.setOnClickListener {
             val productCount = viewModel.cartMap[_product.id]?.count ?: 0
             if (productCount >= 1) {
-                viewModel.updateCart(_product, false)
+                viewModel.updateCart(_product, CartAction.QUANTITY_DECREASED)
                 prefManager.put(CART, viewModel.cart)
                 onQuantityChange()
                 fireCartChangeEvent()
@@ -154,11 +150,10 @@ class DetailsPageActivity : AppCompatActivity() {
     private fun onQuantityChange() {
         val product = viewModel.cartMap[_product.id]
         val count = product?.count ?: 0
-        if (count == 0){
+        if (count == 0) {
             binder.btnAddToCart.visible(true)
             binder.containerWithCount.visible(false)
-        }
-        else{
+        } else {
             binder.btnAddToCart.visible(false)
             binder.containerWithCount.visible(true)
         }

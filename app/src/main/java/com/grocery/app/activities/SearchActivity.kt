@@ -104,7 +104,7 @@ class SearchActivity : AppCompatActivity() {
         override fun onItemClick(itemId: Int, position: Int) {
             val product = itemRvAdapter.items.getOrNull(position)
             if (itemId == R.id.iv_add) {
-                viewModel.updateCart(product, isAddition = true)
+                viewModel.updateCart(product)
                 pref.put(CART, viewModel.cart)
                 itemRvAdapter.notifyItemChanged(position)
                 fireCartChangeEvent()
@@ -116,7 +116,7 @@ class SearchActivity : AppCompatActivity() {
                 }
 
             } else if (itemId == R.id.iv_remove) {
-                viewModel.updateCart(product, isAddition = false)
+                viewModel.updateCart(product, CartAction.QUANTITY_DECREASED)
                 pref.put(CART, viewModel.cart)
                 itemRvAdapter.notifyItemChanged(position)
                 fireCartChangeEvent()
