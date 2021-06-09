@@ -6,6 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
@@ -73,7 +77,7 @@ class ProductViewModel : ViewModel() {
         if (initialFetch) {
             hasMoreProduct = true
             lastProductSnap = null
-            batchUpdate()
+//            batchUpdate()
         }
         _productListLiveData.value = Result.loading()
         var query = Firebase.firestore.collection(Store.PRODUCTS)
@@ -105,8 +109,20 @@ class ProductViewModel : ViewModel() {
     }
 
 
-    private fun batchUpdate() {
+     fun batchUpdate() {
         //To update batch
+        val tags = arrayListOf("Healthy", "Fruits", "vegetables", "Biscuits", "Almond")
+        val ref = Firebase.database.reference
+        ref.child("ttp").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Log.d("Tag", "onChange")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("Tag", "Error")
+            }
+
+        })
     }
 
     fun fetchProductWithTag() {
