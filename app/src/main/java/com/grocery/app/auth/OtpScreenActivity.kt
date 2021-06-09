@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
@@ -13,11 +14,13 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.grocery.app.homePage.HomePageActivity
 import com.grocery.app.R
 import com.grocery.app.databinding.ActivityOtpScreenBinding
 import com.grocery.app.extensions.authUser
+import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.showToast
+import com.grocery.app.extensions.visible
+import com.grocery.app.homePage.HomePageActivity
 import kotlinx.android.synthetic.main.activity_otp_screen.*
 import java.util.concurrent.TimeUnit
 
@@ -31,7 +34,7 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun onVerificationFailed(e: FirebaseException) {
                 progressBar.visibility = View.GONE
-                showToast("$e")
+                  binder.root.showError("Check your Connectivity")
             }
 
             override fun onCodeSent(
@@ -65,6 +68,12 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
         val mobile = intent.getStringExtra("Phone")
         binder.tvPhoneNo.text = String.format(getString(R.string.code_sent), mobile)
         mobile?.let { startPhoneNumberVerification(it) }
+
+        binder.otpView.doAfterTextChanged {
+            if (binder.otpView.text?.length?:0 >5){
+                binder.verify.visible(true)
+            }else binder.verify.visible(false)
+        }
 
 
         binder.tvResendCode.setOnClickListener {
@@ -121,7 +130,8 @@ class OtpScreenActivity : AppCompatActivity(), View.OnClickListener {
 
                 } else {
                     progressBar.visibility = View.GONE
-                    showToast("${task.exception}")
+                    showToast("Please enter correct verification code")
+//                    showToast("${task.exception}")
                 }
 
             }
