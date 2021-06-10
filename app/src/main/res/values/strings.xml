@@ -176,4 +176,6 @@
     <string name="add_more_tags">Add More Tags</string>
     <string name="search_tags">Search Tags</string>
     <string name="done">Done</string>
+    <string name="entering_mobile_number">Please enter your phone number</string>
+    <string name="enter_10_digit_mobile_number">Please enter a 10 digit phone number</string>
 </resources>

@@ -14,15 +14,8 @@ class SsoLoginActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sso_login)
-//        listener()
     }
 
-//    fun listener() {
-//        val closeBtn = findViewById<ImageView>(R.id.close)
-//        closeBtn.setOnClickListener {
-//            onBackPressed()
-//        }
-//    }
 
     override fun onClick(v: View?) {
         setListener()
@@ -31,12 +24,11 @@ class SsoLoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun validatePhone(phoneNoET: EditText, phoneNo: String): Boolean {
         return when {
             phoneNo.isBlank() -> {
-                phoneNoET.error = "Please enter your phone number"
-//                showToast("Please enter your phone number")
+                phoneNoET.error = getString(R.string.entering_mobile_number)
                 false
             }
             phoneNo.length < 10 -> {
-                phoneNoET.error = "Please enter a 10 digit phone \n number"
+                phoneNoET.error = getString(R.string.enter_10_digit_mobile_number)
                 false
             }
             else -> {
