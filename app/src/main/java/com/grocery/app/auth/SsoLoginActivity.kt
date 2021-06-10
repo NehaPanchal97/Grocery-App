@@ -32,7 +32,7 @@ class SsoLoginActivity : AppCompatActivity(), View.OnClickListener {
         return when {
             phoneNo.isBlank() -> {
                 phoneNoET.error = "Please enter your phone number"
-                showToast("Please enter your phone number")
+//                showToast("Please enter your phone number")
                 false
             }
             phoneNo.length < 10 -> {

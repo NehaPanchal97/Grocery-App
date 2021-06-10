@@ -92,7 +92,7 @@
                     android:layout_marginTop="48dp"
                     android:fontFamily="@font/ptsans_regular"
                     android:text="@string/request_again"
-                    android:textColor="@color/login_subtext"
+                    android:textColor="@color/placed_state_color"
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@id/tv_codeText"
                     app:layout_constraintTop_toBottomOf="@id/otp_view" />

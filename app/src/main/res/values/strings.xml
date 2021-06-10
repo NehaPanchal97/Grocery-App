@@ -4,7 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_screen_heading">Continue with Phone</string>
     <string name="verify_next_text">You will receive a 6 digit code \nto verify next </string>
-    <string name="enter_your_phone_text">Enter your phone</string>
+    <string name="enter_your_phone_text">Enter your phone no.:</string>
     <string name="mobile_no..">Ex. 98765XXXXX</string>
     <string name="country_code">+91</string>
     <string name="continue_text">Continue</string>
