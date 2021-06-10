@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH
-import androidx.appcompat.widget.SearchView
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -19,10 +18,6 @@ import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.TagViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class SelectTagActivity : BaseActivity() {
 

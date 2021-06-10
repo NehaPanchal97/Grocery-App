@@ -135,8 +135,8 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
 
     private val _selectTag =
         registerForActivityResult(SelectTagContract()) { result ->
-            result?.let {
-                _product.tags = it
+            result?.let { rst ->
+                _product.tags = rst
                 onChipUpdated()
                 binder.tagChips.removeAllViews()
                 _product.tags?.forEach { tag ->
@@ -191,24 +191,6 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
             _selectTag.launch(_product.tags)
         }
 
-        //tag input handle
-//        binder.tagEt.doAfterTextChanged {
-//            val text = it.toString()
-//            if (text.length > 1 && text.endsWith(",")) {
-//                binder.tagEt.setText("")
-//                addChip(text.removeSuffix(","))
-//            }
-//        }
-
-    }
-
-    private fun addChip(text: String) {
-        if (!viewModel.shouldAddTag(text)) {
-            return
-        }
-        viewModel.addTag(text)
-        createChip(text).apply { binder.tagChips.addView(this) }
-        onChipUpdated()
     }
 
     private fun onChipUpdated() {
