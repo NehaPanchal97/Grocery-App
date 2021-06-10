@@ -27,9 +27,9 @@
         />
 
     <item android:id="@+id/more"
-        android:title="@string/more"
+        android:title="@string/about_us"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/more_option_svg"
+        android:icon="@drawable/about_us"
         />
 
 

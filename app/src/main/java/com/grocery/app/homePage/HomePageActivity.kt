@@ -217,6 +217,10 @@ class HomePageActivity : AppCompatActivity() {
         }
     }
 
+    fun cartIconAction(){
+        switchFragment(CartPageFragment(), addToBackstack = true, addFragment = true)
+    }
+
     private val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragment_container)
 

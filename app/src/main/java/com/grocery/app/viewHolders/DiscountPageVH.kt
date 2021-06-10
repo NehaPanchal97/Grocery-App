@@ -12,7 +12,7 @@ class DiscountPageVH(private val binder : DiscountItemBinding): BaseVH<DiscountI
     View.OnClickListener {
     override fun bind(data: Product) {
         val context = itemView.context
-        binder.tvProductDescription.text = data.name
+        binder.tvProductDescription.text = data.name?.trim()
        val discountPercent =  data.discount?.toInt().toString()
         binder.tvDiscountPer.text = context.getString(R.string.discount_percent,discountPercent)
         val discount = data.discount
