@@ -14,6 +14,7 @@ import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.*
 import com.grocery.app.databinding.ActivityDetailsPageBinding
 import com.grocery.app.extensions.loadImage
+import com.grocery.app.extensions.percentage
 import com.grocery.app.extensions.showError
 import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
@@ -157,11 +158,21 @@ class DetailsPageActivity : AppCompatActivity() {
             binder.btnAddToCart.visible(false)
             binder.containerWithCount.visible(true)
         }
-        val totalCost = product?.total?.toInt() ?: 0
-        binder.tvProductCount.text = count.toString()
-        binder.tvProductPrice.visible(totalCost != 0)
-        binder.tvProductPrice.text =
-            String.format(getString(R.string.rs_symbol), totalCost.toString())
 
+        val discount = product?.discount ?: 0.0
+        val actualPrice = product?.price ?: 0.0
+        val discountedPrice = actualPrice - actualPrice.percentage(discount)
+        binder.tvProductCount.text = count.toString()
+        if (discountedPrice > 0){
+            binder.tvProductPrice.visible(discountedPrice.toInt() != 0)
+            val total = count.times(discountedPrice)
+            binder.tvProductPrice.text = String.format(getString(R.string.rs_symbol), total.toString())
+        }
+        else{
+            binder.tvProductPrice.visible(actualPrice.toInt() != 0)
+            val total = count.times(actualPrice)
+            binder.tvProductPrice.text =
+                String.format(getString(R.string.rs_symbol), total.toString())
+        }
     }
 }

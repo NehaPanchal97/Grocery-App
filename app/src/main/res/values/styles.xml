@@ -52,5 +52,11 @@
         <item name="fontFamily">sans-serif</item>
     </style>
 
+    <style name="DiscountPriceStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/success_color</item>
+        <item name="fontFamily">@font/ptsans_bold</item>
+    </style>
+
 
 </resources>
