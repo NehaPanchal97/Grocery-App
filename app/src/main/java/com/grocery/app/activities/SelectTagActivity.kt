@@ -1,6 +1,8 @@
 package com.grocery.app.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH
 import androidx.appcompat.widget.SearchView
 import androidx.core.widget.doAfterTextChanged
@@ -17,6 +19,10 @@ import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.viewModels.TagViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SelectTagActivity : BaseActivity() {
 
@@ -26,23 +32,37 @@ class SelectTagActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        overridePendingTransition(R.anim.slide_in_up, R.anim.hold)
         binder = DataBindingUtil.setContentView(this, R.layout.activity_select_tag)
         viewModel = ViewModelProvider(this).get(TagViewModel::class.java)
         setupView()
         observe()
+        viewModel.fetchAllTags()
     }
 
     private fun observe() {
         viewModel.tagListLiveData.observe(this, Observer {
             when (it.type) {
+                Result.Status.LOADING -> {
+                    binder.loading = true
+                    binder.error = null
+                }
                 Result.Status.SUCCESS -> {
-                    tagListAdapter.update(it.data)
+                    binder.loading = false
+                    filterTags(binder.searchEt.text.toString())
                 }
                 else -> {
-
+                    binder.loading = false
+                    binder.error = "Unable to fetch Tags"
                 }
             }
+            binder.executePendingBindings()
         })
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(0, R.anim.slide_out_down)
     }
 
     private val _itemClickListener = object : OnItemClickListener {
@@ -67,8 +87,7 @@ class SelectTagActivity : BaseActivity() {
     }
 
     private fun setupView() {
-
-        //
+        binder.searchEt.requestFocus()
         viewModel.existingTags = intent?.getStringArrayListExtra(TAGS) ?: arrayListOf()
         tagListAdapter =
             TagListAdapter().apply { itemClickListener = _itemClickListener }
@@ -81,13 +100,19 @@ class SelectTagActivity : BaseActivity() {
         }
 
         binder.searchEt.doAfterTextChanged {
-            val length = it?.toString()?.trim()?.length ?: 0
-            if (length == 0) {
-                tagListAdapter.update(null)
-            } else if (length > 2) {
-                viewModel.fetchTags(it?.toString())
+            val query = it.toString()
+            when {
+                query.trim().isEmpty() -> {
+                    filterTags(query)
+                }
+                query.endsWith(" ") -> {
+                    addChip(query.removeSuffix(" "))
+                    binder.searchEt.setText("")
+                }
+                else -> {
+                    filterTags(query)
+                }
             }
-            binder.addTv.visible(length > 0)
         }
         binder.searchEt.setOnEditorActionListener { v, actionId, event ->
             if (actionId == IME_ACTION_SEARCH) {
@@ -95,10 +120,30 @@ class SelectTagActivity : BaseActivity() {
             }
             return@setOnEditorActionListener true
         }
-        binder.addTv.setOnClickListener {
-            addChip(binder.searchEt.text.toString())
-            binder.searchEt.setText("")
+        binder.doneTv.setOnClickListener {
+            viewModel.saveNewTags()
+            val i = Intent().apply { putStringArrayListExtra(TAGS, viewModel.existingTags) }
+            setResult(RESULT_OK, i)
+            finish()
         }
+        binder.clickListener = _clickListener
+    }
+
+    private val _clickListener = View.OnClickListener { v ->
+        if (v?.id == R.id.try_again_btn) {
+            viewModel.fetchAllTags()
+        }
+    }
+
+    private fun filterTags(query: String) {
+        if (query.trim().isEmpty()) {
+            tagListAdapter.update(viewModel.tags)
+            return
+        }
+        val tags = viewModel.tags
+            .filter { it?.toLowerCase()?.startsWith(query.toLowerCase()) == true }
+        val newTags = ArrayList(tags)
+        tagListAdapter.update(newTags)
     }
 
     private fun createChip(text: String?): Chip {

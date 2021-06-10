@@ -47,8 +47,7 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
         catViewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
         setupView()
         observe()
-//        catViewModel.fetchCategoryList()
-        viewModel.batchUpdate()
+        catViewModel.fetchCategoryList()
     }
 
 
@@ -136,8 +135,8 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
 
     private val _selectTag =
         registerForActivityResult(SelectTagContract()) { result ->
-            if (result?.isNotEmpty() == true) {
-                _product.tags = result
+            result?.let {
+                _product.tags = it
                 onChipUpdated()
                 binder.tagChips.removeAllViews()
                 _product.tags?.forEach { tag ->
@@ -146,6 +145,7 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
                     }
                 }
             }
+
         }
 
     @SuppressLint("DefaultLocale")

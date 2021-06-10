@@ -109,20 +109,8 @@ class ProductViewModel : ViewModel() {
     }
 
 
-     fun batchUpdate() {
+    fun batchUpdate() {
         //To update batch
-        val tags = arrayListOf("Healthy", "Fruits", "vegetables", "Biscuits", "Almond")
-        val ref = Firebase.database.reference
-        ref.child("ttp").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d("Tag", "onChange")
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("Tag", "Error")
-            }
-
-        })
     }
 
     fun fetchProductWithTag() {

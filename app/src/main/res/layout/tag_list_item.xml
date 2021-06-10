@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:paddingHorizontal="12dp"
+            android:paddingHorizontal="16dp"
             android:paddingVertical="12dp"
             android:text="@{tag}"
             android:textSize="17sp"
@@ -31,7 +31,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
+            android:background="#f2f2f2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
