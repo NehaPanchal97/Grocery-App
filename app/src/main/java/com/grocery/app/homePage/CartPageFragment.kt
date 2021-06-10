@@ -202,7 +202,7 @@ class CartPageFragment : BaseFragment() {
             binder.cartRecyclerView.itemAnimator = null
             listAdapter.onClickListener = _itemClickListener
             binder.cartRecyclerView.adapter = listAdapter
-            val swipeDelete = object :SwipeToDeleteCallback(){
+            val swipeDelete = object :SwipeToDeleteCallback(context){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val product = listAdapter.items[viewHolder.bindingAdapterPosition]
                     listAdapter.deleteItem(viewHolder.bindingAdapterPosition)
