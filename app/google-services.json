@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "786950218547",
+    "firebase_url": "https://grocery-app-demo-42f7c-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "grocery-app-demo-42f7c",
     "storage_bucket": "grocery-app-demo-42f7c.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "786950218547-gntd6ufmg6sl1p719vf9h4ojm300eqtp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.grocery.app",
+            "certificate_hash": "1f1592fa45594035b06f3e513b64e4032e83087a"
+          }
+        },
         {
           "client_id": "786950218547-s5msbmpr21t2pp99lo6ftppll8nrgd76.apps.googleusercontent.com",
           "client_type": 3
@@ -29,6 +38,13 @@
             {
               "client_id": "786950218547-s5msbmpr21t2pp99lo6ftppll8nrgd76.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "786950218547-snv12i762jqikgu9g16645cou05b8pv5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.shubha.Grocery-App"
+              }
             }
           ]
         }

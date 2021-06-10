@@ -65,7 +65,7 @@
     <string name="home">Home</string>
     <string name="order">Order</string>
     <string name="offer">Offer</string>
-    <string name="more">More</string>
+    <string name="about_us">About us</string>
     <string name="category_image">Category Image</string>
     <string name="category">Category</string>
     <string name="see_all">See all</string>
@@ -122,7 +122,7 @@
     <string name="order_create_error">Error in creating order</string>
     <string name="search_hint">Search your daily grocery food...</string>
     <string name="filter_by_status">Filter By Status</string>
-    <string name="searchHeaderText">Hey ,\nLet\'s search your grocery food</string>
+    <string name="searchHeaderText">Let\'s search your grocery food</string>
     <string name="discount_per">Discount (%)</string>
     <string name="zero_count">0</string>
     <string name="order_placed_title">Order Placed</string>
@@ -172,4 +172,8 @@
     <string name="try_again">Try Again</string>
     <string name="something_went_wrong">Something went Wrong</string>
     <string name="offers_text_header">Offers</string>
+    <string name="add_tag">Add Tag</string>
+    <string name="add_more_tags">Add More Tags</string>
+    <string name="search_tags">Search Tags</string>
+    <string name="done">Done</string>
 </resources>

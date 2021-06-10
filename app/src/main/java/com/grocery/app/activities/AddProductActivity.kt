@@ -7,13 +7,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.grocery.app.R
 import com.grocery.app.constant.PRODUCT
+import com.grocery.app.contracts.SelectTagContract
 import com.grocery.app.databinding.ActivityAddProductBinding
 import com.grocery.app.extensions.*
 import com.grocery.app.extras.Result
@@ -133,6 +133,21 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
         binder.addBtn.isEnabled = active
     }
 
+    private val _selectTag =
+        registerForActivityResult(SelectTagContract()) { result ->
+            result?.let { rst ->
+                _product.tags = rst
+                onChipUpdated()
+                binder.tagChips.removeAllViews()
+                _product.tags?.forEach { tag ->
+                    tag?.let {
+                        createChip(it).apply { binder.tagChips.addView(this) }
+                    }
+                }
+            }
+
+        }
+
     @SuppressLint("DefaultLocale")
     private fun setupView() {
         intent?.extras?.getParcelable<Product>(PRODUCT)?.let {
@@ -168,32 +183,21 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
 
         //Chips
         val tags = _product.tags?.filterNotNull() ?: arrayListOf()
-        checkChipGroupVisibility()
+        onChipUpdated()
         tags.forEach { tag ->
             createChip(tag).apply { binder.tagChips.addView(this) }
         }
-
-        //tag input handle
-        binder.tagEt.doAfterTextChanged {
-            val text = it.toString()
-            if (text.length > 1 && text.endsWith(",")) {
-                binder.tagEt.setText("")
-                addChip(text.removeSuffix(","))
-            }
+        binder.addTagBtn.setOnClickListener {
+            _selectTag.launch(_product.tags)
         }
+
     }
 
-    private fun addChip(text: String) {
-        if (!viewModel.shouldAddTag(text)) {
-            return
-        }
-        viewModel.addTag(text)
-        createChip(text).apply { binder.tagChips.addView(this) }
-        checkChipGroupVisibility()
-    }
-
-    private fun checkChipGroupVisibility() {
-        binder.tagChips.visible(_product.tags?.isNotEmpty() == true)
+    private fun onChipUpdated() {
+        val isTagEmpty = _product.tags?.isEmpty() != false
+        binder.tagChips.visible(!isTagEmpty)
+        binder.addTagTxt.text =
+            getString(if (isTagEmpty) R.string.add_tag else R.string.add_more_tags)
     }
 
     private fun createChip(text: String): Chip {
@@ -207,7 +211,7 @@ class AddProductActivity : ImagePickerActivity(), View.OnClickListener {
     private fun removeChip(chip: Chip) {
         viewModel.removeTag(chip.text.toString())
         binder.tagChips.removeView(chip)
-        checkChipGroupVisibility()
+        onChipUpdated()
     }
 
 

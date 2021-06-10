@@ -1,5 +1,6 @@
 package com.grocery.app.homePage
 
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -42,6 +43,9 @@ class HomeFragment : BaseFragment() {
     lateinit var listAdapter: HomePageCategoryAdapter
     private lateinit var viewModel: CategoryViewModel
     private lateinit var authViewModel : AuthViewModel
+    companion object{
+        const val CART_ICON_REQUEST_CODE = 1
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,7 +60,16 @@ class HomeFragment : BaseFragment() {
 
         binder.searchContainer.setOnClickListener {
             val intent = Intent(activity, SearchActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, CART_ICON_REQUEST_CODE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CART_ICON_REQUEST_CODE){
+            if (resultCode == Activity.RESULT_OK){
+                (activity as HomePageActivity).cartIconAction()
+            }
         }
     }
 
