@@ -166,13 +166,13 @@ class DetailsPageActivity : AppCompatActivity() {
         if (discountedPrice > 0){
             binder.tvProductPrice.visible(discountedPrice.toInt() != 0)
             val total = count.times(discountedPrice)
-            binder.tvProductPrice.text = String.format(getString(R.string.rs_symbol), total.toString())
+            binder.tvProductPrice.text = getString(R.string.rs_symbol,total.toString())
         }
         else{
             binder.tvProductPrice.visible(actualPrice.toInt() != 0)
             val total = count.times(actualPrice)
             binder.tvProductPrice.text =
-                String.format(getString(R.string.rs_symbol), total.toString())
+                getString(R.string.rs_symbol,total.toString())
         }
     }
 }
