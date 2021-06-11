@@ -7,7 +7,7 @@
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#27ae60"
+        android:background="@color/home_background_light_grey"
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical">
@@ -16,6 +16,7 @@
             android:id="@+id/topBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#27ae60"
             android:padding="10dp">
 
 
