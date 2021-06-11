@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,12 +13,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.MaterialShapeDrawable
 import com.grocery.app.R
 import com.grocery.app.activities.AboutPageActivity
 import com.grocery.app.activities.AdminHomePageActivity
 import com.grocery.app.activities.UpdateProfileActivity
-import com.grocery.app.constant.*
+import com.grocery.app.constant.CART
+import com.grocery.app.constant.CART_CHANGE
+import com.grocery.app.constant.Store
+import com.grocery.app.constant.USER
 import com.grocery.app.databinding.ActivityHomeBinding
 import com.grocery.app.extensions.*
 import com.grocery.app.extras.Result
@@ -50,6 +54,18 @@ class HomePageActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
+
+        val radius = resources.getDimension(R.dimen.nav_bar_top_radius)
+        val bottomAppBar = binder.navBar.bottomAppBar
+
+        val bottomBarBackground =
+            bottomAppBar.background as MaterialShapeDrawable
+        bottomBarBackground.shapeAppearanceModel = bottomBarBackground.shapeAppearanceModel
+            .toBuilder()
+            .setTopRightCorner(CornerFamily.ROUNDED, radius)
+            .setTopLeftCorner(CornerFamily.ROUNDED, radius)
+            .build()
+
         observeData()
         val user = prefManager.get<User>(USER)
         viewModel.syncUser()

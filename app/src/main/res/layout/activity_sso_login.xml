@@ -105,9 +105,10 @@
                 android:background="@android:color/white"
                 android:hint="@string/mobile_no.."
                 android:inputType="number"
-                android:minWidth="180dp"
+                android:maxLength="10"
                 android:textColor="@color/phone_no."
                 android:textSize="20sp"
+                app:layout_constraintEnd_toStartOf="@id/btn_continue"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/country_code"
                 app:layout_constraintTop_toBottomOf="@id/enter_phone" />

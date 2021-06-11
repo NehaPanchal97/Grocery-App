@@ -17,6 +17,8 @@
         android:layout_gravity="bottom"
         app:fabAlignmentMode="center"
         android:gravity="center"
+        app:contentInsetStart="0dp"
+        app:contentInsetEnd="0dp"
         app:fabCradleRoundedCornerRadius="25dp"
         style="@style/Widget.MaterialComponents.BottomAppBar.Colored">
 
@@ -26,7 +28,6 @@
             android:id="@+id/bottom_navigation_view"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:layout_gravity="bottom"
             app:labelVisibilityMode="labeled"
             android:background="@android:color/transparent"
             app:menu="@menu/bottom_nav_menu"
