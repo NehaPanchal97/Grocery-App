@@ -31,7 +31,7 @@ abstract class SwipeToDeleteCallback(context: Context) :ItemTouchHelper.SimpleCa
             actionState,
             isCurrentlyActive
         )
-//            .addBackgroundColor(background)
+            .addBackgroundColor(background)
             .addActionIcon(R.drawable.ic_delete_icon)
             .create()
             .decorate()

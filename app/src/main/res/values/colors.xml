@@ -29,4 +29,5 @@
     <color name="searchHeaderTextColor">#C1E8D2</color>
     <color name="discount_bg_red">#EC5756</color>
     <color name="white_hint">#6fffffff</color>
+    <color name="name_text_homePage_color">#E5F5EB</color>
 </resources>
