@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topBar"
+        android:id="@+id/productTopBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -55,7 +55,7 @@
         android:layout_height="match_parent"
         android:elevation="0dp"
         android:orientation="vertical"
-        android:layout_below="@id/topBar"
+        android:layout_below="@id/productTopBar"
         android:background="@drawable/home_fragment_layout_rounded_corners"
         android:padding="10dp"
         android:clickable="true"

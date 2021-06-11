@@ -19,8 +19,8 @@
             android:layout_width="120dp"
             android:layout_height="@dimen/category_icon_size"
             android:id="@+id/homeItemImage"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
             android:src="@drawable/vegetables"
             android:contentDescription="@string/category_image" />
 
