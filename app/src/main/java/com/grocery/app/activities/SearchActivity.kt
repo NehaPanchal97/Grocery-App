@@ -62,7 +62,8 @@ class SearchActivity : AppCompatActivity() {
                 editTextSearch.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                         editTextSearch.clearFocus()
-                        val inputMethod: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        val inputMethod: InputMethodManager =
+                            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                         inputMethod.hideSoftInputFromWindow(editTextSearch.windowToken, 0)
                         return@OnEditorActionListener true
                     }
@@ -127,16 +128,16 @@ class SearchActivity : AppCompatActivity() {
         viewModel.searchProductLiveData.observe(this, Observer { result ->
             when (result.type) {
                 Result.Status.LOADING -> {
+                    emptyView(false)
                 }
                 Result.Status.SUCCESS -> {
                     val products = result.data ?: arrayListOf()
                     if (products.isNotEmpty()) {
                         itemRvAdapter.update(false, products)
-                        binder.emptyImage.visible(false)
-                        binder.emptyText.visible(false)
+                        emptyView(false)
                     } else {
-                        binder.emptyText.visible(true)
-                        binder.emptyImage.visible(true)
+                        itemRvAdapter.clearAdapter()
+                        emptyView(true)
                     }
                 }
 
@@ -146,6 +147,11 @@ class SearchActivity : AppCompatActivity() {
 
             }
         })
+    }
+
+    private fun emptyView(show: Boolean) {
+        binder.emptyText.visible(show)
+        binder.emptyImage.visible(show)
     }
 
     private fun fireCartChangeEvent() {
@@ -198,7 +204,7 @@ class SearchActivity : AppCompatActivity() {
         viewModel.initCart()
     }
 
-    private fun onCartPressed(){
+    private fun onCartPressed() {
         binder.cartIcon.setOnClickListener {
             val intent = Intent()
             setResult(Activity.RESULT_OK, intent)
