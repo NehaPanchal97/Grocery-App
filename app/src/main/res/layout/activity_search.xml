@@ -42,31 +42,17 @@
             app:layout_constraintStart_toEndOf="@id/backBtn"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            app:cardCornerRadius="34dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="25dp">
-
         <ImageView
             android:id="@+id/cartIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            app:tint="@color/colorPrimary"
-            android:backgroundTint="@android:color/white"
-            app:backgroundTint="@color/colorPrimary"
-            app:borderWidth="6dp"
-            app:fabCustomSize="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            android:src="@drawable/cart_svg_download"
+            android:src="@drawable/ic_shopping_cart"
             android:contentDescription="@string/todo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"/>
 
         <TextView
             android:id="@+id/search_cart_badge"
@@ -76,12 +62,11 @@
             android:gravity="center"
             android:elevation="8dp"
             android:visibility="visible"
-            android:padding="3dp"
             android:text="@string/zero_count"
             android:textColor="@color/colorPrimary"
             android:textSize="10sp"
             tools:ignore="SmallSp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="14dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -105,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="20dp"
-                android:background="@color/design_default_color_background"
+                android:background="@color/white_color"
                 android:backgroundTint="@color/search_bg_color"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="10dp"
