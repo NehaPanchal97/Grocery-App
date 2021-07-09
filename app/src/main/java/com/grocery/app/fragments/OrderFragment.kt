@@ -61,15 +61,14 @@ class OrderFragment : BaseFragment(), OnItemClickListener {
         viewModel.orderListLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
-                   orderEmptyView(false)
+                    orderEmptyView(false)
                 }
                 Result.Status.SUCCESS -> {
-                    if (it.data?.isNotEmpty() == true){
+                    if (it.data?.isNotEmpty() == true) {
                         listAdapter.updateAdapterData(it.data)
                         orderEmptyView(false)
-                    }else
-                    {
-                    orderEmptyView(true)
+                    } else {
+                        orderEmptyView(true)
                     }
 
                 }
@@ -80,15 +79,14 @@ class OrderFragment : BaseFragment(), OnItemClickListener {
         })
     }
 
-    private fun orderEmptyView(show:Boolean){
-        binder.tvOrderEmptyImage.visible(show)
-        binder.tvOrderEmptyText.visible(show)
+    private fun orderEmptyView(show: Boolean) {
+        binder.noOrderView.visible(show)
     }
 
     override fun onItemClick(itemId: Int, position: Int) {
         val order = listAdapter.items[position]
-        val intent = Intent(activity,OrderStatusPageActivity::class.java)
-        intent.putExtra(ORDER_ID,order.id)
+        val intent = Intent(activity, OrderStatusPageActivity::class.java)
+        intent.putExtra(ORDER_ID, order.id)
         startActivity(intent)
 
     }
