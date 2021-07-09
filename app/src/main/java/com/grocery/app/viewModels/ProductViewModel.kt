@@ -72,7 +72,8 @@ class ProductViewModel : ViewModel() {
     fun fetchProductList(
         initialFetch: Boolean = true,
         orderByKey: String = Store.DISCOUNT,
-        limit: Long? = DEFAULT_PAGE_SIZE
+        limit: Long? = DEFAULT_PAGE_SIZE,
+        adminRequest: Boolean = false
     ) {
         if (initialFetch) {
             hasMoreProduct = true
@@ -94,6 +95,9 @@ class ProductViewModel : ViewModel() {
         }
         if (searchKey?.isNotEmpty() == true) {
             query = query.whereArrayContains("search_keys", searchKey ?: "")
+        }
+        if (!adminRequest) {
+            query = query.whereEqualTo(Store.ACTIVE, true)
         }
         query.get().addOnSuccessListener { snapShot ->
             val size = snapShot?.size() ?: 0
@@ -120,9 +124,10 @@ class ProductViewModel : ViewModel() {
         }
         _similarProductListLiveData.value = Result.loading()
         val ref = Firebase.firestore.collection(Store.PRODUCTS)
-        var query = ref.whereNotEqualTo("id", product.id)
-        query = query.whereArrayContainsAny("tags", tags)
-        query.get()
+        ref.whereNotEqualTo("id", product.id)
+            .whereArrayContainsAny("tags", tags)
+            .whereEqualTo(Store.ACTIVE, true)
+            .get()
             .addOnSuccessListener { snapShot ->
                 val products = snapShot.toObjects(Product::class.java)
                 _similarProductListLiveData.value = Result.success(ArrayList(products))
@@ -137,6 +142,7 @@ class ProductViewModel : ViewModel() {
 
         Firebase.firestore.collection(Store.PRODUCTS)
             .whereArrayContains("search_keys", keys)
+            .whereEqualTo(Store.ACTIVE, true)
             .get()
             .addOnSuccessListener {
                 val products = it.toObjects(Product::class.java)
