@@ -141,8 +141,8 @@
     <string name="discount_percent"> - %1$s %%</string>
     <string name="callText">Call for free\n%s</string>
     <string-array name="discountDropDown">
-        <item>Lowest Price</item>
-        <item>Highest Price</item>
+        <item>Lowest Discount</item>
+        <item>Highest Discount</item>
     </string-array>
     <string name="move_order_to">Move order to</string>
     <string name="order_declined_title">Order Declined</string>
