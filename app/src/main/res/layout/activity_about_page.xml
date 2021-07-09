@@ -24,7 +24,8 @@
         <import type="android.text.TextUtils" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -37,6 +38,38 @@
             android:layout_height="match_parent"
             android:visibility="@{store != null ? View.VISIBLE : View.GONE}">
 
+
+            <LinearLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@color/colorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <ImageView
+                    android:id="@+id/ivBackArrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="14dp"
+                    app:srcCompat="@drawable/ic_arrow_back_white" />
+
+
+                <TextView
+                    android:id="@+id/tvStoreName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@{store.storeName}"
+                    android:textColor="@color/white_color"
+                    android:textSize="22sp"
+                    tools:text="Grocery Shop" />
+
+            </LinearLayout>
+
             <ImageView
                 android:id="@+id/iv_storeImage"
                 android:layout_width="0dp"
@@ -45,41 +78,19 @@
                 app:layout_constraintDimensionRatio="16:9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/grocerystore" />
+                app:layout_constraintTop_toBottomOf="@id/header"
+                app:srcCompat="@drawable/natures_basket_oval" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="#65000000"
+                android:background="#10000000"
                 app:layout_constraintDimensionRatio="16:9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/ivBackArrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="30dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_arrow_back_white" />
+               app:layout_constraintTop_toBottomOf="@id/header" />
 
 
-            <TextView
-                android:id="@+id/tvStoreName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="30dp"
-                android:text="@{store.storeName}"
-                android:textColor="@android:color/white"
-                android:textSize="22sp"
-                app:layout_constraintStart_toEndOf="@id/ivBackArrow"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Grocery Shop" />
 
             <ImageView
                 android:id="@+id/iv_open"
