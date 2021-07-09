@@ -84,7 +84,7 @@
     <string name="order_processing_msg">Your product is processing to deliver you on time.</string>
     <string name="order_delivered_msg">Product delivered to you and marked as delivered by customer.</string>
     <string name="no_order_available_msg">No Orders available</string>
-    <string name="orderTitle">All Orders</string>
+    <string name="orderTitle">Orders</string>
     <string name="order_created_at">Ordered on: %1$s</string>
     <string name="orderCreated">Ordered on: %1$s</string>
     <string name="order_delivered_at">Delivered on: %1$s</string>
@@ -178,4 +178,5 @@
     <string name="done">Done</string>
     <string name="entering_mobile_number">Please enter your phone number</string>
     <string name="enter_10_digit_mobile_number">Please enter a 10 digit phone number</string>
+    <string name="empty_text_order">You Haven\'t Shopped \nwith Us Yet</string>
 </resources>

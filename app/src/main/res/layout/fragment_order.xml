@@ -44,6 +44,43 @@
             android:elevation="0dp"
             android:padding="10dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="70dp"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+
+
+                <ImageView
+                    android:id="@+id/tv_order_empty_image"
+                    android:layout_width="380dp"
+                    android:layout_height="380dp"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/empty_bag"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"/>
+
+                <TextView
+                    android:id="@+id/tv_order_empty_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:textAlignment="center"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/empty_text_order"
+                    android:textColor="@color/empty_text_order"
+                    android:gravity="center"
+                    android:textSize="26sp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/order_rv"
