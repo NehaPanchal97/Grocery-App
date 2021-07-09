@@ -52,7 +52,7 @@ class AdminProductListFragment : BaseFragment(), Toolbar.OnMenuItemClickListener
     }
 
     private fun fetchProducts(initialFetch: Boolean = true) {
-        viewModel.fetchProductList(initialFetch, Store.CREATED_AT)
+        viewModel.fetchProductList(initialFetch, Store.CREATED_AT, adminRequest = true)
     }
 
     private val _menuItemClick = Toolbar.OnMenuItemClickListener {
