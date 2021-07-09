@@ -187,10 +187,10 @@ class HomePageActivity : AppCompatActivity() {
                     prefManager.put(it.first, it.second)
                     if (it.first == USER) {
                         val user = it.second.cast<User>()
-                        if (user?.role == Store.ADMIN_ROLE) {
-                            startActivity(Intent(this, AdminHomePageActivity::class.java))
-                            finishAffinity()
-                        }
+//                        if (user?.role == Store.ADMIN_ROLE) {
+//                            startActivity(Intent(this, AdminHomePageActivity::class.java))
+//                            finishAffinity()
+//                        }
                     }
                 }
             }
