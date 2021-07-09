@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -69,30 +70,41 @@
                 app:contentPadding="16dp"
                 app:cardElevation="1dp">
 
-                <ImageView
-                    android:id="@+id/iv_emptyImage"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:scaleType="centerCrop"
-                    android:layout_marginTop="130dp"
-                    android:src="@drawable/empty_cart"
-                    android:visibility="invisible"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:contentDescription="@string/todo" />
-
-                <TextView
-                    android:id="@+id/tv_emptyCart"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/ptsans_regular"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables"
                     android:gravity="center"
-                    android:layout_marginTop="60dp"
-                    android:text="@string/cart_text_when_empty"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="30sp"
-                    android:visibility="invisible" />
+                    android:layout_marginTop="100dp">
+
+
+
+                    <ImageView
+                        android:id="@+id/iv_emptyImage"
+                        android:layout_width="240dp"
+                        android:layout_height="240dp"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="@string/todo"
+                        android:src="@drawable/empty_cart"
+                        android:layout_gravity="center"
+                        android:visibility="invisible"/>
+
+                    <TextView
+                        android:id="@+id/tv_emptyCart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/ptsans_regular"
+                        android:text="@string/cart_text_when_empty"
+                        android:textColor="@color/colorPrimary"
+                        android:gravity="center"
+                        android:textSize="30sp"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/cart_recyclerView"
