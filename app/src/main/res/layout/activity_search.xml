@@ -129,28 +129,29 @@
             tools:ignore="UseCompoundDrawables"
             android:layout_gravity="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <ImageView
                 android:id="@+id/empty_image"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:layout_width="280dp"
+                android:layout_height="280dp"
                 android:contentDescription="@string/todo"
                 android:src="@drawable/empty_product_bag"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/empty_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="invisible"
                 android:textAlignment="center"
                 android:fontFamily="@font/ptsans_regular"
                 android:text="@string/products_unavailable"
                 android:textColor="@color/error_color"
                 android:gravity="center"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:layout_gravity="center"/>
         </LinearLayout>
 
