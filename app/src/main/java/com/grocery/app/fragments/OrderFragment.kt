@@ -10,17 +10,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grocery.app.adapters.OrderItemAdapter
-import com.grocery.app.adapters.ProductListAdapter
-import com.grocery.app.constant.*
+import com.grocery.app.constant.ORDER_ID
 import com.grocery.app.databinding.FragmentOrderBinding
 import com.grocery.app.extensions.authUser
+import com.grocery.app.extensions.visible
 import com.grocery.app.extras.Result
 import com.grocery.app.homePage.OrderStatusPageActivity
 import com.grocery.app.listeners.OnItemClickListener
-import com.grocery.app.models.Cart
 import com.grocery.app.utils.PrefManager
 import com.grocery.app.viewModels.OrderViewModel
-import com.grocery.app.viewModels.ProductViewModel
 
 
 class OrderFragment : BaseFragment(), OnItemClickListener {
@@ -42,7 +40,7 @@ class OrderFragment : BaseFragment(), OnItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binder = FragmentOrderBinding.inflate(inflater, container, false)
         return binder.root
@@ -63,15 +61,28 @@ class OrderFragment : BaseFragment(), OnItemClickListener {
         viewModel.orderListLiveData.observe(viewLifecycleOwner, Observer {
             when (it.type) {
                 Result.Status.LOADING -> {
+                   orderEmptyView(false)
                 }
                 Result.Status.SUCCESS -> {
-                    listAdapter.updateAdapterData(it.data)
+                    if (it.data?.isNotEmpty() == true){
+                        listAdapter.updateAdapterData(it.data)
+                        orderEmptyView(false)
+                    }else
+                    {
+                    orderEmptyView(true)
+                    }
+
                 }
                 Result.Status.ERROR -> {
                 }
 
             }
         })
+    }
+
+    private fun orderEmptyView(show:Boolean){
+        binder.tvOrderEmptyImage.visible(show)
+        binder.tvOrderEmptyText.visible(show)
     }
 
     override fun onItemClick(itemId: Int, position: Int) {
