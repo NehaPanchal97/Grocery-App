@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -114,8 +115,16 @@ class UpdateProfileFragment : ImagePickerFragment() {
         binder.nameEt.doAfterTextChanged { _user?.name = it.toString() }
         binder.addressEt.doAfterTextChanged { _user?.address = it.toString() }
         binder.btnSave.setOnClickListener {
-            viewModel.updateUser()
-            fireUpdateProfileEvent()
+
+            if( TextUtils.isEmpty(binder.nameEt.text) || TextUtils.isEmpty(binder.addressEt.text)){
+
+                binder.root.showError("Please enter the valid details")
+
+            }else{
+                viewModel.updateUser()
+                fireUpdateProfileEvent()
+            }
+
         }
         binder.uploadImage.setOnClickListener { startPickerActivity(PROFILE_PICK_REQUEST_CODE) }
     }
