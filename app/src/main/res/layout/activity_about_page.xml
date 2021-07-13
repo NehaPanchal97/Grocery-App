@@ -79,7 +79,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/header"
-                app:srcCompat="@drawable/natures_basket_oval" />
+                app:srcCompat="@drawable/store" />
 
             <View
                 android:layout_width="0dp"
