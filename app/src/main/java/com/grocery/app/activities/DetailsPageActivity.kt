@@ -86,21 +86,17 @@ class DetailsPageActivity : AppCompatActivity() {
 
     private val _itemClickListener = object : OnItemClickListener {
         override fun onItemClick(itemId: Int, position: Int) {
-            if (itemId == R.id.iv_add) {
-                onCartUpdated(true, position)
-            } else if (itemId == R.id.iv_remove) {
-                onCartUpdated(false, position)
-            }
+
+            val cartAction = if (itemId == R.id.iv_add) CartAction.QUANTITY_INCREASED
+                                         else CartAction.QUANTITY_DECREASED
+            val product = listAdapter.items.getOrNull(position)
+            viewModel.updateCart(product, cartAction)
+            prefManager.put(CART, viewModel.cart)
+            listAdapter.notifyItemChanged(position)
+            fireCartChangeEvent()
         }
-
     }
 
-    private fun onCartUpdated(isAdded: Boolean, position: Int) {
-        val product = listAdapter.items.getOrNull(position)
-        viewModel.updateCart(product)
-        listAdapter.notifyItemChanged(position)
-        fireCartChangeEvent()
-    }
 
     private fun setUpView() {
         //Initialize Cart
@@ -163,16 +159,15 @@ class DetailsPageActivity : AppCompatActivity() {
         val actualPrice = product?.price ?: 0.0
         val discountedPrice = actualPrice - actualPrice.percentage(discount)
         binder.tvProductCount.text = count.toString()
-        if (discountedPrice > 0){
+        if (discountedPrice > 0) {
             binder.tvProductPrice.visible(discountedPrice.toInt() != 0)
             val total = count.times(discountedPrice)
-            binder.tvProductPrice.text = getString(R.string.rs_symbol,total.toString())
-        }
-        else{
+            binder.tvProductPrice.text = getString(R.string.rs_symbol, total.toString())
+        } else {
             binder.tvProductPrice.visible(actualPrice.toInt() != 0)
             val total = count.times(actualPrice)
             binder.tvProductPrice.text =
-                getString(R.string.rs_symbol,total.toString())
+                getString(R.string.rs_symbol, total.toString())
         }
     }
 }

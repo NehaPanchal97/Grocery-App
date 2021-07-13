@@ -183,14 +183,13 @@ class HomePageActivity : AppCompatActivity() {
         })
         viewModel.syncLiveData.observe(this, Observer { observer ->
             if (observer.type == Result.Status.SUCCESS) {
-                observer.data?.let {
-                    prefManager.put(it.first, it.second)
-                    if (it.first == USER) {
-                        val user = it.second.cast<User>()
-//                        if (user?.role == Store.ADMIN_ROLE) {
-//                            startActivity(Intent(this, AdminHomePageActivity::class.java))
-//                            finishAffinity()
-//                        }
+                observer.data?.let { pair ->
+                    prefManager.put(pair.first, pair.second)
+                    if (pair.first == CART){
+                        pair.second.cast<Cart>()?.let {
+                            productViewModel.initCartWith(it)
+                            fabCount()
+                        }
                     }
                 }
             }
