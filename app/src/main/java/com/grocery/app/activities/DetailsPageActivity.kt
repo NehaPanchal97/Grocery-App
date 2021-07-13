@@ -87,19 +87,20 @@ class DetailsPageActivity : AppCompatActivity() {
     private val _itemClickListener = object : OnItemClickListener {
         override fun onItemClick(itemId: Int, position: Int) {
             if (itemId == R.id.iv_add) {
-                onCartUpdated(true, position)
+                val product = listAdapter.items.getOrNull(position)
+                viewModel.updateCart(product)
+                prefManager.put(CART, viewModel.cart)
+                listAdapter.notifyItemChanged(position)
+                fireCartChangeEvent()
             } else if (itemId == R.id.iv_remove) {
-                onCartUpdated(false, position)
+                val product = listAdapter.items.getOrNull(position)
+                viewModel.updateCart(product, CartAction.QUANTITY_DECREASED)
+                prefManager.put(CART, viewModel.cart)
+                listAdapter.notifyItemChanged(position)
+                fireCartChangeEvent()
             }
         }
 
-    }
-
-    private fun onCartUpdated(isAdded: Boolean, position: Int) {
-        val product = listAdapter.items.getOrNull(position)
-        viewModel.updateCart(product)
-        listAdapter.notifyItemChanged(position)
-        fireCartChangeEvent()
     }
 
     private fun setUpView() {
