@@ -89,18 +89,20 @@ class DetailsPageActivity : AppCompatActivity() {
             if (itemId == R.id.iv_add) {
                 val product = listAdapter.items.getOrNull(position)
                 viewModel.updateCart(product)
-                prefManager.put(CART, viewModel.cart)
-                listAdapter.notifyItemChanged(position)
-                fireCartChangeEvent()
+                onCartUpdated(position)
             } else if (itemId == R.id.iv_remove) {
                 val product = listAdapter.items.getOrNull(position)
                 viewModel.updateCart(product, CartAction.QUANTITY_DECREASED)
-                prefManager.put(CART, viewModel.cart)
-                listAdapter.notifyItemChanged(position)
-                fireCartChangeEvent()
+               onCartUpdated(position)
             }
         }
 
+    }
+
+    fun onCartUpdated(position: Int){
+        prefManager.put(CART, viewModel.cart)
+        listAdapter.notifyItemChanged(position)
+        fireCartChangeEvent()
     }
 
     private fun setUpView() {
