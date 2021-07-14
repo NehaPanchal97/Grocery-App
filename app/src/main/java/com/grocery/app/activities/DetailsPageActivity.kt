@@ -13,10 +13,7 @@ import com.grocery.app.R
 import com.grocery.app.adapters.ProductListAdapter
 import com.grocery.app.constant.*
 import com.grocery.app.databinding.ActivityDetailsPageBinding
-import com.grocery.app.extensions.loadImage
-import com.grocery.app.extensions.percentage
-import com.grocery.app.extensions.showError
-import com.grocery.app.extensions.visible
+import com.grocery.app.extensions.*
 import com.grocery.app.extras.Result
 import com.grocery.app.listeners.OnItemClickListener
 import com.grocery.app.models.Cart
@@ -161,11 +158,11 @@ class DetailsPageActivity : AppCompatActivity() {
         binder.tvProductCount.text = count.toString()
         if (discountedPrice > 0) {
             binder.tvProductPrice.visible(discountedPrice.toInt() != 0)
-            val total = count.times(discountedPrice)
+            val total = count.times(discountedPrice).trim
             binder.tvProductPrice.text = getString(R.string.rs_symbol, total.toString())
         } else {
             binder.tvProductPrice.visible(actualPrice.toInt() != 0)
-            val total = count.times(actualPrice)
+            val total = count.times(actualPrice).trim
             binder.tvProductPrice.text =
                 getString(R.string.rs_symbol, total.toString())
         }
