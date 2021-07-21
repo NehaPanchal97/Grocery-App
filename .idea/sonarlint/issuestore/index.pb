@@ -1,8 +1,6 @@
 
 [
 +app/src/main/res/drawable/ic_arrow_back.xml,1/e/1e582207e4fbbc6d6b22d30623dfb51c165367ac
-a
-1app/src/main/java/com/grocery/app/MainActivity.kt,7/0/70ac68fff5af7c74c01957330cebc17c1d2d3486
 @
 app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
 <
@@ -13,8 +11,6 @@ n
 >app/src/main/java/com/grocery/app/HomePage/HomePageActivity.kt,0/6/06b6594ce3c33caf2d4124455f09f49e5d0d9e13
 j
 :app/src/main/java/com/grocery/app/HomePage/HomeFragment.kt,7/c/7caf18c1018a178ac7d79e1e031e00031e1b2ed0
-p
-@app/src/main/java/com/grocery/app/auth/AccountDetailsActivity.kt,4/6/46cff83671c240fe40c326fc546306186b5e06ec
 j
 :app/src/main/java/com/grocery/app/auth/SsoLoginActivity.kt,5/c/5cd21b9d5db9836959dc315372741e4110322408
 k
@@ -31,9 +27,5 @@ n
 >app/src/main/java/com/grocery/app/extensions/ViewExtensions.kt,d/0/d062b01d5654e5805da142199b7d24677812dbcb
 d
 4app/src/main/java/com/grocery/app/models/Category.kt,7/7/771ab9b8a23df7fb5d94769aa6cbf4074417cd8d
-f
-6app/src/main/res/layout/activity_sso_login_and_otp.xml,9/f/9fedc974e10b0bb63bc8e0a6ad5602b681389175
 `
 0app/src/main/java/com/grocery/app/models/User.kt,a/5/a565fc7527cbc72ccc9f797cde8c91d29ca89d34
-p
-@app/src/main/java/com/grocery/app/auth/AuthenticationFragment.kt,8/5/85e669a1f709df7a1f27a03cba96ac459589661b
